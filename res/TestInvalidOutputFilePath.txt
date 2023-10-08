@@ -1,0 +1,36 @@
+Please provide the path of world file(using \t as field delimiter, \n as row delimiter):
+/Users/likai/eclipse-workspace/kill-doctor-lucky/res/WorldSpecification.txt
+Mansion created successfully.
+Mansion name: Doctor Lucky's Mansion.
+Target character name: Doctor Lucky.
+The number of spaces is: 21.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 6
+Please input a path to store the image:
+/Users/likai/eclipse-workspace/kill-doctor-lucky/nonexistentres1
+Invalid path, Please input a valid path:
+/Users/likai/eclipse-workspace/kill-doctor-lucky/nonexistentres2
+Invalid path, Please input a valid path:
+/Users/likai/eclipse-workspace/kill-doctor-lucky/nonexistentres3
+Invalid path, Please input a valid path:
+/Users/likai/eclipse-workspace/kill-doctor-lucky/res/
+Map created successfully, image path: /Users/likai/eclipse-workspace/kill-doctor-lucky/res/WorldMap.png
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 7
+Program exited.

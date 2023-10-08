@@ -1,0 +1,93 @@
+Please provide the path of world file(using \t as field delimiter, \n as row delimiter):
+/Users/likai/eclipse-workspace/kill-doctor-lucky/res/WorldSpecification.txt
+Mansion created successfully.
+Mansion name: Doctor Lucky's Mansion.
+Target character name: Doctor Lucky.
+The number of spaces is: 21.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 2
+Current space index is: 0.
+Current space name is: Armory.
+Current space's items are: Revolver.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 1.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 2
+Current space index is: 1.
+Current space name is: Billiard Room.
+Current space's items are: Billiard Cue.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 3
+Current space's neighbors are: Armory, Dining Hall, Trophy Room.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 4
+Input the index of space:
+1
+The index of space is: 1.
+The name of space is: Billiard Room.
+The space's items are: Billiard Cue.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 5
+Input the index of space:
+1
+This space's neighbors are: Armory, Dining Hall, Trophy Room.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 7
+Program exited. 

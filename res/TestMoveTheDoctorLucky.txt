@@ -1,0 +1,248 @@
+Please provide the path of world file(using \t as field delimiter, \n as row delimiter):
+/Users/likai/eclipse-workspace/kill-doctor-lucky/res/WorldSpecification.txt
+Mansion created successfully.
+Mansion name: Doctor Lucky's Mansion.
+Target character name: Doctor Lucky.
+The number of spaces is: 21.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 1.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 2.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 3.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 4.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 5.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 6.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 7.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 8.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 9.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 10.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 11.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 12.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 13.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 14.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 15.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 16.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 17.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 18.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 19.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 20.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 1
+Move successfully, current space index is: 0.
+---------------------------------------
+Menu:
+1. move target character
+2. describe target's current space
+3. describe neighbors of current space
+4. describe space by index 
+5. describe neighbors by index 
+6. out map 
+7. Exit
+Enter your choice: 7
+Program exited.
