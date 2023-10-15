@@ -5,5 +5,11 @@ package killdoctorlucky;
  * 
  */
 public interface Nameable {
+  
+  /**
+   * Gets the name of object.
+   * 
+   * @return the name
+   */
   String getName();
 }

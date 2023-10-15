@@ -1,7 +1,6 @@
 package killdoctorlucky;
 
-import doctorlucky.DoctorLucky;
-import item.Item;
+import item.ItemModel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -14,14 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.imageio.ImageIO;
-import space.Space;
+
+import character.DoctorLuckyModel;
+import space.SpaceModel;
 
 /**
  * The implement class of KillDoctorLucky.
  */
 public class KillDoctorLuckyImpl implements KillDoctorLucky {
-  private DoctorLucky doctorLucky;
-  private List<Space> spaces = new ArrayList<Space>();
+  private DoctorLuckyModel doctorLucky;
+  private List<SpaceModel> spaces = new ArrayList<SpaceModel>();
   private String mansionName;
   private int mansionWidth;
   private int mansionHeight;
@@ -57,7 +58,7 @@ public class KillDoctorLuckyImpl implements KillDoctorLucky {
 
         // generate target character
         if (part.length == 2) {
-          doctorLucky = new DoctorLucky(Integer.parseInt(part[0]), part[1]);
+          doctorLucky = new DoctorLuckyModel(Integer.parseInt(part[0]), part[1]);
         }
 
         // generate spaces
@@ -66,7 +67,7 @@ public class KillDoctorLuckyImpl implements KillDoctorLucky {
         }
         if (part.length == 5) {
           spaces
-              .add(Space.getBuilder().name(part[4]).points(Arrays.copyOfRange(part, 0, 4)).build());
+              .add(SpaceModel.getBuilder().name(part[4]).points(Arrays.copyOfRange(part, 0, 4)).build());
 
         }
 
@@ -77,7 +78,7 @@ public class KillDoctorLuckyImpl implements KillDoctorLucky {
         if (part.length == 3 && itemsNum != 0) {
           int position = Integer.parseInt(part[0]);
           int damage = Integer.parseInt(part[1]);
-          Item item = new Item(part[2], position, damage);
+          ItemModel item = new ItemModel(part[2], position, damage);
           spaces.get(position).addItem(item);
         }
 

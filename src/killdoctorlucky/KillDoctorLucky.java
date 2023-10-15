@@ -39,11 +39,10 @@ public interface KillDoctorLucky {
   /**
    * Outputs the map.
    * 
-   * @param filePath the filePath
    * @return the map file path
    * @throws IOException if the file IO failed
    */
-  String outputMap(String filePath) throws IOException;
+  String outputMap() throws IOException;
 
   /**
    * Gets the neighbors of the target space.
