@@ -1,9 +1,9 @@
 /**
  * 
  */
-package character;
+package model.character;
 
-import killdoctorlucky.Nameable;
+import model.Nameable;
 
 /**
  * 
@@ -23,5 +23,7 @@ public interface Character extends Nameable{
    * @return the space index after moving
    */
   int move(int spaceIndex);
+  
+
 
 }

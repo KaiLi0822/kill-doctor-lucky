@@ -1,11 +1,11 @@
-package character;
+package model.character;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import item.Item;
-import item.ItemModel;
+import model.item.Item;
+import model.item.ItemModel;
 
 /**
  * 
@@ -41,10 +41,12 @@ public class PlayerModel extends CharacterModel implements Player{
   }
   
   
+
+
   @Override
   public String toString() {
-    return "Player [items=" + items + ", name=" + name + ", currentSpaceIndex=" + currentSpaceIndex
-        + "]";
+    return "Player [name=" + name + ", maxItems=" + maxItems
+        + ", currentSpaceIndex=" + currentSpaceIndex + "]";
   }
 
   @Override

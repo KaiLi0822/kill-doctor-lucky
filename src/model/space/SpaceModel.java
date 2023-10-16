@@ -1,20 +1,22 @@
-package space;
+package model.space;
 
-import item.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import character.Player;
-import killdoctorlucky.Nameable;
+import model.Nameable;
+import model.character.Player;
+import model.item.Item;
+import model.item.ItemModel;
 
 /**
  * This class represents a Space.
  */
 public class SpaceModel implements Space {
 
+  private final int index;
   private final String name;
   private final List<Item> items;
   private final int[] points;
@@ -24,14 +26,16 @@ public class SpaceModel implements Space {
   /**
    * Constructs the space.
    * 
+   * @param indexIn      the index of space
    * @param nameIn      the name of space
    * @param itemsIn     the items included in the space
    * @param pointsIn    the points of space
    * @param neighborsIn the neighbors of space
    * @param playersIn the players of space
    */
-  private SpaceModel(String nameIn, List<Item> itemsIn, int[] pointsIn, List<Space> neighborsIn, List<Player> playersIn) {
+  private SpaceModel(int indexIn, String nameIn, List<Item> itemsIn, int[] pointsIn, List<Space> neighborsIn, List<Player> playersIn) {
     super();
+    this.index = indexIn;
     this.name = nameIn;
     this.items = itemsIn;
     this.points = pointsIn;
@@ -53,6 +57,7 @@ public class SpaceModel implements Space {
    */
   public static class SpaceBuilder {
 
+    private int index;
     private String name;
     private List<Item> items;
     private int[] points;
@@ -65,11 +70,23 @@ public class SpaceModel implements Space {
      */
     private SpaceBuilder() {
       // assign default values to all the fields as above
+      index = 0;
       name = "";
       items = new ArrayList<Item>();
       points = new int[4];
       neighbors = new ArrayList<Space>();
       players = new ArrayList<Player>();
+    }
+    
+    /**
+     * Use this for setting the Space's index.
+     * 
+     * @param indexIn the index.
+     * @return this builder so that other methods can be called
+     */
+    public SpaceBuilder index(int indexIn) {
+      this.index = indexIn;
+      return this;
     }
 
     /**
@@ -138,7 +155,7 @@ public class SpaceModel implements Space {
      */
     public SpaceModel build() {
       // use the currently set values to create the space object
-      return new SpaceModel(name, items, points, neighbors, players);
+      return new SpaceModel(index, name, items, points, neighbors, players);
     }
   }
   
@@ -184,6 +201,8 @@ public class SpaceModel implements Space {
   public int[] getPoints() {
     return points.clone();
   }
+  
+
 
   @Override
   public List<Space> getNeighbors() {
@@ -191,8 +210,8 @@ public class SpaceModel implements Space {
   }
 
   @Override
-  public void addItem(Item newItem) {
-    items.add(newItem);
+  public void addItem(String name, int position, int damage) {
+    items.add(new ItemModel(name, position, damage));
     
   }
 
@@ -239,6 +258,11 @@ public class SpaceModel implements Space {
     }
     SpaceModel other = (SpaceModel) obj;
     return Objects.equals(name, other.name) && Arrays.equals(points, other.points);
+  }
+
+  @Override
+  public int getIndex() {
+    return index;
   }
 
 

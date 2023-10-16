@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import model.killdoctorlucky.KillDoctorLucky;
+import model.killdoctorlucky.KillDoctorLuckyModel;
+
 /**
  * This class represents a Driver class of the KillDoctorLucky.
  */
@@ -25,7 +28,7 @@ public class KillDoctorLuckyDriver {
     boolean fileExists = true;
     do {
       try {
-        killDoctorLucky = new KillDoctorLuckyImpl(file);
+        killDoctorLucky = new KillDoctorLuckyModel(file);
         fileExists = true;
       } catch (FileNotFoundException e) {
         fileExists = false;

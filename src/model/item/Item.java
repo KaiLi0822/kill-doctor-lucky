@@ -1,6 +1,6 @@
-package item;
+package model.item;
 
-import killdoctorlucky.Nameable;
+import model.Nameable;
 
 /**
  * 

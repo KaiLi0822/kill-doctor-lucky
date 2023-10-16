@@ -1,4 +1,4 @@
-package character;
+package model.character;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
 
   @Override
   public String toString() {
-    return "DoctorLucky [health=" + health + ", name=" + name + ", currentSpaceIndex="
+    return "DoctorLucky [name=" + name + ", health=" + health + ", currentSpaceIndex="
         + currentSpaceIndex + "]";
   }
 

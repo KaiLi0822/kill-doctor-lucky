@@ -1,10 +1,11 @@
-package space;
+package model.space;
 
 import java.util.List;
 
-import character.Player;
-import item.Item;
-import killdoctorlucky.Nameable;
+import model.Nameable;
+import model.character.Player;
+import model.item.Item;
+import model.item.ItemModel;
 
 /**
  * 
@@ -30,9 +31,13 @@ public interface Space extends Nameable{
   /**
    * Adds item into space.
    * 
-   * @param newitem the new item
+   * @param name the item name
+   * @param position the item position
+   * @param damage the item damage
    */
-  void addItem(Item newItem);
+  void addItem(String name, int position, int damage);
+ 
+
 
   /**
    * Adds a neighbor.
@@ -47,6 +52,13 @@ public interface Space extends Nameable{
    * @param player the new player
    */
   void addPlayer(Player player);
+  
+  /**
+   * Gets the index.
+   * 
+   * @return the index
+   */
+  int getIndex();
   
 
 

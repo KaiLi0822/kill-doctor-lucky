@@ -1,8 +1,8 @@
-package character;
+package model.character;
 
 import java.util.List;
 
-import item.Item;
+import model.item.Item;
 
 /**
  * 
