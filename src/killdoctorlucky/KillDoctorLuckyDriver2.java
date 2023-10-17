@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 import killdoctorlucky.controller.KillDoctorLuckyConsoleController;
 import killdoctorlucky.controller.KillDoctorLuckyController;
-import model.RandomGenerator;
-import model.killdoctorlucky.KillDoctorLucky;
-import model.killdoctorlucky.KillDoctorLuckyModel;
+import killdoctorlucky.model.RandomGenerator;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyModel;
 
 
 /**

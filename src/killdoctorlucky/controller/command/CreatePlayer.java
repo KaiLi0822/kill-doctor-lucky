@@ -4,8 +4,8 @@
 package killdoctorlucky.controller.command;
 
 import killdoctorlucky.controller.KillDoctorLuckyCommand;
-import model.RandomGenerator;
-import model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.RandomGenerator;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 
 /**
  * 

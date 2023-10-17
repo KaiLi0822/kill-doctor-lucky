@@ -1,6 +1,6 @@
 package killdoctorlucky.controller;
 
-import model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 
 /**
  * Represents a Controller for KillDoctorLucky.

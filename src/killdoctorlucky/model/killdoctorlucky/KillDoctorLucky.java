@@ -1,11 +1,11 @@
-package model.killdoctorlucky;
+package killdoctorlucky.model.killdoctorlucky;
 
 import java.io.IOException;
 import java.util.List;
 
-import model.character.DoctorLucky;
-import model.character.Player;
-import model.mansion.Mansion;
+import killdoctorlucky.model.character.DoctorLucky;
+import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.mansion.Mansion;
 
 /**
  * The KillDoctorLucky game which include main character and spaces.
@@ -30,17 +30,22 @@ public interface KillDoctorLucky {
   
   void setPlayer(String playerName, int spaceIndex, int maxItem);
   
-  String getMansionInfo();
-  
-  String getDoctorLuckyInfo();
+//  String getMansionInfo();
   
   String getPlayersInfo();
+  
+  String getPlayerInfoByName();
   
   int getMaxTurn();
   
   Player getPlayerByTurn(int index);
   
   DoctorLucky getDoctorLucky();
+  
+  void initiateGame(Readable readable);
+  
+
+  String outputMap() throws IOException;
 //  
 //  int getCurrenTurn();
 //  
@@ -83,13 +88,7 @@ public interface KillDoctorLucky {
 //   */
 //  String getItemsBySpaceIndex(int index);
 //
-//  /**
-//   * Outputs the map.
-//   * 
-//   * @return the map file path
-//   * @throws IOException if the file IO failed
-//   */
-//  String outputMap() throws IOException;
+
 //
 //  /**
 //   * Gets the neighbors of the target space.

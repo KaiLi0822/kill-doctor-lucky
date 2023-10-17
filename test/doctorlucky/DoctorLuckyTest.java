@@ -6,13 +6,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import killdoctorlucky.model.character.DoctorLuckyModel;
+
 
 /**
  * Test class for the DoctorLucky.
  */
 public class DoctorLuckyTest {
   
-  private DoctorLucky doc;
+  private DoctorLuckyModel doc;
 
   /**
    * Setup method for all of the tests.
@@ -22,8 +24,8 @@ public class DoctorLuckyTest {
     doc = doc(20, "doc");
   }
   
-  protected DoctorLucky doc(int healthIn, String nameIn) {
-    return new DoctorLucky(healthIn, nameIn);
+  protected DoctorLuckyModel doc(int healthIn, String nameIn) {
+    return new DoctorLuckyModel(healthIn, nameIn);
   }
   
   @Test(expected = IllegalArgumentException.class)
@@ -59,7 +61,7 @@ public class DoctorLuckyTest {
   public void testEqualsAndHashcode() {
     assertTrue(doc.equals(doc));
     assertTrue(doc.hashCode() == doc.hashCode());
-    DoctorLucky doc1 = doc(1, "doc");
+    DoctorLuckyModel doc1 = doc(1, "doc");
    
     assertTrue(doc1.equals(doc));
     assertTrue(doc1.hashCode() == doc.hashCode());

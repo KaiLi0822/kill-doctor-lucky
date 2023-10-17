@@ -6,12 +6,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import killdoctorlucky.model.item.ItemModel;
+
 /**
  * Test class for the Item.
  */
 public class ItemTest {
 
-  private Item item;
+  private ItemModel item;
 
   /**
    * Setup method for all of the tests.
@@ -21,8 +23,8 @@ public class ItemTest {
     item = it("abc", 2, 5);
   }
 
-  protected Item it(String nameIn, int positionIn, int damageIn) {
-    return new Item(nameIn, positionIn, damageIn);
+  protected ItemModel it(String nameIn, int positionIn, int damageIn) {
+    return new ItemModel(nameIn, positionIn, damageIn);
   }
 
   @Test
@@ -49,7 +51,7 @@ public class ItemTest {
   public void testEqualsAndHashcode() {
     assertTrue(item.equals(item));
     assertTrue(item.hashCode() == item.hashCode());
-    Item item1 = it("abc", 3, 6);
+    ItemModel item1 = it("abc", 3, 6);
 
     assertTrue(item1.equals(item));
     assertTrue(item1.hashCode() == item.hashCode());

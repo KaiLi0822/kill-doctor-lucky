@@ -1,13 +1,13 @@
 /**
  * 
  */
-package model.mansion;
+package killdoctorlucky.model.mansion;
 
 import java.util.List;
 
-import model.Nameable;
-import model.item.Item;
-import model.space.Space;
+import killdoctorlucky.model.Nameable;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.space.Space;
 
 /**
  * 
@@ -30,6 +30,10 @@ public interface Mansion {
 
   
   List<Space> getSpaces();
+  
+  int getHeight();
+  
+  int getWidth();
   
 
 

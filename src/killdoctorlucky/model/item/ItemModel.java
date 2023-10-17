@@ -1,8 +1,8 @@
-package model.item;
+package killdoctorlucky.model.item;
 
 import java.util.Objects;
 
-import model.Nameable;
+import killdoctorlucky.model.Nameable;
 
 /**
  * This class represents a Item. The Item has a name, position and damage.

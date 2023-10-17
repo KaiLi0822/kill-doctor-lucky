@@ -3,7 +3,7 @@
  */
 package killdoctorlucky.controller;
 
-import model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 
 /**
  * 

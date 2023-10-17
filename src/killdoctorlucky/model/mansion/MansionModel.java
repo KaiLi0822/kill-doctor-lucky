@@ -1,12 +1,12 @@
-package model.mansion;
+package killdoctorlucky.model.mansion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.item.Item;
-import model.item.ItemModel;
-import model.space.Space;
-import model.space.SpaceModel;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.item.ItemModel;
+import killdoctorlucky.model.space.Space;
+import killdoctorlucky.model.space.SpaceModel;
 
 /**
  * 
@@ -108,6 +108,28 @@ public class MansionModel implements Mansion{
   public String toString() {
     return "Mansion [name=" + name + ", height=" + height + ", width=" + width + ", spacesNum="
         + spacesNum + ", itemsNum=" + itemsNum + "]";
+  }
+
+
+
+
+
+
+
+  @Override
+  public int getHeight() {
+    return height;
+  }
+
+
+
+
+
+
+
+  @Override
+  public int getWidth() {
+    return width;
   }
 
 

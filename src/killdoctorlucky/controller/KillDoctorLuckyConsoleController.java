@@ -5,6 +5,9 @@ package killdoctorlucky.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,13 +15,13 @@ import java.util.Scanner;
 import killdoctorlucky.controller.command.CreatePlayer;
 import killdoctorlucky.controller.command.MaxTurn;
 import killdoctorlucky.controller.command.Parse;
-import model.Nameable;
-import model.RandomGenerator;
-import model.killdoctorlucky.KillDoctorLucky;
-import model.killdoctorlucky.KillDoctorLuckyModel;
-import model.space.Space;
-import model.character.DoctorLucky;
-import model.character.Player;
+import killdoctorlucky.model.Nameable;
+import killdoctorlucky.model.RandomGenerator;
+import killdoctorlucky.model.character.DoctorLucky;
+import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyModel;
+import killdoctorlucky.model.space.Space;
 
 /**
  * 
@@ -84,47 +87,68 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
       }
     } while (!fileExists);
     killDoctorLuckyCommand.execute(m);
+    
+    // TODO offer two options: start game or draw map
+    appendCommand("\n***********************************\n");
+    appendCommand("Mansion created successfully, the information is as follows:");
+    appendCommand("\n-----Mansion Information-----\n");
+    appendCommand(m.getMansion().toString());
+    appendCommand("\n-----Main Character Information-----\n");
+    appendCommand(m.getDoctorLucky().toString());
+    
+    appendCommand("\n***********************************\n");
+    appendCommand("Menu:\n");
+    appendCommand("1. Create world map.\n");
+    appendCommand("2. Start game.\n");
+    
+    int option = scan.nextInt();
+    if (option == 1) {
+      try {
+        appendCommand(String.format("Map created successfully, image path: %s",
+            m.outputMap()));
+      } catch (IOException e) {
+        appendCommand("Map creation failed");
+      }   
+    }
 
+    appendCommand("\n***********************************\n");
+    appendCommand("Game Start!\n");
     // set max turns
-    appendCommand("Please provide the maximum of turns: ");
+    appendCommand("* Please provide the maximum of turns: ");
     int maxTurn = scan.nextInt();
     killDoctorLuckyCommand = new MaxTurn(maxTurn);
     killDoctorLuckyCommand.execute(m);
+    appendCommand("\n-----Maximum turns-----\n");
+    appendCommand(String.valueOf(m.getMaxTurn()));
+   
 
     // generate auto-player
 //    killDoctorLuckyCommand = new CreatePlayer(rg);
 //    killDoctorLuckyCommand.execute(m);
 
     // generate player
-    appendCommand("\n***********************************\n");
-    appendCommand("Generate Player\n");
+    appendCommand("* Generate Player\n");
     appendCommand("Please provide the name: ");
     String playerName = scan.next();
     appendCommand("Please provide the space index: ");
     int playerSpaceIndex = scan.nextInt();
     appendCommand("Please provide the maximum number of items carried: ");
     int maxItems = scan.nextInt();
-
     killDoctorLuckyCommand = new CreatePlayer(playerName, playerSpaceIndex, maxItems);
     killDoctorLuckyCommand.execute(m);
-
-    appendCommand("\n***********************************\n");
-    appendCommand("All configurations have been completed, the information is as follows:");
-    appendCommand("\n-----Maximum turns-----\n");
-    appendCommand(String.valueOf(m.getMaxTurn()));
-    appendCommand("\n-----Mansion Information-----\n");
-    appendCommand(m.getMansionInfo());
-    appendCommand("\n-----Main Character Information-----\n");
-    appendCommand(m.getDoctorLuckyInfo());
     appendCommand("\n-----Players Information-----\n");
     appendCommand(m.getPlayersInfo());
 
-    appendCommand("\n***********************************\n");
-    appendCommand("Game Start!");
+
 
     while (turnNum++ <= m.getMaxTurn()) {
       Player player = m.getPlayerByTurn(turnNum);
       appendCommand(String.format("\n-----%s's turn-----\n", player.getName()));
+      
+      // TODO add description about the player
+      // space 
+      // items
+      // Number of items that can be carried
 
       appendCommand(String.format("1. Move to a neighboring space: %s\n",
           joinNames(m.getMansion().getSpaces().get(player.getCurrentSpaceIndex()).getNeighbors())));

@@ -1,4 +1,4 @@
-package model;
+package killdoctorlucky.model;
 
 import java.util.Random;
 

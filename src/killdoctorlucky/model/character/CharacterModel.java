@@ -1,12 +1,12 @@
-package model.character;
+package killdoctorlucky.model.character;
 
 
 /**
  * 
  */
 public abstract class CharacterModel implements Character{
-  protected final String name;
-  protected int currentSpaceIndex;
+  private final String name;
+  private int currentSpaceIndex;
   
   
   /**

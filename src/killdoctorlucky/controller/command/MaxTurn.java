@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import killdoctorlucky.controller.KillDoctorLuckyCommand;
-import model.character.DoctorLuckyModel;
-import model.item.ItemModel;
-import model.killdoctorlucky.KillDoctorLucky;
-import model.space.Space;
-import model.space.SpaceModel;
+import killdoctorlucky.model.character.DoctorLuckyModel;
+import killdoctorlucky.model.item.ItemModel;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.space.Space;
+import killdoctorlucky.model.space.SpaceModel;
 
 
 public class MaxTurn implements KillDoctorLuckyCommand {

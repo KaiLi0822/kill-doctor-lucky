@@ -7,6 +7,9 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyModel;
+
 /**
  * Test class for the KillDoctorLucky.
  */
@@ -25,7 +28,7 @@ public class KillDoctorLuckyTest {
   }
 
   protected KillDoctorLucky ki(String path) throws FileNotFoundException, IOException {
-    return new KillDoctorLuckyImpl(path);
+    return new KillDoctorLuckyModel(path);
   }
 
   @Test(expected = FileNotFoundException.class)

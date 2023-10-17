@@ -3,12 +3,14 @@ package space;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import item.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
+import killdoctorlucky.model.item.ItemModel;
+import killdoctorlucky.model.space.SpaceModel;
 
 
 
@@ -17,25 +19,25 @@ import org.junit.Test;
  */
 public class SpaceTest {
 
-  private Space space;
+  private SpaceModel space;
 
   /**
    * Setup method for all of the tests.
    */
   @Before
   public void setUp() {
-    Item item = new Item("a", 2, 3);
-    Space neighbor = Space.getBuilder().name("n1").build();
-    List<Item> itemList = new ArrayList<Item>();
+    ItemModel item = new ItemModel("a", 2, 3);
+    SpaceModel neighbor = SpaceModel.getBuilder().name("n1").build();
+    List<ItemModel> itemList = new ArrayList<ItemModel>();
     itemList.add(item);
-    List<Space> neighbors = new ArrayList<Space>();
+    List<SpaceModel> neighbors = new ArrayList<SpaceModel>();
     neighbors.add(neighbor);
     String[] arr = new String[]{ "22", "21", "23", "28" };
     space = sp("abc", itemList, arr, neighbors);
   }
 
-  protected Space sp(String name, List<Item> items, String[] points, List<Space> neighbors) {
-    return Space.getBuilder().name(name).items(items).points(points).neighbors(neighbors).build();
+  protected SpaceModel sp(String name, List<ItemModel> items, String[] points, List<SpaceModel> neighbors) {
+    return SpaceModel.getBuilder().name(name).items(items).points(points).neighbors(neighbors).build();
   }
 
   @Test
@@ -47,7 +49,7 @@ public class SpaceTest {
   public void testGetItems() {
     assertEquals(1, space.getItems().size());
     assertEquals("a", space.getItems().get(0).getName());
-    space.addItem(new Item("a", 0, 0));
+    space.addItem(new ItemModel("a", 0, 0));
     assertEquals(2, space.getItems().size());
   }
 
@@ -66,11 +68,11 @@ public class SpaceTest {
   @Test
   public void testAddNeighbor() {
     String[] arr1 = new String[] { "16", "21", "21", "28" };
-    Space space1 = sp("abc", null, arr1, null);
+    SpaceModel space1 = sp("abc", null, arr1, null);
     space.addNeighbor(space1);
     assertEquals(2, space.getNeighbors().size());
     String[] arr2 = new String[] { "5", "6", "7", "8" };
-    Space space2 = sp("abc", null, arr2, null);
+    SpaceModel space2 = sp("abc", null, arr2, null);
     space.addNeighbor(space2);
     assertEquals(2, space.getNeighbors().size());
 
@@ -87,7 +89,7 @@ public class SpaceTest {
     assertTrue(space.hashCode() == space.hashCode());
 
     String[] arr = new String[] { "22", "21", "23", "28" };
-    Space space1 = sp("abc", null, arr, null);
+    SpaceModel space1 = sp("abc", null, arr, null);
 
     assertTrue(space1.equals(space));
     assertTrue(space1.hashCode() == space.hashCode());

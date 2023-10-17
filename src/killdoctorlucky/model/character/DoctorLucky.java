@@ -1,4 +1,4 @@
-package model.character;
+package killdoctorlucky.model.character;
 
 /**
  * 

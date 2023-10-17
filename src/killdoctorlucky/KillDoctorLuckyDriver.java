@@ -7,8 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import model.killdoctorlucky.KillDoctorLucky;
-import model.killdoctorlucky.KillDoctorLuckyModel;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyModel;
 
 /**
  * This class represents a Driver class of the KillDoctorLucky.

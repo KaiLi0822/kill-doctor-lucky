@@ -1,11 +1,11 @@
-package model.space;
+package killdoctorlucky.model.space;
 
 import java.util.List;
 
-import model.Nameable;
-import model.character.Player;
-import model.item.Item;
-import model.item.ItemModel;
+import killdoctorlucky.model.Nameable;
+import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.item.ItemModel;
 
 /**
  * 

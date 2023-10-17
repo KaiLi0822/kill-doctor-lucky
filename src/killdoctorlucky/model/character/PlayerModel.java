@@ -1,11 +1,11 @@
-package model.character;
+package killdoctorlucky.model.character;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import model.item.Item;
-import model.item.ItemModel;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.item.ItemModel;
 
 /**
  * 
@@ -45,13 +45,18 @@ public class PlayerModel extends CharacterModel implements Player{
 
   @Override
   public String toString() {
-    return "Player [name=" + name + ", maxItems=" + maxItems
-        + ", currentSpaceIndex=" + currentSpaceIndex + "]";
+    StringBuffer sb = new StringBuffer();
+    for (Item item : items) {
+      sb.append(item.getName());
+      sb.append(" ");
+    }
+    return "Player [name=" + getName() + ", maxItems=" + maxItems + "carriedItems=" + sb.toString()
+        + ", currentSpaceIndex=" + getCurrentSpaceIndex() + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(getName());
   }
 
   @Override
@@ -66,7 +71,7 @@ public class PlayerModel extends CharacterModel implements Player{
       return false;
     }
     PlayerModel other = (PlayerModel) obj;
-    return Objects.equals(name, other.name);
+    return Objects.equals(getName(), other.getName());
   }
 
 

@@ -1,8 +1,8 @@
-package model.character;
+package killdoctorlucky.model.character;
 
 import java.util.List;
 
-import model.item.Item;
+import killdoctorlucky.model.item.Item;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package model.space;
+package killdoctorlucky.model.space;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import model.Nameable;
-import model.character.Player;
-import model.item.Item;
-import model.item.ItemModel;
+import killdoctorlucky.model.Nameable;
+import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.item.ItemModel;
 
 /**
  * This class represents a Space.

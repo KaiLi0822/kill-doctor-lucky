@@ -1,4 +1,4 @@
-package model;
+package killdoctorlucky.model;
 
 /**
  * Nameable Interface be implemented by nameable class.

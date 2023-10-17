@@ -1,4 +1,4 @@
-package model.character;
+package killdoctorlucky.model.character;
 
 import java.util.Objects;
 
@@ -32,13 +32,13 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
 
   @Override
   public String toString() {
-    return "DoctorLucky [name=" + name + ", health=" + health + ", currentSpaceIndex="
-        + currentSpaceIndex + "]";
+    return "DoctorLucky [name=" + getName() + ", health=" + health + ", currentSpaceIndex="
+        + getCurrentSpaceIndex() + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(getName());
   }
 
   @Override
@@ -53,7 +53,7 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
       return false;
     }
     DoctorLuckyModel other = (DoctorLuckyModel) obj;
-    return Objects.equals(name, other.name);
+    return Objects.equals(getName(), other.getName());
   }
 
 

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package model.character;
+package killdoctorlucky.model.character;
 
-import model.Nameable;
+import killdoctorlucky.model.Nameable;
 
 /**
  * 
