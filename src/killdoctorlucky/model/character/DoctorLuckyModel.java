@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * This class represents the DoctorLucky.
  */
-public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
+public class DoctorLuckyModel extends CharacterModel implements DoctorLucky {
 
   private int health;
 
@@ -32,13 +32,16 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
 
   @Override
   public String toString() {
-    return "DoctorLucky [name=" + getName() + ", health=" + health + ", currentSpaceIndex="
-        + getCurrentSpaceIndex() + "]";
+    StringBuffer sb = new StringBuffer();
+    sb.append(name).append(" [health=").append(health).append(", currentSpaceIndex=")
+        .append(currentSpaceIndex).append("]");
+    return sb.toString();
+
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getName());
+    return Objects.hash(name);
   }
 
   @Override
@@ -53,9 +56,7 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky{
       return false;
     }
     DoctorLuckyModel other = (DoctorLuckyModel) obj;
-    return Objects.equals(getName(), other.getName());
+    return Objects.equals(name, other.name);
   }
-
-
 
 }

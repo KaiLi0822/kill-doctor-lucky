@@ -10,9 +10,8 @@ public class RandomGenerator {
   private int[] mockedValues;
   private int currentIndex;
 
-  
   /**
-   * 
+   * Constructor the RandomGenerator.
    */
   public RandomGenerator() {
     random = new Random();
@@ -21,8 +20,9 @@ public class RandomGenerator {
   }
 
   /**
+   * Constructor the Mock RandomGenerator.
    * 
-   * @param values
+   * @param values mock random values
    */
   public RandomGenerator(int... values) {
     random = null;
@@ -30,13 +30,13 @@ public class RandomGenerator {
     currentIndex = -1;
   }
 
-  
   /**
+   * Returns a random number.
    * 
-   * @param bound
-   * @return
+   * @param bound the bound of random value 
+   * @return the random number
    */
-  public int nextInt(int bound){
+  public int nextInt(int bound) {
     if (mockedValues != null) {
       if (currentIndex < mockedValues.length) {
         return mockedValues[currentIndex++] % bound;

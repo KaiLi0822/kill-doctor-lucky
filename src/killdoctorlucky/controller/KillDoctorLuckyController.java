@@ -8,8 +8,8 @@ import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 public interface KillDoctorLuckyController {
 
   /**
-   * Execute a single game of KillDoctorLucky given a KillDoctorLucky Model. When the game is over,
-   * the playGame method ends.
+   * Execute a single game of KillDoctorLucky given a KillDoctorLucky Model. When
+   * the game is over, the playGame method ends.
    *
    * @param m a non-null KillDoctorLucky Model
    */

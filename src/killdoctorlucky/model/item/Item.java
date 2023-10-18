@@ -3,9 +3,9 @@ package killdoctorlucky.model.item;
 import killdoctorlucky.model.Nameable;
 
 /**
- * 
+ * The item interface.
  */
-public interface Item extends Nameable{
+public interface Item extends Nameable {
   
   /**
    * Gets the position of this Item.

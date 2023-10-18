@@ -2,8 +2,6 @@ package killdoctorlucky.model.item;
 
 import java.util.Objects;
 
-import killdoctorlucky.model.Nameable;
-
 /**
  * This class represents a Item. The Item has a name, position and damage.
  */
@@ -24,29 +22,20 @@ public class ItemModel implements Item {
     this.position = positionIn;
     this.damage = damageIn;
   }
-  
 
   @Override
   public String getName() {
     return name;
   }
 
-
   @Override
   public int getPosition() {
     return position;
   }
 
-
   @Override
   public int getDamage() {
     return damage;
-  }
-
-
-  @Override
-  public String toString() {
-    return "Item [name=" + name + ", position=" + position + ", damage=" + damage + "]";
   }
 
   @Override
@@ -68,7 +57,5 @@ public class ItemModel implements Item {
     ItemModel other = (ItemModel) obj;
     return Objects.equals(name, other.name);
   }
-
-
 
 }

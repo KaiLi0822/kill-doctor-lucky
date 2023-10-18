@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import killdoctorlucky.model.Nameable;
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.item.ItemModel;
@@ -26,14 +24,15 @@ public class SpaceModel implements Space {
   /**
    * Constructs the space.
    * 
-   * @param indexIn      the index of space
+   * @param indexIn     the index of space
    * @param nameIn      the name of space
    * @param itemsIn     the items included in the space
    * @param pointsIn    the points of space
    * @param neighborsIn the neighbors of space
-   * @param playersIn the players of space
+   * @param playersIn   the players of space
    */
-  private SpaceModel(int indexIn, String nameIn, List<Item> itemsIn, int[] pointsIn, List<Space> neighborsIn, List<Player> playersIn) {
+  private SpaceModel(int indexIn, String nameIn, List<Item> itemsIn, int[] pointsIn,
+      List<Space> neighborsIn, List<Player> playersIn) {
     super();
     this.index = indexIn;
     this.name = nameIn;
@@ -77,7 +76,7 @@ public class SpaceModel implements Space {
       neighbors = new ArrayList<Space>();
       players = new ArrayList<Player>();
     }
-    
+
     /**
      * Use this for setting the Space's index.
      * 
@@ -136,11 +135,11 @@ public class SpaceModel implements Space {
       this.neighbors = neighborsIn;
       return this;
     }
-    
+
     /**
      * Use this for setting the Space's players.
      * 
-     * @param neighborsIn the neighbors
+     * @param playersIn the players
      * @return this builder so that other methods can be called
      */
     public SpaceBuilder players(List<Player> playersIn) {
@@ -158,8 +157,7 @@ public class SpaceModel implements Space {
       return new SpaceModel(index, name, items, points, neighbors, players);
     }
   }
-  
-  
+
   /**
    * If space is the neighbor.
    * 
@@ -186,7 +184,6 @@ public class SpaceModel implements Space {
 
   }
 
-
   @Override
   public String getName() {
     return name;
@@ -201,8 +198,6 @@ public class SpaceModel implements Space {
   public int[] getPoints() {
     return points.clone();
   }
-  
-
 
   @Override
   public List<Space> getNeighbors() {
@@ -210,9 +205,9 @@ public class SpaceModel implements Space {
   }
 
   @Override
-  public void addItem(String name, int position, int damage) {
-    items.add(new ItemModel(name, position, damage));
-    
+  public void addItem(String itemName, int position, int damage) {
+    items.add(new ItemModel(itemName, position, damage));
+
   }
 
   @Override
@@ -220,20 +215,47 @@ public class SpaceModel implements Space {
     if (isNeighbor(newSpace.getPoints())) {
       neighbors.add(newSpace);
     }
-    
+
   }
 
   @Override
   public void addPlayer(Player player) {
-    players.add(player); 
-    
-  }
+    players.add(player);
 
+  }
 
   @Override
   public String toString() {
-    return "SpaceModel [name=" + name + ", items=" + items + ", points=" + Arrays.toString(points)
-        + ", neighbors=" + neighbors + ", players=" + players + "]";
+    StringBuffer stringBuffer = new StringBuffer();
+    stringBuffer.append(name).append(" [index=").append(index).append(", neighbors=[");
+    if (neighbors.size() != 0) {
+      for (Space space : neighbors) {
+        stringBuffer.append(space.getIndex()).append(".").append(space.getName()).append(", ");
+      }
+      stringBuffer.setLength(stringBuffer.length() - 2);
+
+    }
+    stringBuffer.append("]").append(", items=[");
+
+    if (items.size() != 0) {
+      for (Item item : items) {
+        stringBuffer.append(item.getName()).append(", ");
+
+      }
+      stringBuffer.setLength(stringBuffer.length() - 2);
+
+    }
+    stringBuffer.append("]").append(", players=[");
+    if (players.size() != 0) {
+      for (Player player : players) {
+        stringBuffer.append(player.getName()).append(", ");
+
+      }
+      stringBuffer.setLength(stringBuffer.length() - 2);
+    }
+
+    stringBuffer.append("]]");
+    return stringBuffer.toString();
   }
 
   @Override
@@ -265,6 +287,20 @@ public class SpaceModel implements Space {
     return index;
   }
 
+  @Override
+  public Item getItemByname(String itemName) {
+    for (Item item : items) {
+      if (item.getName().equals(itemName)) {
+        return item;
+      }
+    }
+    return null;
+  }
 
+  @Override
+  public void removeItem(Item item) {
+    items.remove(item);
+
+  }
 
 }
