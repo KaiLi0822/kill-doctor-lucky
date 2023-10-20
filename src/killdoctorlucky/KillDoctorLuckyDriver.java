@@ -20,7 +20,7 @@ public class KillDoctorLuckyDriver {
     Appendable output = System.out;
     RandomGenerator rg = new RandomGenerator();
     KillDoctorLuckyController killDoctorLuckyController = new KillDoctorLuckyConsoleController(
-        input, output, rg);
+        input, output, rg, args[0]);
     killDoctorLuckyController.playGame(new KillDoctorLuckyModel());
   }
 

@@ -25,6 +25,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
   private final Appendable out;
   private final Scanner scan;
   private final RandomGenerator rg;
+  private final String filePath;
   private KillDoctorLuckyCommand killDoctorLuckyCommand;
   private int turnNum;
 
@@ -35,12 +36,13 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
    * @param outIn the target to print to
    * @param rgIn  the random object
    */
-  public KillDoctorLuckyConsoleController(Readable in, Appendable outIn, RandomGenerator rgIn) {
+  public KillDoctorLuckyConsoleController(Readable in, Appendable outIn, RandomGenerator rgIn, String filePathIn) {
     if (in == null || outIn == null) {
       throw new IllegalArgumentException("Readable and Appendable can't be null");
     }
     this.out = outIn;
     this.rg = rgIn;
+    this.filePath = filePathIn;
     scan = new Scanner(in).useDelimiter("\n");
   }
 
@@ -80,20 +82,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
   @Override
   public void playGame(KillDoctorLucky m) {
     // parse the specification file
-    appendCommand("Please provide the path of specification file(using \\t as field "
-        + "delimiter, \\n as row delimiter):\n");
-    String file = scan.nextLine();
-    boolean fileExists = true;
-    do {
-      try {
-        killDoctorLuckyCommand = new Parse(file);
-        fileExists = true;
-      } catch (FileNotFoundException e) {
-        fileExists = false;
-        appendCommand("File does not exist. Please provide the path of specification file:\n");
-        file = scan.nextLine();
-      }
-    } while (!fileExists);
+    try {
+      killDoctorLuckyCommand = new Parse(filePath);
+    } catch (FileNotFoundException e) {
+      appendCommand("File does not exist.\n");
+    }
     killDoctorLuckyCommand.execute(m);
 
     // TODO offer two options: start game or draw map
