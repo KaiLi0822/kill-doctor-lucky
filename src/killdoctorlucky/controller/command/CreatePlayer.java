@@ -45,6 +45,9 @@ public class CreatePlayer implements KillDoctorLuckyCommand {
 
   @Override
   public void execute(KillDoctorLucky m) {
+    if (m == null) {
+      throw new IllegalArgumentException("model cannot be null");
+    }
     if (rg != null) {
       m.setPlayer(PlayerType.ROBOT, name, currentSpaceIndex, maxItems);
     } else {

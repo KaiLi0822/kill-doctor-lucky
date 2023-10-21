@@ -14,7 +14,8 @@ public class Parse implements KillDoctorLuckyCommand {
   /**
    * Constructor the Parse.
    * 
-   * @param file the specification file.
+   * @param file the specification file
+   * @throws FileNotFoundException if file not found
    */
   public Parse(String file) throws FileNotFoundException {
     try {
@@ -27,9 +28,14 @@ public class Parse implements KillDoctorLuckyCommand {
   @Override
   public void execute(KillDoctorLucky m) {
     if (m == null) {
-      throw new IllegalArgumentException("model cannot be null");
+      throw new IllegalArgumentException("model cannot be null.");
     }
-    m.initiateGame(fileReader);
+    
+    try {
+      m.initiateGame(fileReader);
+    } catch (NumberFormatException e) {
+      throw new IllegalStateException("Specification file parse failed.");
+    }
 
   }
 }

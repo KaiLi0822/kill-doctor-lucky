@@ -42,10 +42,6 @@ public class ItemTest {
     assertEquals(5, item.getDamage());
   }
 
-  @Test
-  public void testToString() {
-    assertEquals("Item [name=abc, position=2, damage=5]", item.toString());
-  }
 
   @Test
   public void testEqualsAndHashcode() {

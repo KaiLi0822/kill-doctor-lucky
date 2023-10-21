@@ -1,5 +1,4 @@
 package killdoctorlucky.model.killdoctorlucky;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -23,13 +22,23 @@ import killdoctorlucky.model.mansion.MansionModel;
 import killdoctorlucky.model.space.Space;
 
 /**
- * The implement class of KillDoctorLucky.
+ * The implement class of KillDoctorLuckyMockModel.
  */
-public class KillDoctorLuckyModel implements KillDoctorLucky {
+public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   private DoctorLucky doctorLucky;
   private Mansion mansion;
   private List<Player> players = new ArrayList<Player>();
   private int maxTurn;
+  private Appendable out;
+  
+
+  /**
+   * Constructor of KillDoctorLuckyMockModel.
+   * @param out the out
+   */
+  public KillDoctorLuckyMockModel(Appendable out) {
+    this.out = out;
+  }
 
   @Override
   public void setMansion(String mansionName, int mansionHeight, int mansionWidth) {
@@ -113,7 +122,11 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public void initiateGame(Readable readable) {
-
+    try {
+      out.append("Enter initiateGame.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     Scanner scan = new Scanner(readable);
     int index = 0;
     while (scan.hasNextLine()) {

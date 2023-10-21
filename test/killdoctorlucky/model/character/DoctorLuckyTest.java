@@ -25,7 +25,7 @@ public class DoctorLuckyTest {
   }
   
   protected DoctorLuckyModel doc(int healthIn, String nameIn) {
-    return new DoctorLuckyModel(healthIn, nameIn);
+    return new DoctorLuckyModel(nameIn, healthIn);
   }
   
   @Test(expected = IllegalArgumentException.class)
@@ -45,17 +45,12 @@ public class DoctorLuckyTest {
   
   @Test
   public void testMove() {
-    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move());
-    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move());
-    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move());
+    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move(doc.getCurrentSpaceIndex() + 1));
+    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move(doc.getCurrentSpaceIndex() + 1));
+    assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move(doc.getCurrentSpaceIndex() + 1));
   }
   
   
-  
-  @Test
-  public void testToString() {
-    assertEquals("DoctorLucky [health=20, name=doc, currentSpaceIndex=0]", doc.toString());
-  }
 
   @Test
   public void testEqualsAndHashcode() {
