@@ -303,4 +303,10 @@ public class SpaceModel implements Space {
 
   }
 
+  @Override
+  public void removePlayer(Player player) {
+    players.remove(player);
+    
+  }
+
 }

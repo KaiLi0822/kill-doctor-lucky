@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import killdoctorlucky.model.character.DoctorLuckyModel;
-
 
 /**
  * Test class for the DoctorLucky.

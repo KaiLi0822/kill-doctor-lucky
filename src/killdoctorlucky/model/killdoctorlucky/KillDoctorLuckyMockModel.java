@@ -1,4 +1,5 @@
 package killdoctorlucky.model.killdoctorlucky;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -34,14 +35,19 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   /**
    * Constructor of KillDoctorLuckyMockModel.
-   * @param out the out
+   * @param outIn the out
    */
-  public KillDoctorLuckyMockModel(Appendable out) {
-    this.out = out;
+  public KillDoctorLuckyMockModel(Appendable outIn) {
+    this.out = outIn;
   }
 
   @Override
   public void setMansion(String mansionName, int mansionHeight, int mansionWidth) {
+    try {
+      out.append("!!Enter setMansion.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     mansion = new MansionModel(mansionName, mansionHeight, mansionWidth);
   }
 
@@ -52,23 +58,43 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public void setDoctorLucky(String doctorName, int doctorHealth) {
+    try {
+      out.append("!!Enter setDoctorLucky.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     doctorLucky = new DoctorLuckyModel(doctorName, doctorHealth);
   }
 
   @Override
   public void setMaxTurn(int maxTurnIn) {
+    try {
+      out.append("!!Enter setMaxTurn.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     maxTurn = maxTurnIn;
 
   }
 
   @Override
   public void setPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem) {
+    try {
+      out.append("!!Enter setPlayer.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     players.add(new PlayerModel(playerType, playerName, spaceIndex, maxItem));
 
   }
 
   @Override
   public String getPlayersInfo() {
+    try {
+      out.append("!!Enter getPlayersInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     StringBuffer sb = new StringBuffer();
     for (Player player : players) {
       sb.append(player.toString());
@@ -82,16 +108,31 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public int getMaxTurn() {
+    try {
+      out.append("!!Enter getMaxTurn.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return maxTurn;
   }
 
   @Override
   public Player getPlayerByTurn(int index) {
+    try {
+      out.append("!!Enter getPlayerByTurn.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return players.get(index % players.size());
   }
 
   @Override
   public DoctorLucky getDoctorLucky() {
+    try {
+      out.append("!!Enter getDoctorLucky.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return doctorLucky;
   }
 
@@ -123,50 +164,50 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   @Override
   public void initiateGame(Readable readable) {
     try {
-      out.append("Enter initiateGame.\n");
+      out.append("!!Enter initiateGame.\n");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Scanner scan = new Scanner(readable);
-    int index = 0;
-    while (scan.hasNextLine()) {
-      String[] part = splitLine(scan.nextLine());
-      try {
-        // generate mansion
-        if (part.length == 3 && getMansion() == null) {
-          setMansion(part[2], Integer.parseInt(part[0]), Integer.parseInt(part[1]));
-        }
-        // generate target character
-        if (part.length == 2) {
-          setDoctorLucky(part[1], Integer.parseInt(part[0]));
-        }
+    try (Scanner scan = new Scanner(readable)) {
+      int index = 0;
+      while (scan.hasNextLine()) {
+        String[] part = splitLine(scan.nextLine());
+        try {
+          // generate mansion
+          if (part.length == 3 && getMansion() == null) {
+            setMansion(part[2], Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+          }
+          // generate target character
+          if (part.length == 2) {
+            setDoctorLucky(part[1], Integer.parseInt(part[0]));
+          }
 
-        // generate spaces
-        if (part.length == 1 && getMansion().getSpacesNum() == 0) {
-          getMansion().setSpacesNum(Integer.parseInt(part[0]));
+          // generate spaces
+          if (part.length == 1 && getMansion().getSpacesNum() == 0) {
+            getMansion().setSpacesNum(Integer.parseInt(part[0]));
+          }
+
+          if (part.length == 5) {
+            getMansion().addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
+
+          }
+
+          // generate items
+          if (part.length == 1 && getMansion().getSpacesNum() != 0) {
+            getMansion().setItemsNum(Integer.parseInt(part[0]));
+          }
+
+          if (part.length == 3 && getMansion().getItemsNum() != 0) {
+            getMansion().getSpaces().get(Integer.parseInt(part[0])).addItem(part[2],
+                Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+
+          }
+        } catch (NumberFormatException e) {
+          throw new NumberFormatException("Specification file format is wrong.");
         }
-
-        if (part.length == 5) {
-          getMansion().addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
-
-        }
-
-        // generate items
-        if (part.length == 1 && getMansion().getSpacesNum() != 0) {
-          getMansion().setItemsNum(Integer.parseInt(part[0]));
-        }
-
-        if (part.length == 3 && getMansion().getItemsNum() != 0) {
-          getMansion().getSpaces().get(Integer.parseInt(part[0])).addItem(part[2],
-              Integer.parseInt(part[0]), Integer.parseInt(part[1]));
-
-        }
-      } catch (NumberFormatException e) {
-        throw new NumberFormatException("Specification file format is wrong.");
       }
+      scan.close();
     }
-    scan.close();
-
     List<Space> spaces = getMansion().getSpaces();
     // set neighbors of each space
     for (int i = 0; i < spaces.size(); i++) {
@@ -181,6 +222,11 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public String outputMap() throws IOException {
+    try {
+      out.append("!!Enter outputMap.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     // Create a BufferedImage
     BufferedImage image = new BufferedImage(getMansion().getWidth() * 30 + 6,
         getMansion().getHeight() * 30 + 6, BufferedImage.TYPE_INT_RGB);
@@ -227,6 +273,11 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public String getPlayerInfoByName(String name) {
+    try {
+      out.append("!!Enter getPlayerInfoByName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     StringBuffer sb = new StringBuffer();
 
     for (Player player : players) {
@@ -244,6 +295,11 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public Space getCharacterSpace(Character character) {
+    try {
+      out.append("!!Enter getCharacterSpace.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return mansion.getSpaces().get(character.getCurrentSpaceIndex());
   }
 

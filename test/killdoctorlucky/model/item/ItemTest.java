@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import killdoctorlucky.model.item.ItemModel;
 
 /**
  * Test class for the Item.

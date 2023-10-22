@@ -76,4 +76,10 @@ public interface Space extends Nameable {
    */
   void removeItem(Item item);
 
+  /**
+   * Removes a player.
+   * 
+   * @param player the player
+   */
+  void removePlayer(Player player);
 }

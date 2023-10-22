@@ -1,0 +1,56 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=50, currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 10
+* Generate Player
+Please provide the number of players:2
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human
+Please provide the space index: 2
+Please provide the maximum number of items carried: 2
+** Genarating Player 2:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human2
+Please provide the space index: 1
+Please provide the maximum number of items carried: 1
+
+-----Players Information-----
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=2, currentSpaceName=Carriage House]
+human2 [playerType=human, maxItems=1, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]
+
+***********************************
+
+-----human's turn, No.1 turn-----
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=2, currentSpaceName=Carriage House]
+* Choose action:
+1. Move to a neighboring space: Wine Cellar, Winter Garden
+2. Pick up an item: Chain Saw, Big Red Hammer
+3. Look around
+1
+human chose the option 1
+** Choose a space to enter, input the index of space:
+19. Wine Cellar
+20. Winter Garden
+19
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=19, currentSpaceName=Wine Cellar]
+Doctor Lucky's current space is 1.Billiard Room

@@ -54,7 +54,9 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public void setPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem) {
-    players.add(new PlayerModel(playerType, playerName, spaceIndex, maxItem));
+    Player player = new PlayerModel(playerType, playerName, spaceIndex, maxItem);
+    players.add(player);
+    mansion.getSpaces().get(spaceIndex).addPlayer(player);
 
   }
 
@@ -114,46 +116,46 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   @Override
   public void initiateGame(Readable readable) {
 
-    Scanner scan = new Scanner(readable);
-    int index = 0;
-    while (scan.hasNextLine()) {
-      String[] part = splitLine(scan.nextLine());
-      try {
-        // generate mansion
-        if (part.length == 3 && getMansion() == null) {
-          setMansion(part[2], Integer.parseInt(part[0]), Integer.parseInt(part[1]));
-        }
-        // generate target character
-        if (part.length == 2) {
-          setDoctorLucky(part[1], Integer.parseInt(part[0]));
-        }
+    try (Scanner scan = new Scanner(readable)) {
+      int index = 0;
+      while (scan.hasNextLine()) {
+        String[] part = splitLine(scan.nextLine());
+        try {
+          // generate mansion
+          if (part.length == 3 && getMansion() == null) {
+            setMansion(part[2], Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+          }
+          // generate target character
+          if (part.length == 2) {
+            setDoctorLucky(part[1], Integer.parseInt(part[0]));
+          }
 
-        // generate spaces
-        if (part.length == 1 && getMansion().getSpacesNum() == 0) {
-          getMansion().setSpacesNum(Integer.parseInt(part[0]));
+          // generate spaces
+          if (part.length == 1 && getMansion().getSpacesNum() == 0) {
+            getMansion().setSpacesNum(Integer.parseInt(part[0]));
+          }
+
+          if (part.length == 5) {
+            getMansion().addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
+
+          }
+
+          // generate items
+          if (part.length == 1 && getMansion().getSpacesNum() != 0) {
+            getMansion().setItemsNum(Integer.parseInt(part[0]));
+          }
+
+          if (part.length == 3 && getMansion().getItemsNum() != 0) {
+            getMansion().getSpaces().get(Integer.parseInt(part[0])).addItem(part[2],
+                Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+
+          }
+        } catch (NumberFormatException e) {
+          throw new NumberFormatException("Specification file format is wrong.");
         }
-
-        if (part.length == 5) {
-          getMansion().addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
-
-        }
-
-        // generate items
-        if (part.length == 1 && getMansion().getSpacesNum() != 0) {
-          getMansion().setItemsNum(Integer.parseInt(part[0]));
-        }
-
-        if (part.length == 3 && getMansion().getItemsNum() != 0) {
-          getMansion().getSpaces().get(Integer.parseInt(part[0])).addItem(part[2],
-              Integer.parseInt(part[0]), Integer.parseInt(part[1]));
-
-        }
-      } catch (NumberFormatException e) {
-        throw new NumberFormatException("Specification file format is wrong.");
       }
+      scan.close();
     }
-    scan.close();
-
     List<Space> spaces = getMansion().getSpaces();
     // set neighbors of each space
     for (int i = 0; i < spaces.size(); i++) {
