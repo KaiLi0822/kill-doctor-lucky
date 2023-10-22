@@ -65,8 +65,11 @@ public class MansionModel implements Mansion {
 
   @Override
   public String toString() {
-    return "Mansion [name=" + name + ", height=" + height + ", width=" + width + ", spacesNum="
-        + spacesNum + ", itemsNum=" + itemsNum + "]";
+    StringBuffer sb = new StringBuffer();
+    sb.append("Mansion [name=").append(name).append(", height=")
+    .append(height).append(", width=").append(width).append(", spacesNum=")
+    .append(spacesNum).append(", itemsNum=").append(itemsNum).append("]");
+    return sb.toString();
   }
 
   @Override

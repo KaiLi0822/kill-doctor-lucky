@@ -5,6 +5,7 @@ import killdoctorlucky.model.character.Character;
 import killdoctorlucky.model.character.DoctorLucky;
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
+import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.mansion.Mansion;
 import killdoctorlucky.model.space.Space;
 
@@ -45,14 +46,14 @@ public interface KillDoctorLucky {
   void setMaxTurn(int maxTurnIn);
 
   /**
-   * Sets the player.
+   * Adds the player.
    * 
    * @param playerType the playerType
    * @param playerName the playerName
    * @param spaceIndex the spaceIndex
    * @param maxItem    the maxItem
    */
-  void setPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem);
+  void addPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem);
 
   /**
    * Gets the players information.
@@ -113,5 +114,32 @@ public interface KillDoctorLucky {
    * @return the space
    */
   Space getCharacterSpace(Character character);
+  
+  /**
+   * Moves player.
+   * @param player the player
+   * @param targetSpace the target space
+   */
+  void movePlayer(Player player, int targetSpace);
+  
+  /**
+   * Picks up item
+   * @param player the player
+   * @param item the item
+   */
+  void pickUpItem(Player player, Item item);
+  
+  /**
+   * Gets around info.
+   * @param player the player
+   * @return around info
+   */
+  String getAroundInfo(Player player);
+  
+  /**
+   * Gets current turn.
+   * @return current turn
+   */
+  int getTurns();
 
 }

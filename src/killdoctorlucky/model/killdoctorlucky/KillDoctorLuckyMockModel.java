@@ -18,6 +18,7 @@ import killdoctorlucky.model.character.DoctorLuckyModel;
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerModel;
 import killdoctorlucky.model.character.PlayerType;
+import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.mansion.Mansion;
 import killdoctorlucky.model.mansion.MansionModel;
 import killdoctorlucky.model.space.Space;
@@ -31,10 +32,11 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   private List<Player> players = new ArrayList<Player>();
   private int maxTurn;
   private Appendable out;
-  
+  private int turn;
 
   /**
    * Constructor of KillDoctorLuckyMockModel.
+   * 
    * @param outIn the out
    */
   public KillDoctorLuckyMockModel(Appendable outIn) {
@@ -78,14 +80,15 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   }
 
   @Override
-  public void setPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem) {
+  public void addPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem) {
     try {
-      out.append("!!Enter setPlayer.\n");
+      out.append("!!Enter addPlayer.\n");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    players.add(new PlayerModel(playerType, playerName, spaceIndex, maxItem));
-
+    Player player = new PlayerModel(playerType, playerName, spaceIndex, maxItem);
+    players.add(player);
+    mansion.getSpaces().get(spaceIndex).addPlayer(player);
   }
 
   @Override
@@ -159,6 +162,14 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     }
     return new String[] { line.trim() };
 
+  }
+
+  /**
+   * Starts a new Turn.
+   */
+  private void newTurn() {
+    turn++;
+    doctorLucky.move((doctorLucky.getCurrentSpaceIndex() + 1) % mansion.getSpacesNum());
   }
 
   @Override
@@ -301,6 +312,52 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       e.printStackTrace();
     }
     return mansion.getSpaces().get(character.getCurrentSpaceIndex());
+  }
+
+  @Override
+  public void movePlayer(Player player, int targetSpace) {
+    try {
+      out.append("!!Enter movePlayer.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    mansion.getSpaces().get(player.getCurrentSpaceIndex()).removePlayer(player);
+    player.move(targetSpace);
+    mansion.getSpaces().get(player.getCurrentSpaceIndex()).addPlayer(player);
+    newTurn();
+
+  }
+
+  @Override
+  public void pickUpItem(Player player, Item item) {
+    newTurn();
+    player.pickUpItem(item);
+    mansion.getSpaces().get(player.getCurrentSpaceIndex()).removeItem(item);
+
+  }
+
+  @Override
+  public String getAroundInfo(Player player) {
+    List<Space> neighbors = mansion.getSpaces().get(player.getCurrentSpaceIndex()).getNeighbors();
+    StringBuffer stringBuffer = new StringBuffer();
+    for (Space space : neighbors) {
+      stringBuffer.append(String.format("* %d. %s\n", space.getIndex(), space.getName()));
+      stringBuffer.append(space.toString());
+      if (space.getIndex() == doctorLucky.getCurrentSpaceIndex()) {
+        stringBuffer.setLength(stringBuffer.length() - 1);
+        stringBuffer.append(", Doctor Lucky's health=");
+        stringBuffer.append(doctorLucky.getHealth());
+        stringBuffer.append("]");
+      }
+      stringBuffer.append("\n");
+    }
+    newTurn();
+    return stringBuffer.toString();
+  }
+
+  @Override
+  public int getTurns() {
+    return turn;
   }
 
 }

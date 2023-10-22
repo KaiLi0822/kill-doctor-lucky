@@ -49,9 +49,9 @@ public class CreatePlayer implements KillDoctorLuckyCommand {
       throw new IllegalArgumentException("model cannot be null");
     }
     if (rg != null) {
-      m.setPlayer(PlayerType.ROBOT, name, currentSpaceIndex, maxItems);
+      m.addPlayer(PlayerType.ROBOT, name, currentSpaceIndex, maxItems);
     } else {
-      m.setPlayer(PlayerType.HUMAN, name, currentSpaceIndex, maxItems);
+      m.addPlayer(PlayerType.HUMAN, name, currentSpaceIndex, maxItems);
     }
 
   }

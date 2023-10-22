@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import killdoctorlucky.controller.command.CreatePlayer;
 import killdoctorlucky.controller.command.MaxTurn;
+import killdoctorlucky.controller.command.MovePlayer;
 import killdoctorlucky.controller.command.Parse;
+import killdoctorlucky.controller.command.PickUpItem;
 import killdoctorlucky.model.Nameable;
 import killdoctorlucky.model.RandomGenerator;
 import killdoctorlucky.model.character.DoctorLucky;
@@ -27,7 +29,6 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
   private final RandomGenerator rg;
   private final String filePath;
   private KillDoctorLuckyCommand killDoctorLuckyCommand;
-  private int turnNum;
 
   /**
    * Constructor for the controller.
@@ -81,6 +82,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
     return "";
   }
 
+  /**
+   * Checks if quit.
+   * @param input the input
+   * @return if q or Q return true
+   */
   private Boolean checkQuit(String input) {
     if ("q".equals(input) || "Q".equals(input)) {
       appendCommand("Game Quit.");
@@ -89,6 +95,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
     return false;
   }
 
+  /**
+   * Checks if int.
+   * @param input the input
+   * @return if int return true
+   */
   private Boolean checkInt(String input) {
     try {
       Integer.parseInt(input);
@@ -210,17 +221,17 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
     appendCommand("\n***********************************\n");
 
-    while (turnNum < m.getMaxTurn()) {
+    while (m.getTurns() < m.getMaxTurn()) {
 
-      Player player = m.getPlayerByTurn(turnNum);
+      Player player = m.getPlayerByTurn(m.getTurns());
 
       appendCommand(
-          String.format("\n-----%s's turn, No.%d turn-----\n", player.getName(), turnNum + 1));
+          String.format("\n-----%s's turn, No.%d turn-----\n", player.getName(), m.getTurns() + 1));
       appendCommand(String.format("%s\n", m.getPlayerInfoByName(player.getName())));
       appendCommand("* Choose action:\n");
       List<Space> spaces = m.getMansion().getSpaces();
       Space currentSpace = spaces.get(player.getCurrentSpaceIndex());
-      List<Space> neighbors = currentSpace.getNeighbors();     
+      List<Space> neighbors = currentSpace.getNeighbors();
       appendCommand(String.format("1. Move to a neighboring space: %s\n", joinNames(neighbors)));
       List<Item> items = currentSpace.getItems();
       if (items.size() > 0) {
@@ -238,7 +249,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             choice = rg.nextInt(3) + 1;
           }
         }
-        
+
       } else {
         String choiceStr = scan.next();
         if (checkQuit(choiceStr) || !checkInt(choiceStr)) {
@@ -269,67 +280,43 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             }
             spaceIndex = Integer.parseInt(spaceIndexStr);
           }
-          player.move(spaceIndex);
-          currentSpace.removePlayer(player);
-          
+
+          killDoctorLuckyCommand = new MovePlayer(player, spaceIndex);
+          killDoctorLuckyCommand.execute(m);
+
           break;
         case 2:
-          if (player.getItems().size() < player.getMaxItems()) {
-            int itemIndex = 1;
-            appendCommand("** Choose an item to pick up, input the index of item:\n");
-            List<String> itemNameList = new ArrayList<String>();
-            for (Item item : items) {
-              appendCommand(String.format("%d. %s\n", itemIndex++, item.getName()));
-              itemNameList.add(item.getName());
-            }
-            int itemChoice;
-            if (player.gePlayerType().equals(PlayerType.ROBOT)) {
-              int rdInt = rg.nextInt(itemNameList.size());
-              itemChoice = rdInt + 1;
-              String itemName = itemNameList.get(rdInt);
-              appendCommand(String.format("%s chose the %d.%s.\n", 
-                  player.getName(), itemChoice, itemName));
-            } else {
-              String itemChoiceStr = scan.next();
-              if (checkQuit(itemChoiceStr) || !checkInt(itemChoiceStr)) {
-                return;
-              }
-              itemChoice = Integer.parseInt(itemChoiceStr);
-            }
-            Item item = currentSpace.getItemByname(itemNameList.get(itemChoice - 1));
-            if (item != null) {
-              try {
-                player.pickUpItem(item);
-                currentSpace.removeItem(item);
-              } catch (IllegalStateException e) {
-                appendCommand(String.format("%s\n", e.getMessage()));
-              }
-            }
-
-          } else {
-            appendCommand("Can not pick up more items.\n");
+          int itemIndex = 1;
+          appendCommand("** Choose an item to pick up, input the index of item:\n");
+          List<String> itemNameList = new ArrayList<String>();
+          for (Item item : items) {
+            appendCommand(String.format("%d. %s\n", itemIndex++, item.getName()));
+            itemNameList.add(item.getName());
           }
-
+          int itemChoice;
+          if (player.gePlayerType().equals(PlayerType.ROBOT)) {
+            int rdInt = rg.nextInt(itemNameList.size());
+            itemChoice = rdInt + 1;
+            String itemName = itemNameList.get(rdInt);
+            appendCommand(
+                String.format("%s chose the %d.%s.\n", player.getName(), itemChoice, itemName));
+          } else {
+            String itemChoiceStr = scan.next();
+            if (checkQuit(itemChoiceStr) || !checkInt(itemChoiceStr)) {
+              return;
+            }
+            itemChoice = Integer.parseInt(itemChoiceStr);
+          }
+          Item item = currentSpace.getItemByname(itemNameList.get(itemChoice - 1));
+          try {
+            killDoctorLuckyCommand = new PickUpItem(player, item);
+            killDoctorLuckyCommand.execute(m);
+          } catch (IllegalStateException e) {
+            appendCommand(String.format("%s\n", e.getMessage()));
+          }
           break;
         case 3:
-
-          for (Space space : neighbors) {
-            StringBuffer stringBuffer = new StringBuffer();
-            appendCommand(String.format("* %d. %s\n", space.getIndex(), space.getName()));
-            stringBuffer.append(space.toString());
-
-            if (space.getIndex() == doctorLucky.getCurrentSpaceIndex()) {
-              stringBuffer.setLength(stringBuffer.length() - 1);
-              stringBuffer.append(", Doctor Lucky's health=");
-              stringBuffer.append(doctorLucky.getHealth());
-              stringBuffer.append("]");
-
-            }
-            stringBuffer.append("\n");
-            appendCommand(stringBuffer.toString());
-
-          }
-
+          appendCommand(m.getAroundInfo(player));
           break;
 
         default:
@@ -338,10 +325,8 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
       }
       appendCommand(String.format("%s\n", m.getPlayerInfoByName(player.getName())));
-      doctorLucky.move((doctorLucky.getCurrentSpaceIndex() + 1) % m.getMansion().getSpacesNum());
       appendCommand(String.format("%s's current space is %d.%s\n", doctorLucky.getName(),
           doctorLucky.getCurrentSpaceIndex(), m.getCharacterSpace(doctorLucky).getName()));
-      turnNum++;
     }
     appendCommand("\n***********************************\n");
     appendCommand("Game Over! You have reached the maximum number of turns.\n");

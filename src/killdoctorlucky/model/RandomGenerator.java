@@ -27,7 +27,7 @@ public class RandomGenerator {
   public RandomGenerator(int... values) {
     random = null;
     mockedValues = values;
-    currentIndex = -1;
+    currentIndex = 0;
   }
 
   /**

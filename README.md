@@ -7,7 +7,16 @@ The `<Specification.txt>` should be replaced by your file, then enter your order
  
 - Testing Results List: 
 
-	- CreateMap.txt: the console log of creating a mansion map picture.
+    - AddingComputerPlayer.txt  
+    - AddingHumanPlayer.txt  
+    - CreatingAndSavingMap.txt  
+    - DisplayingInformationAboutASpace.txt  
+    - DisplayingTheDescriptionOfPlayer.txt  
+    - GameEndingAfterReachingtheMaximumNumberOfTurns.txt  
+    - PlayerLookAround.txt  
+    - PlayerMovingAround.txt  
+    - PlayerPickUpAnItem.txt  
+    - TakingTurnsBetweenPlayers.txt  
 
 
 - Assumptions&Limitations
@@ -24,8 +33,8 @@ Junit 4: To do the unit test.
 - Design Changes:
 
     - KillDoctorLuckyConsoleController.java: add a filePath field.  
-    - KillDoctorLucky.java: add four methods, getPlayerInfoByName(name: String): String, initiateGame(readable: Readable)
-	, outputMap(): String, getCharacterSpace(character: Character): Space  
+    - KillDoctorLucky.java: add some methods, getPlayerInfoByName(name: String): String, initiateGame(readable: Readable)
+	, outputMap(): String, getCharacterSpace(character: Character): Space, void movePlayer(Player player, int targetSpace), void pickUpItem(Player player, Item item), String getAroundInfo(Player player), int getTurns()
     - PlayerType.java: add a new enumeration class  
     - Mansion.java: add getHeight(): int and getWidth(): int  
     - Player.java: add getPlayerType(): PlayerType and getMaxItems(): int  
