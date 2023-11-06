@@ -1,12 +1,11 @@
 package killdoctorlucky.model.killdoctorlucky;
 
 import java.io.IOException;
-import killdoctorlucky.model.character.Character;
-import killdoctorlucky.model.character.DoctorLucky;
+import java.util.List;
+
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
 import killdoctorlucky.model.item.Item;
-import killdoctorlucky.model.mansion.Mansion;
 import killdoctorlucky.model.space.Space;
 
 /**
@@ -23,12 +22,6 @@ public interface KillDoctorLucky {
    */
   void setMansion(String mansionName, int mansionHeight, int mansionWidth);
 
-  /**
-   * Gets the mansion.
-   * 
-   * @return the mansion
-   */
-  Mansion getMansion();
 
   /**
    * Sets the setDoctorLucky.
@@ -78,19 +71,13 @@ public interface KillDoctorLucky {
   int getMaxTurn();
 
   /**
-   * Gets the player by turn.
+   * Gets the player name by turn.
    * 
    * @param index the turn index
-   * @return the player
+   * @return the player name
    */
-  Player getPlayerByTurn(int index);
+  String getPlayerNameByTurn(int index);
 
-  /**
-   * get the doctor lucky.
-   * 
-   * @return the doctor lucky
-   */
-  DoctorLucky getDoctorLucky();
 
   /**
    * Initiate the game.
@@ -107,39 +94,143 @@ public interface KillDoctorLucky {
    */
   String outputMap() throws IOException;
 
-  /**
-   * Gets the CharacterSpace.
-   * 
-   * @param character the character
-   * @return the space
-   */
-  Space getCharacterSpace(Character character);
   
   /**
    * Moves player.
-   * @param player the player
+   * @param player the player name
    * @param targetSpace the target space
    */
-  void movePlayer(Player player, int targetSpace);
+  void movePlayer(String playerName, int targetSpace);
   
   /**
-   * Picks up item
+   * Picks up item.
    * @param player the player
    * @param item the item
    */
-  void pickUpItem(Player player, Item item);
+  void pickUpItem(String player, String item);
   
   /**
    * Gets around info.
-   * @param player the player
+   * @param playerName the player
    * @return around info
    */
-  String getAroundInfo(Player player);
+  String getAroundInfo(String playerName);
   
   /**
    * Gets current turn.
    * @return current turn
    */
   int getTurns();
-
+  
+  /**
+   * Gets the mansion information.
+   * @return the mansion information
+   */
+  String getMansionInfo();
+  
+  /**
+   * Gets the doctor information.
+   * @return the doctor information
+   */
+  String getDoctorLuckyInfo();
+  
+  /**
+   * Gets the player's space index.
+   * @return the player's space index
+   */
+  int getCurrentSpaceIndexByPlayerName(String playerName);
+  
+  /**
+   * Gets the neighbors.
+   * @param index space index
+   * @return the neighbors
+   */
+  List<Space> getNeighborsBySpaceIndex(int index);
+  
+  /**
+   * Gets the items.
+   * @param index space index
+   * @return the items
+   */
+  List<Item> getItemsBySpaceIndex(int index);
+  
+  
+  /**
+   * Gets the player type.
+   * @param playerName player name.
+   * @return the player type
+   */
+  PlayerType gePlayerTypeByName(String playerName);
+  
+  /**
+   * Gets the doctor's name.
+   * @return doctor's name
+   */
+  String getDoctorLuckyName();
+  
+  /**
+   * Gets the doctor's space index.
+   * @return doctor's space index
+   */
+  int getDoctorLuckyCurrentSpaceIndex();
+  
+  /**
+   * Gets the doctor's health.
+   * @return doctor's health
+   */
+  int getDoctorLuckyHealth();
+  
+  /**
+   * Gets the space name by index.
+   * @param index the index
+   * @return the space name
+   */
+  String getSpaceNameByIndex(int index);
+  
+  /**
+   * Gets space info.
+   * @param index the index
+   * @return space info
+   */
+  String getSpaceInfo(int index);
+  
+  /**
+   * Sets the pet.
+   * @param petName the pet name
+   */
+  void setPet(String petName);
+  
+  /**
+   * Gets the pet's name.
+   * @return pet's name
+   */
+  String getPetName();
+  
+  /**
+   * Gets the pet's space index.
+   * @return pet's space index
+   */
+  int getPetCurrentSpaceIndex();
+  
+  /**
+   * Gets the number of space.
+   * @return space number
+   */
+  int getSpaceNumFromMansion();
+  
+  /**
+   * Moves the pet.
+   * @param index the space index
+   */
+  void movePet(int index);
+  
+  /**
+   * Gets the items.
+   * @param playerName player name
+   * @return the items
+   */
+  List<Item> getItemsByPlayerName(String name);
+  
+  String getMostDamageItemNameByPlayerName(String playerName);
+  
 }

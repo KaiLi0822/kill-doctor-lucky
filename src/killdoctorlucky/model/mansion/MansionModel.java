@@ -82,4 +82,9 @@ public class MansionModel implements Mansion {
     return width;
   }
 
+  @Override
+  public Space getSpaceByIndex(int index) {
+    return spaces.get(index);
+  }
+
 }

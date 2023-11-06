@@ -37,5 +37,17 @@ public interface Player extends Character {
    * @return the maximum number of items
    */
   int getMaxItems();
+  
+  /**
+   * Removes item by its name.
+   * @param itemName the item name
+   */
+  void removeItemByName(String itemName);
+  
+  /**
+   * Gets the item which has the max damage.
+   * @return the item name
+   */
+  String getItemNameWithMaxDamage();
 
 }

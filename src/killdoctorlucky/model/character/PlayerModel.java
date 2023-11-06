@@ -91,4 +91,26 @@ public class PlayerModel extends CharacterModel implements Player {
     return maxItems;
   }
 
+  @Override
+  public void removeItemByName(String itemName) {
+    for (Item item : items) {
+      if (item.getName() == itemName) {
+        items.remove(item); 
+      }
+    }
+  }
+
+  @Override
+  public String getItemNameWithMaxDamage() {
+    String maxName = null;
+    int maxDamage = 0;
+    for (Item item : items) {
+      if (item.getDamage() > maxDamage) {
+        maxDamage = item.getDamage();
+        maxName = item.getName(); 
+      }
+    }
+    return maxName;
+  }
+
 }

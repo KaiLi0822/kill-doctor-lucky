@@ -1,8 +1,7 @@
 36 30 Doctor Lucky's Mansion
 50 Doctor Lucky
-Fortune the Cat
 21
-22 21 23 28 Armory
+A 21 23 28 Armory
 16 21 21 28 Billiard Room
 24  0 31  5 Carriage House
 12 11 21 20 Dining Hall

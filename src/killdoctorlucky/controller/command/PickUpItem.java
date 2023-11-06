@@ -10,23 +10,23 @@ import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
  */
 public class PickUpItem implements KillDoctorLuckyCommand {
   
-  private Player player;
-  private Item item;
+  private String playerName;
+  private String itemName;
 
   /**
    * Constructor of PickUpItem.
-   * @param playerIn the player 
-   * @param itemIn the item
+   * @param playerNameIn the player 
+   * @param itemNameIn the item
    */
-  public PickUpItem(Player playerIn, Item itemIn) {
+  public PickUpItem(String playerNameIn, String itemNameIn) {
     super();
-    this.player = playerIn;
-    this.item = itemIn;
+    this.playerName = playerNameIn;
+    this.itemName = itemNameIn;
   }
 
   @Override
   public void execute(KillDoctorLucky m) {
-    m.pickUpItem(player, item);
+    m.pickUpItem(playerName, itemName);
     
   }
 

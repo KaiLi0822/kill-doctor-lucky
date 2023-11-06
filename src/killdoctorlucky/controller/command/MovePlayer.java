@@ -9,23 +9,23 @@ import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
  */
 public class MovePlayer implements KillDoctorLuckyCommand {
   
-  private Player player;
+  private String playerName;
   private int targetSpace;
 
   /**
    * Constructor of MovePlayer.
-   * @param playerIn the player
+   * @param playerNameIn the player name
    * @param targetSpaceIn the target space
    */
-  public MovePlayer(Player playerIn, int targetSpaceIn) {
+  public MovePlayer(String playerNameIn, int targetSpaceIn) {
     super();
-    this.player = playerIn;
+    this.playerName = playerNameIn;
     this.targetSpace = targetSpaceIn;
   }
 
   @Override
   public void execute(KillDoctorLucky m) {
-    m.movePlayer(player, targetSpace);
+    m.movePlayer(playerName, targetSpace);
     
   }
 

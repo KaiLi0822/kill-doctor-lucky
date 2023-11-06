@@ -130,10 +130,9 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
     appendCommand("***********************************\n");
     appendCommand("Mansion created successfully, the information is as follows:");
     appendCommand("\n-----Mansion Information-----\n");
-    appendCommand(m.getMansion().toString());
+    appendCommand(m.getMansionInfo());
     appendCommand("\n-----Main Character Information-----\n");
-    DoctorLucky doctorLucky = m.getDoctorLucky();
-    appendCommand(doctorLucky.toString());
+    appendCommand(m.getDoctorLuckyInfo());
 
     appendCommand("\n***********************************\n");
     appendCommand("Menu(Input 'q'/'Q' to quit):\n");
@@ -223,30 +222,44 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
     while (m.getTurns() < m.getMaxTurn()) {
 
-      Player player = m.getPlayerByTurn(m.getTurns());
+      String playerName = m.getPlayerNameByTurn(m.getTurns());
 
       appendCommand(
-          String.format("\n-----%s's turn, No.%d turn-----\n", player.getName(), m.getTurns() + 1));
-      appendCommand(String.format("%s\n", m.getPlayerInfoByName(player.getName())));
+          String.format("\n-----%s's turn, No.%d turn-----\n", playerName, m.getTurns() + 1));
+      appendCommand("* Before:\n");
+      appendCommand(String.format("%s\n", m.getPlayerInfoByName(playerName)));
       appendCommand("* Choose action:\n");
-      List<Space> spaces = m.getMansion().getSpaces();
-      Space currentSpace = spaces.get(player.getCurrentSpaceIndex());
-      List<Space> neighbors = currentSpace.getNeighbors();
+      
+      int currentSpaceIndex = m.getCurrentSpaceIndexByPlayerName(playerName);
+      List<Space> neighbors = m.getNeighborsBySpaceIndex(currentSpaceIndex);
+      List<Item> items = m.getItemsBySpaceIndex(currentSpaceIndex);
+      
       appendCommand(String.format("1. Move to a neighboring space: %s\n", joinNames(neighbors)));
-      List<Item> items = currentSpace.getItems();
       if (items.size() > 0) {
         appendCommand(String.format("2. Pick up an item: %s\n", joinNames(items)));
       } else {
         appendCommand("2. Pick up an item: no item can be picked.\n");
       }
       appendCommand("3. Look around\n");
-
+      appendCommand("4. Move the pet\n");
+      if (currentSpaceIndex == m.getDoctorLuckyCurrentSpaceIndex()) {
+        appendCommand("5. Make an attempt\n");
+      }
+      
       int choice;
-      if (player.gePlayerType().equals(PlayerType.ROBOT)) {
-        choice = rg.nextInt(3) + 1;
+      if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
+        if (currentSpaceIndex == m.getDoctorLuckyCurrentSpaceIndex()) {
+          choice = rg.nextInt(5) + 1;
+        }else {
+          choice = rg.nextInt(4) + 1;
+        }
         if (items.size() <= 0) {
           while (choice == 2) {
-            choice = rg.nextInt(3) + 1;
+            if (currentSpaceIndex == m.getDoctorLuckyCurrentSpaceIndex()) {
+              choice = rg.nextInt(5) + 1;
+            }else {
+              choice = rg.nextInt(4) + 1;
+            }
           }
         }
 
@@ -257,7 +270,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
         }
         choice = Integer.parseInt(choiceStr);
       }
-      appendCommand(String.format("%s chose the option %d\n", player.getName(), choice));
+      appendCommand(String.format("%s chose the option %d\n", playerName, choice));
 
       switch (choice) {
         case 1:
@@ -268,11 +281,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             spaceIndexList.add(space.getIndex());
           }
           int spaceIndex;
-          if (player.gePlayerType().equals(PlayerType.ROBOT)) {
+          if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
             int option1 = rg.nextInt(spaceIndexList.size());
             spaceIndex = spaceIndexList.get(option1);
             appendCommand(
-                String.format("%s chose the No.%d space.\n", player.getName(), spaceIndex));
+                String.format("%s chose the No.%d space.\n", playerName, spaceIndex));
           } else {
             String spaceIndexStr = scan.next();
             if (checkQuit(spaceIndexStr) || !checkInt(spaceIndexStr)) {
@@ -281,7 +294,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             spaceIndex = Integer.parseInt(spaceIndexStr);
           }
 
-          killDoctorLuckyCommand = new MovePlayer(player, spaceIndex);
+          killDoctorLuckyCommand = new MovePlayer(playerName, spaceIndex);
           killDoctorLuckyCommand.execute(m);
 
           break;
@@ -294,12 +307,12 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             itemNameList.add(item.getName());
           }
           int itemChoice;
-          if (player.gePlayerType().equals(PlayerType.ROBOT)) {
+          if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
             int rdInt = rg.nextInt(itemNameList.size());
             itemChoice = rdInt + 1;
             String itemName = itemNameList.get(rdInt);
             appendCommand(
-                String.format("%s chose the %d.%s.\n", player.getName(), itemChoice, itemName));
+                String.format("%s chose the %d.%s.\n", playerName, itemChoice, itemName));
           } else {
             String itemChoiceStr = scan.next();
             if (checkQuit(itemChoiceStr) || !checkInt(itemChoiceStr)) {
@@ -307,16 +320,63 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             }
             itemChoice = Integer.parseInt(itemChoiceStr);
           }
-          Item item = currentSpace.getItemByname(itemNameList.get(itemChoice - 1));
+          String itemName = itemNameList.get(itemChoice - 1);
           try {
-            killDoctorLuckyCommand = new PickUpItem(player, item);
+            killDoctorLuckyCommand = new PickUpItem(playerName, itemName);
             killDoctorLuckyCommand.execute(m);
           } catch (IllegalStateException e) {
             appendCommand(String.format("%s\n", e.getMessage()));
           }
           break;
         case 3:
-          appendCommand(m.getAroundInfo(player));
+          appendCommand(m.getAroundInfo(playerName));
+          break;
+        case 4:
+          appendCommand(String.format("** Choose a space index[0-%d]:\n", m.getSpaceNumFromMansion()));
+          int spaceChoice;
+          if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
+            spaceChoice = rg.nextInt(m.getSpaceNumFromMansion());
+            appendCommand(
+                String.format("%s chose the %d.%s.\n", playerName, spaceChoice));
+          } else {
+            String spaceIndexStr = scan.next();
+            if (checkQuit(spaceIndexStr) || !checkInt(spaceIndexStr)) {
+              return;
+            }
+            spaceChoice = Integer.parseInt(spaceIndexStr);
+          }
+          m.movePet(spaceChoice);
+          break;
+        case 5:
+          int itemIndexInt = 1;
+          appendCommand("** Choose an item to use, input the index of item:\n");
+          List<String> itemNameLi = new ArrayList<String>();
+          for (Item item : m.getItemsByPlayerName(playerName)) {
+            appendCommand(String.format("%d. %s; damage:%d\n", itemIndexInt++, item.getName(), item.getDamage()));
+            itemNameLi.add(item.getName());
+          }
+          String itemNameUse = null;
+          if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
+//            int rdInt = rg.nextInt(itemNameList.size());
+//            itemChoice = rdInt + 1;
+//            String itemName = itemNameList.get(rdInt);
+            itemNameUse = m.getMostDamageItemNameByPlayerName(playerName);
+            appendCommand(
+                String.format("%s chose the %d.%s.\n", playerName, itemChoiceInt, itemNameUse));
+          } else {
+            String itemChoiceStr = scan.next();
+            if (checkQuit(itemChoiceStr) || !checkInt(itemChoiceStr)) {
+              return;
+            }
+            itemNameUse = itemNameList.get(Integer.parseInt(itemChoiceStr) - 1);
+          }
+//          try {
+//            killDoctorLuckyCommand = new PickUpItem(playerName, itemName);
+//            killDoctorLuckyCommand.execute(m);
+//          } catch (IllegalStateException e) {
+//            appendCommand(String.format("%s\n", e.getMessage()));
+//          }
+          
           break;
 
         default:
@@ -324,9 +384,12 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
           break;
 
       }
-      appendCommand(String.format("%s\n", m.getPlayerInfoByName(player.getName())));
-      appendCommand(String.format("%s's current space is %d.%s\n", doctorLucky.getName(),
-          doctorLucky.getCurrentSpaceIndex(), m.getCharacterSpace(doctorLucky).getName()));
+      appendCommand("* After:\n");
+      appendCommand(String.format("%s\n", m.getPlayerInfoByName(playerName)));
+      appendCommand(String.format("%s's current space is %d.%s\n", m.getDoctorLuckyName(),
+          m.getDoctorLuckyCurrentSpaceIndex(), m.getSpaceNameByIndex(m.getDoctorLuckyCurrentSpaceIndex())));
+      appendCommand(String.format("%s's current space is %d.%s\n", m.getPetName(),
+          m.getPetCurrentSpaceIndex(), m.getSpaceNameByIndex(m.getPetCurrentSpaceIndex())));
     }
     appendCommand("\n***********************************\n");
     appendCommand("Game Over! You have reached the maximum number of turns.\n");

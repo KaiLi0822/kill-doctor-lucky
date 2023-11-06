@@ -1,0 +1,29 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=50, currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 10
+* Generate Player
+Please provide the number of players:1
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+2
+Creating a robot player...
+Please provide the name: robot
+Please provide the space index: 1
+Please provide the maximum number of items carried: 1
+
+-----Players Information-----
+robot [playerType=robot, maxItems=1, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]

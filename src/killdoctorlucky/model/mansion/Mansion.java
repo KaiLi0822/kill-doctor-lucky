@@ -65,5 +65,7 @@ public interface Mansion {
    * @return the width
    */
   int getWidth();
+  
+  Space getSpaceByIndex(int index);
 
 }
