@@ -167,19 +167,31 @@ public class SpaceModel implements Space {
   private boolean isNeighbor(int[] pointsIn) {
     boolean up = (this.points[0] == (pointsIn[2] + 1))
         && ((pointsIn[3] >= this.points[1] && pointsIn[3] <= this.points[3])
-            || (pointsIn[1] >= this.points[1] && pointsIn[1] <= this.points[3]));
+            || (pointsIn[1] >= this.points[1] && pointsIn[1] <= this.points[3])
+            || (this.points[3] >= pointsIn[1] && this.points[3] <= pointsIn[3])
+            || (this.points[1] >= pointsIn[1] && this.points[1] <= pointsIn[3])
+            );
 
     boolean down = (this.points[2] == (pointsIn[0] - 1))
         && ((pointsIn[3] >= this.points[1] && pointsIn[3] <= this.points[3])
-            || (pointsIn[1] >= this.points[1] && pointsIn[1] <= this.points[3]));
+            || (pointsIn[1] >= this.points[1] && pointsIn[1] <= this.points[3])
+            || (this.points[3] >= pointsIn[1] && this.points[3] <= pointsIn[3])
+            || (this.points[1] >= pointsIn[1] && this.points[1] <= pointsIn[3])
+            );
 
     boolean right = this.points[3] == pointsIn[1] - 1
         && ((pointsIn[2] >= this.points[0] && pointsIn[2] <= this.points[2])
-            || (pointsIn[0] >= this.points[0] && pointsIn[0] <= this.points[2]));
+            || (pointsIn[0] >= this.points[0] && pointsIn[0] <= this.points[2])
+            || (this.points[2] >= pointsIn[0] && this.points[2] <= pointsIn[2])
+            || (this.points[0] >= pointsIn[0] && this.points[0] <= pointsIn[2])
+            );
 
     boolean left = this.points[1] == pointsIn[3] + 1
         && ((pointsIn[2] >= this.points[0] && pointsIn[2] <= this.points[2])
-            || (pointsIn[0] >= this.points[0] && pointsIn[0] <= this.points[2]));
+            || (pointsIn[0] >= this.points[0] && pointsIn[0] <= this.points[2])
+            || (this.points[2] >= pointsIn[0] && this.points[2] <= pointsIn[2])
+            || (this.points[0] >= pointsIn[0] && this.points[0] <= pointsIn[2])
+            );
     return left || right || up || down;
 
   }
@@ -305,8 +317,12 @@ public class SpaceModel implements Space {
 
   @Override
   public void removePlayer(Player player) {
-    players.remove(player);
-    
+    players.remove(player);  
+  }
+
+  @Override
+  public List<Player> getPlayers() {
+    return Collections.unmodifiableList(players);
   }
 
 }

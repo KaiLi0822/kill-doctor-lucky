@@ -854,5 +854,64 @@ public class KillDoctorLuckyConsoleControllerTest {
         .playGame(killDoctorLucky);
     assertEquals(output.toString(), stringBuffer.toString());
   }
+  
+  @Test
+  public void testWrongMove() {
+    input = new StringReader("2 3 1 1 human 1 1 1 1 q");
+    stringBuffer.append("!!Enter initiateGame.\n").append("!!Enter setMansion.\n")
+        .append("!!Enter setDoctorLucky.\n").append("***********************************\n")
+        .append("Mansion created successfully, the information is as follows:\n")
+        .append("-----Mansion Information-----\n")
+        .append("Mansion [name=Doctor Lucky's Mansion, height=36,")
+        .append(" width=30, spacesNum=21, itemsNum=20]\n")
+        .append("-----Main Character Information-----\n").append("!!Enter getDoctorLucky.\n")
+        .append("Doctor Lucky [health=50, currentSpaceIndex=0]\n")
+        .append("***********************************\n").append("Menu(Input 'q'/'Q' to quit):\n")
+        .append("1. Create world map.\n").append("2. Start game.\n").append("\n")
+        .append("***********************************\n").append("Game Start!\n")
+        .append("* Please provide the maximum of turns: !!Enter setMaxTurn.\n")
+        .append("* Generate Player\n")
+        .append("Please provide the number of players:** Genarating Player 1:\n")
+        .append("Please choose the player type:\n").append("1.human\n").append("2.robot\n")
+        .append("Creating a human player...\n")
+        .append("Please provide the name: Please provide the space index: ")
+        .append("Please provide the maximum number of items carried: !!Enter addPlayer.\n")
+        .append("\n").append("-----Players Information-----\n").append("!!Enter getPlayersInfo.\n")
+        .append("human [playerType=human, maxItems=1, carriedItems=[], ")
+        .append("currentSpaceIndex=1, currentSpaceName=Billiard Room]\n").append("\n")
+        .append("***********************************\n").append("!!Enter getMaxTurn.\n")
+        .append("!!Enter getPlayerByTurn.\n").append("\n")
+        .append("-----human's turn, No.1 turn-----\n").append("!!Enter getPlayerInfoByName.\n")
+        .append("human [playerType=human, maxItems=1, carriedItems=[],")
+        .append(" currentSpaceIndex=1, currentSpaceName=Billiard Room]\n")
+        .append("* Choose action:\n")
+        .append("1. Move to a neighboring space: Armory, Dining Hall, Trophy Room\n")
+        .append("2. Pick up an item: Billiard Cue\n").append("3. Look around\n")
+        .append("human chose the option 3\n").append("* 0. Armory\n")
+        .append("Armory [index=0, neighbors=[1.Billiard Room, 6.Green House,")
+        .append(" 7.Hedge Maze], items=[Revolver], players=[], Doctor Lucky's health=50]\n")
+        .append("* 3. Dining Hall\n")
+        .append("Dining Hall [index=3, neighbors=[1.Billiard Room, 4.Drawing ")
+        .append("Room, 8.Kitchen, 17.Tennessee Room], items=[], players=[]]\n")
+        .append("* 18. Trophy Room\n")
+        .append("Trophy Room [index=18, neighbors=[1.Billiard Room, 10.Library], ")
+        .append("items=[Duck Decoy, Monkey Hand], players=[]]\n")
+        .append("!!Enter getPlayerInfoByName.\n")
+        .append("human [playerType=human, maxItems=1, carriedItems=[],")
+        .append(" currentSpaceIndex=1, currentSpaceName=Billiard Room]\n")
+        .append("!!Enter getCharacterSpace.\n")
+        .append("Doctor Lucky's current space is 1.Billiard Room\n").append("!!Enter getMaxTurn.\n")
+        .append("!!Enter getPlayerByTurn.\n").append("\n")
+        .append("-----human's turn, No.2 turn-----\n").append("!!Enter getPlayerInfoByName.\n")
+        .append("human [playerType=human, maxItems=1, carriedItems=[], ")
+        .append("currentSpaceIndex=1, currentSpaceName=Billiard Room]\n")
+        .append("* Choose action:\n")
+        .append("1. Move to a neighboring space: Armory, Dining Hall, Trophy Room\n")
+        .append("2. Pick up an item: Billiard Cue\n").append("3. Look around\n")
+        .append("Game Quit.");
+    new KillDoctorLuckyConsoleController(input, output, null, "./res/WorldSpecification.txt")
+        .playGame(killDoctorLucky);
+    assertEquals(output.toString(), stringBuffer.toString());
+  }
 
 }

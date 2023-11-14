@@ -1,6 +1,7 @@
 package killdoctorlucky.model.character;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import killdoctorlucky.model.item.Item;
@@ -40,7 +41,7 @@ public class PlayerModel extends CharacterModel implements Player {
 
   @Override
   public List<Item> getItems() {
-    return items;
+    return Collections.unmodifiableList(items);
   }
 
   @Override
@@ -92,12 +93,17 @@ public class PlayerModel extends CharacterModel implements Player {
   }
 
   @Override
-  public void removeItemByName(String itemName) {
+  public int removeItemByName(String itemName) {
+    int itemDmage = 0;
+    Item itemRemove = null;
     for (Item item : items) {
       if (item.getName() == itemName) {
-        items.remove(item); 
+        itemDmage = item.getDamage();
+        itemRemove = item;      
       }
     }
+    items.remove(itemRemove);
+    return itemDmage;
   }
 
   @Override

@@ -59,4 +59,9 @@ public class DoctorLuckyModel extends CharacterModel implements DoctorLucky {
     return Objects.equals(name, other.name);
   }
 
+  @Override
+  public void deductHealth(int damage) {
+    health = health - damage;
+  }
+
 }

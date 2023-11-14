@@ -231,6 +231,39 @@ public interface KillDoctorLucky {
    */
   List<Item> getItemsByPlayerName(String name);
   
+  /**
+   * Gets the item name with the most damage.
+   * @param playerName the player name
+   * @return the item name
+   */
   String getMostDamageItemNameByPlayerName(String playerName);
   
+  /**
+   * Player makes an attempt with item.
+   * @param playerName the player name
+   * @param itemName the item name
+   * @return true if the attempt was done else false
+   */
+  Boolean makeAttempt(String playerName, String itemName);
+  
+  /**
+   * Gets pet info.
+   * @return pet info
+   */
+  String getPetInfo();
+  
+  
+  /**
+   * Gets the limited neighbors info.
+   * @param spaceIndex the space index
+   * @return the neighbors info
+   */
+  String getNeighborsInfoBySpaceIndex(int spaceIndex);
+  
+  /**
+   * Gets the limited items info.
+   * @param spaceIndex the space index
+   * @return the items info
+   */
+  String getItemsInfoBySpaceIndex(int spaceIndex);
 }

@@ -11,5 +11,11 @@ public interface DoctorLucky extends Character {
    * @return health the health of doctor
    */
   int getHealth();
+  
+  /**
+   * Deducts the health.
+   * @param damage the item damage
+   */
+  void deductHealth(int damage);
 
 }

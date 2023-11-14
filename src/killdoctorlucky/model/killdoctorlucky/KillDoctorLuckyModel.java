@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import killdoctorlucky.model.character.Character;
 import killdoctorlucky.model.character.DoctorLucky;
 import killdoctorlucky.model.character.DoctorLuckyModel;
-import killdoctorlucky.model.character.Pet;
+import killdoctorlucky.model.character.PetModel;
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerModel;
 import killdoctorlucky.model.character.PlayerType;
@@ -33,7 +33,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   private List<Player> players = new ArrayList<Player>();
   private int maxTurn;
   private int turn;
-  private Pet pet;
+  private PetModel pet;
 
   @Override
   public void setMansion(String mansionName, int mansionHeight, int mansionWidth) {
@@ -113,9 +113,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   private void newTurn() {
     turn++;
     doctorLucky.move((doctorLucky.getCurrentSpaceIndex() + 1) % mansion.getSpacesNum());
-    pet.move(getNeighborsBySpaceIndex(pet.getCurrentSpaceIndex()).get(0).getIndex());
-    // 加一个数组记录走过的space 如果只有一个neighbor 就只能回头
-   
+    pet.move(pet.nextSpaceIndexInRoute(pet.getCurrentSpaceIndex()));
   }
 
   @Override
@@ -176,6 +174,8 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
         }
       }
     }
+    // set route of pet
+    pet.createRoute(0, mansion);
 
   }
 
@@ -199,7 +199,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
       int roomMinRow = spaces.get(i).getPoints()[0];
       int roomMaxCol = spaces.get(i).getPoints()[3];
       int roomMaxRow = spaces.get(i).getPoints()[2];
-      String roomName = spaces.get(i).getName();
+      String roomInfo = String.format("%d.%s", spaces.get(i).getIndex(), spaces.get(i).getName());
 
       int width = roomMaxCol - roomMinCol + 1;
       int height = roomMaxRow - roomMinRow + 1;
@@ -207,7 +207,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
       int y = roomMinRow;
 
       g.drawRect(x * 30 + 3, y * 30 + 3, width * 30, height * 30);
-      g.drawString(roomName, x * 30 + 5, y * 30 + 15);
+      g.drawString(roomInfo, x * 30 + 5, y * 30 + 15);
     }
 
     // Save the image to a file
@@ -360,7 +360,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public int getDoctorLuckyHealth() {
-    return doctorLucky.getHealth();
+    return doctorLucky.getHealth() > 0 ? doctorLucky.getHealth() : 0;
   }
 
   @Override
@@ -376,8 +376,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public void setPet(String petName) {
-    pet = new Pet(petName);
-    
+    pet = new PetModel(petName);
   }
 
   @Override
@@ -398,7 +397,69 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   @Override
   public void movePet(int index) {
     pet.move(index);
+    pet.createRoute(index, mansion);
+    newTurn();
     
+  }
+
+  @Override
+  public List<Item> getItemsByPlayerName(String playerName) {
+    return getPlayerByName(playerName).getItems();
+  }
+
+  @Override
+  public String getMostDamageItemNameByPlayerName(String playerName) {
+    return getPlayerByName(playerName).getItemNameWithMaxDamage();
+  }
+
+  @Override
+  public Boolean makeAttempt(String playerName, String itemName) {
+    newTurn();
+    int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
+    if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
+      for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
+        if (space.getPlayers().size() != 0) {
+          return false;   
+        }
+      }
+    }
+    if ("".equals(itemName)) {
+      doctorLucky.deductHealth(1);
+    }else {
+      int damage = getPlayerByName(playerName).removeItemByName(itemName);
+      doctorLucky.deductHealth(damage);
+    }
+    return true;
+  }
+
+  @Override
+  public String getPetInfo() {
+    return pet.toString();
+  }
+
+
+  @Override
+  public String getNeighborsInfoBySpaceIndex(int spaceIndex) {
+    StringBuffer sb = new StringBuffer();
+    for (Space space : getNeighborsBySpaceIndex(spaceIndex)) {
+      sb.append(space.getIndex());
+      sb.append(".");
+      sb.append(space.getName());
+      sb.append("; ");
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public String getItemsInfoBySpaceIndex(int spaceIndex) {
+    StringBuffer sb = new StringBuffer();
+    for (Item item : getItemsBySpaceIndex(spaceIndex)) {
+      sb.append(item.getName());
+      sb.append(":");
+      sb.append(item.getDamage());
+      sb.append("; ");
+    }
+    return sb.toString();
   }
 
 }

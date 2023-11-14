@@ -21,8 +21,8 @@ The `<Specification.txt>` should be replaced by your file, then enter your order
 
 - Assumptions&Limitations
 
-Assumptions: I assume that after each player completes their turn, the doctor will move. This allows the doctor to move to more rooms and makes the game more interesting. I also assume that when a player chooses to "look around," the player information and tool information for each neighboring room will be displayed one by one. If the doctor is also in the room, the health of the doctor will be displayed as well.  
-Limitations: If players do not follow the prompts for input, the program may also not be able to continue properly.
+Assumptions: I assume that after each player completes their turn, the doctor will move. This allows the doctor to move to more rooms and makes the game more interesting. I also assume that when a player chooses to "look around," the player information and tool information for each neighboring room will be displayed one by one. If the doctor is also in the room, the health of the doctor will be displayed as well. In m3, A pet was added and it can traverse the mansion by depth-first order.  
+Limitations: If players do not follow the prompts for input, the program may also not be able to continue properly. In m3, I set a more proper way to handle wrong input, player can choose again and the wrong input will not be counted as a turn.
 
 - Citations:
 
@@ -43,4 +43,4 @@ Junit 4: To do the unit test.
 	
 - Git Tag:
 
-The milestone1 code and resources can be seen from the git tag `Milestone-1`
+The milestone2 code and resources can be seen from the git tag `Milestone-2`

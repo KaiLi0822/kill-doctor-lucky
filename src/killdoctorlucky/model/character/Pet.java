@@ -1,18 +1,18 @@
 package killdoctorlucky.model.character;
 
-/**
- * Pet class.
- */
-public class Pet extends CharacterModel{
+import java.util.List;
 
-  /**
-   * @param nameIn
-   * @param currentSpaceIndexIn
-   */
-  public Pet(String nameIn) {
-    super(nameIn, 0);
-  }
+import killdoctorlucky.model.mansion.Mansion;
+
+
+/**
+ * The Pet interface.
+ */
+public interface Pet extends Character{
   
+  void createRoute(int index, Mansion mansion);
+  
+  int nextSpaceIndexInRoute(int currentSpaceIndex);
   
 
 }

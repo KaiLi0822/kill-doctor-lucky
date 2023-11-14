@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import killdoctorlucky.model.character.Character;
 import killdoctorlucky.model.character.DoctorLucky;
 import killdoctorlucky.model.character.DoctorLuckyModel;
+import killdoctorlucky.model.character.PetModel;
 import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerModel;
 import killdoctorlucky.model.character.PlayerType;
@@ -24,16 +25,16 @@ import killdoctorlucky.model.mansion.MansionModel;
 import killdoctorlucky.model.space.Space;
 
 /**
- * The implement class of KillDoctorLuckyMockModel.
+ * The implement class of KillDoctorLucky.
  */
 public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   private DoctorLucky doctorLucky;
   private Mansion mansion;
   private List<Player> players = new ArrayList<Player>();
   private int maxTurn;
-  private Appendable out;
   private int turn;
-
+  private PetModel pet;
+  private Appendable out;
   /**
    * Constructor of KillDoctorLuckyMockModel.
    * 
@@ -42,7 +43,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   public KillDoctorLuckyMockModel(Appendable outIn) {
     this.out = outIn;
   }
-
+  
   @Override
   public void setMansion(String mansionName, int mansionHeight, int mansionWidth) {
     try {
@@ -51,11 +52,6 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       e.printStackTrace();
     }
     mansion = new MansionModel(mansionName, mansionHeight, mansionWidth);
-  }
-
-  @Override
-  public Mansion getMansion() {
-    return mansion;
   }
 
   @Override
@@ -88,7 +84,8 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     }
     Player player = new PlayerModel(playerType, playerName, spaceIndex, maxItem);
     players.add(player);
-    mansion.getSpaces().get(spaceIndex).addPlayer(player);
+    mansion.getSpaceByIndex(spaceIndex).addPlayer(player);
+
   }
 
   @Override
@@ -103,7 +100,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       sb.append(player.toString());
       sb.setLength(sb.length() - 1);
       sb.append(", currentSpaceName=");
-      sb.append(mansion.getSpaces().get(player.getCurrentSpaceIndex()).getName());
+      sb.append(mansion.getSpaceByIndex(player.getCurrentSpaceIndex()).getName());
       sb.append("]\n");
     }
     return sb.toString();
@@ -120,23 +117,13 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   }
 
   @Override
-  public Player getPlayerByTurn(int index) {
+  public String getPlayerNameByTurn(int index) {
     try {
-      out.append("!!Enter getPlayerByTurn.\n");
+      out.append("!!Enter getPlayerNameByTurn.\n");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return players.get(index % players.size());
-  }
-
-  @Override
-  public DoctorLucky getDoctorLucky() {
-    try {
-      out.append("!!Enter getDoctorLucky.\n");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return doctorLucky;
+    return players.get(index % players.size()).getName();
   }
 
   /**
@@ -168,8 +155,14 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
    * Starts a new Turn.
    */
   private void newTurn() {
+    try {
+      out.append("!!Enter newTurn.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     turn++;
     doctorLucky.move((doctorLucky.getCurrentSpaceIndex() + 1) % mansion.getSpacesNum());
+    pet.move(pet.nextSpaceIndexInRoute(pet.getCurrentSpaceIndex()));
   }
 
   @Override
@@ -185,7 +178,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
         String[] part = splitLine(scan.nextLine());
         try {
           // generate mansion
-          if (part.length == 3 && getMansion() == null) {
+          if (part.length == 3 && mansion == null) {
             setMansion(part[2], Integer.parseInt(part[0]), Integer.parseInt(part[1]));
           }
           // generate target character
@@ -194,22 +187,28 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
           }
 
           // generate spaces
-          if (part.length == 1 && getMansion().getSpacesNum() == 0) {
-            getMansion().setSpacesNum(Integer.parseInt(part[0]));
+          if (part.length == 1 && pet == null) {
+            setPet(part[0]);
+            continue;
+          }
+          
+          // generate spaces
+          if (part.length == 1 && mansion.getSpacesNum() == 0) {
+            mansion.setSpacesNum(Integer.parseInt(part[0]));
           }
 
           if (part.length == 5) {
-            getMansion().addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
+            mansion.addSpace(index++, part[4], Arrays.copyOfRange(part, 0, 4));
 
           }
 
           // generate items
-          if (part.length == 1 && getMansion().getSpacesNum() != 0) {
-            getMansion().setItemsNum(Integer.parseInt(part[0]));
+          if (part.length == 1 && mansion.getSpacesNum() != 0) {
+            mansion.setItemsNum(Integer.parseInt(part[0]));
           }
 
-          if (part.length == 3 && getMansion().getItemsNum() != 0) {
-            getMansion().getSpaces().get(Integer.parseInt(part[0])).addItem(part[2],
+          if (part.length == 3 && mansion.getItemsNum() != 0) {
+            mansion.getSpaceByIndex(Integer.parseInt(part[0])).addItem(part[2],
                 Integer.parseInt(part[0]), Integer.parseInt(part[1]));
 
           }
@@ -219,7 +218,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       }
       scan.close();
     }
-    List<Space> spaces = getMansion().getSpaces();
+    List<Space> spaces = mansion.getSpaces();
     // set neighbors of each space
     for (int i = 0; i < spaces.size(); i++) {
       for (int j = 0; j < spaces.size(); j++) {
@@ -228,6 +227,8 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
         }
       }
     }
+    // set route of pet
+    pet.createRoute(0, mansion);
 
   }
 
@@ -239,24 +240,24 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       e.printStackTrace();
     }
     // Create a BufferedImage
-    BufferedImage image = new BufferedImage(getMansion().getWidth() * 30 + 6,
-        getMansion().getHeight() * 30 + 6, BufferedImage.TYPE_INT_RGB);
+    BufferedImage image = new BufferedImage(mansion.getWidth() * 30 + 6,
+        mansion.getHeight() * 30 + 6, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = image.createGraphics();
 
     // Set background color
     g.setColor(Color.WHITE);
-    g.fillRect(0, 0, getMansion().getWidth() * 30 + 6, getMansion().getHeight() * 30 + 6);
+    g.fillRect(0, 0, mansion.getWidth() * 30 + 6, mansion.getHeight() * 30 + 6);
 
     // Draw rectangles for each room
     g.setColor(Color.BLACK);
-    List<Space> spaces = getMansion().getSpaces();
+    List<Space> spaces = mansion.getSpaces();
     for (int i = 0; i < spaces.size(); i++) {
 
       int roomMinCol = spaces.get(i).getPoints()[1];
       int roomMinRow = spaces.get(i).getPoints()[0];
       int roomMaxCol = spaces.get(i).getPoints()[3];
       int roomMaxRow = spaces.get(i).getPoints()[2];
-      String roomName = spaces.get(i).getName();
+      String roomInfo = String.format("%d.%s", spaces.get(i).getIndex(), spaces.get(i).getName());
 
       int width = roomMaxCol - roomMinCol + 1;
       int height = roomMaxRow - roomMinRow + 1;
@@ -264,7 +265,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       int y = roomMinRow;
 
       g.drawRect(x * 30 + 3, y * 30 + 3, width * 30, height * 30);
-      g.drawString(roomName, x * 30 + 5, y * 30 + 15);
+      g.drawString(roomInfo, x * 30 + 5, y * 30 + 15);
     }
 
     // Save the image to a file
@@ -296,8 +297,20 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
         sb.append(player.toString());
         sb.setLength(sb.length() - 1);
         sb.append(", currentSpaceName=");
-        sb.append(mansion.getSpaces().get(player.getCurrentSpaceIndex()).getName());
+        sb.append(mansion.getSpaceByIndex(player.getCurrentSpaceIndex()).getName());
         sb.append("]");
+        if (player.getCurrentSpaceIndex() == doctorLucky.getCurrentSpaceIndex()) {
+          sb.setLength(sb.length() - 1);
+          sb.append(", Doctor Lucky's health=");
+          sb.append(doctorLucky.getHealth());
+          sb.append("]");
+        }
+        if (player.getCurrentSpaceIndex() == pet.getCurrentSpaceIndex()) {
+          sb.setLength(sb.length() - 1);
+          sb.append(", pet=");
+          sb.append(pet.getName());
+          sb.append("]");
+        }
         return sb.toString();
       }
     }
@@ -305,48 +318,62 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   }
 
   @Override
-  public Space getCharacterSpace(Character character) {
-    try {
-      out.append("!!Enter getCharacterSpace.\n");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return mansion.getSpaces().get(character.getCurrentSpaceIndex());
-  }
-
-  @Override
-  public void movePlayer(Player player, int targetSpace) {
+  public void movePlayer(String playerName, int targetSpace) {
     try {
       out.append("!!Enter movePlayer.\n");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    mansion.getSpaces().get(player.getCurrentSpaceIndex()).removePlayer(player);
+    Player player = getPlayerByName(playerName);
+    mansion.getSpaceByIndex(player.getCurrentSpaceIndex()).removePlayer(player);
     player.move(targetSpace);
-    mansion.getSpaces().get(player.getCurrentSpaceIndex()).addPlayer(player);
+    mansion.getSpaceByIndex(player.getCurrentSpaceIndex()).addPlayer(player);
     newTurn();
 
   }
 
   @Override
-  public void pickUpItem(Player player, Item item) {
+  public void pickUpItem(String playerName, String itemName) {
+    try {
+      out.append("!!Enter pickUpItem.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     newTurn();
+    Player player = getPlayerByName(playerName);
+    Space space = mansion.getSpaceByIndex(player.getCurrentSpaceIndex());
+    Item item = space.getItemByname(itemName);
     player.pickUpItem(item);
-    mansion.getSpaces().get(player.getCurrentSpaceIndex()).removeItem(item);
+    space.removeItem(item);
 
   }
 
   @Override
-  public String getAroundInfo(Player player) {
-    List<Space> neighbors = mansion.getSpaces().get(player.getCurrentSpaceIndex()).getNeighbors();
+  public String getAroundInfo(String playerName) {
+    try {
+      out.append("!!Enter getAroundInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    List<Space> neighbors = getNeighborsBySpaceIndex(getCurrentSpaceIndexByPlayerName(playerName));
     StringBuffer stringBuffer = new StringBuffer();
     for (Space space : neighbors) {
-      stringBuffer.append(String.format("* %d. %s\n", space.getIndex(), space.getName()));
+      stringBuffer.append(String.format("** %d. %s\n", space.getIndex(), space.getName()));
+      if (pet.getCurrentSpaceIndex() == space.getIndex()) {
+        stringBuffer.append("This space is invisible.\n");
+        continue;
+      }
       stringBuffer.append(space.toString());
       if (space.getIndex() == doctorLucky.getCurrentSpaceIndex()) {
         stringBuffer.setLength(stringBuffer.length() - 1);
         stringBuffer.append(", Doctor Lucky's health=");
         stringBuffer.append(doctorLucky.getHealth());
+        stringBuffer.append("]");
+      }
+      if (space.getIndex() == pet.getCurrentSpaceIndex()) {
+        stringBuffer.setLength(stringBuffer.length() - 1);
+        stringBuffer.append(", pet=");
+        stringBuffer.append(pet.getName());
         stringBuffer.append("]");
       }
       stringBuffer.append("\n");
@@ -357,7 +384,279 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public int getTurns() {
+    try {
+      out.append("!!Enter getTurns.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return turn;
+  }
+
+  @Override
+  public String getMansionInfo() {
+    try {
+      out.append("!!Enter getMansionInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.toString();
+  }
+
+  @Override
+  public String getDoctorLuckyInfo() {
+    try {
+      out.append("!!Enter getDoctorLuckyInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return doctorLucky.toString();
+  }
+
+  private Player getPlayerByName(String playerName) {
+    try {
+      out.append("!!Enter getPlayerByName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    for (Player player : players) {
+      if (playerName.equals(player.getName())) {
+        return player;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public int getCurrentSpaceIndexByPlayerName(String playerName) {
+    try {
+      out.append("!!Enter getCurrentSpaceIndexByPlayerName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return getPlayerByName(playerName).getCurrentSpaceIndex();
+  }
+
+  @Override
+  public List<Space> getNeighborsBySpaceIndex(int index) {
+    try {
+      out.append("!!Enter getNeighborsBySpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpaceByIndex(index).getNeighbors();
+  }
+
+  @Override
+  public List<Item> getItemsBySpaceIndex(int index) {
+    try {
+      out.append("!!Enter getItemsBySpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpaceByIndex(index).getItems();
+  }
+
+  @Override
+  public PlayerType gePlayerTypeByName(String playerName) {
+    try {
+      out.append("!!Enter gePlayerTypeByName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return getPlayerByName(playerName).gePlayerType();
+  }
+
+  @Override
+  public String getDoctorLuckyName() {
+    try {
+      out.append("!!Enter getDoctorLuckyName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return doctorLucky.getName();
+  }
+
+  @Override
+  public int getDoctorLuckyCurrentSpaceIndex() {
+    try {
+      out.append("!!Enter getDoctorLuckyCurrentSpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return doctorLucky.getCurrentSpaceIndex();
+  }
+
+  @Override
+  public int getDoctorLuckyHealth() {
+    try {
+      out.append("!!Enter getDoctorLuckyHealth.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return doctorLucky.getHealth() > 0 ? doctorLucky.getHealth() : 0;
+  }
+
+  @Override
+  public String getSpaceNameByIndex(int index) {
+    try {
+      out.append("!!Enter getSpaceNameByIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpaceByIndex(index).getName();
+  }
+
+  @Override
+  public String getSpaceInfo(int index) {
+    try {
+      out.append("!!Enter getSpaceInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpaceByIndex(index).toString();
+  }
+
+  @Override
+  public void setPet(String petName) {
+    try {
+      out.append("!!Enter setPet.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    pet = new PetModel(petName);
+  }
+
+  @Override
+  public String getPetName() {
+    try {
+      out.append("!!Enter getPetName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return pet.getName();
+  }
+
+  @Override
+  public int getPetCurrentSpaceIndex() {
+    try {
+      out.append("!!Enter getPetCurrentSpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return pet.getCurrentSpaceIndex();
+  }
+
+  @Override
+  public int getSpaceNumFromMansion() {
+    try {
+      out.append("!!Enter getSpaceNumFromMansion.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpacesNum();
+  }
+
+  @Override
+  public void movePet(int index) {
+    try {
+      out.append("!!Enter movePet.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    pet.move(index);
+    pet.createRoute(index, mansion);
+    newTurn();
+    
+  }
+
+  @Override
+  public List<Item> getItemsByPlayerName(String playerName) {
+    try {
+      out.append("!!Enter getItemsByPlayerName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return getPlayerByName(playerName).getItems();
+  }
+
+  @Override
+  public String getMostDamageItemNameByPlayerName(String playerName) {
+    try {
+      out.append("!!Enter getMostDamageItemNameByPlayerName.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return getPlayerByName(playerName).getItemNameWithMaxDamage();
+  }
+
+  @Override
+  public Boolean makeAttempt(String playerName, String itemName) {
+    try {
+      out.append("!!Enter makeAttempt.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    newTurn();
+    int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
+    if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
+      for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
+        if (space.getPlayers().size() != 0) {
+          return false;   
+        }
+      }
+    }
+    if ("".equals(itemName)) {
+      doctorLucky.deductHealth(1);
+    }else {
+      int damage = getPlayerByName(playerName).removeItemByName(itemName);
+      doctorLucky.deductHealth(damage);
+    }
+    return true;
+  }
+
+  @Override
+  public String getPetInfo() {
+    try {
+      out.append("!!Enter getPetInfo.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return pet.toString();
+  }
+
+
+  @Override
+  public String getNeighborsInfoBySpaceIndex(int spaceIndex) {
+    try {
+      out.append("!!Enter getNeighborsInfoBySpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    StringBuffer sb = new StringBuffer();
+    for (Space space : getNeighborsBySpaceIndex(spaceIndex)) {
+      sb.append(space.getIndex());
+      sb.append(".");
+      sb.append(space.getName());
+      sb.append("; ");
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public String getItemsInfoBySpaceIndex(int spaceIndex) {
+    try {
+      out.append("!!Enter getItemsInfoBySpaceIndex.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    StringBuffer sb = new StringBuffer();
+    for (Item item : getItemsBySpaceIndex(spaceIndex)) {
+      sb.append(item.getName());
+      sb.append(":");
+      sb.append(item.getDamage());
+      sb.append("; ");
+    }
+    return sb.toString();
   }
 
 }

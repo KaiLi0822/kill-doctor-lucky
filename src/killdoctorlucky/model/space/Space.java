@@ -82,4 +82,11 @@ public interface Space extends Nameable {
    * @param player the player
    */
   void removePlayer(Player player);
+  
+  /**
+   * Gets the players.
+   * 
+   * @return the players
+   */
+  List<Player> getPlayers();
 }
