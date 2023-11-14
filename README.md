@@ -31,14 +31,11 @@ Draw.io: To draw the UML class diagram.
 Junit 4: To do the unit test.
 
 - Design Changes:
-
-    - KillDoctorLuckyConsoleController.java: add a filePath field.  
-    - KillDoctorLucky.java: add some methods, getPlayerInfoByName(name: String): String, initiateGame(readable: Readable)
-	, outputMap(): String, getCharacterSpace(character: Character): Space, void movePlayer(Player player, int targetSpace), void pickUpItem(Player player, Item item), String getAroundInfo(Player player), int getTurns()
-    - PlayerType.java: add a new enumeration class  
-    - Mansion.java: add getHeight(): int and getWidth(): int  
-    - Player.java: add getPlayerType(): PlayerType and getMaxItems(): int  
-    - Space.java add getItemByname(name: String): Item and removeItem(item: Item)
+  
+    - KillDoctorLucky.java: add some methods: Boolean makeAttempt(String playerName, String itemName);String getPetInfo();String getNeighborsInfoBySpaceIndex(int spaceIndex);String getItemsInfoBySpaceIndex(int spaceIndex);
+    - Pet.java: add two methods: void createRoute(int index, Mansion mansion);int nextSpaceIndexInRoute(int currentSpaceIndex); 
+    - PetModel.java: add attributions: List<Integer> route; Set<Integer> visited; add method: void dfs(int index, Mansion mansion)
+    - DoctorLucky.java: add method: void deductHealth(int damage);
 	
 	
 - Git Tag:

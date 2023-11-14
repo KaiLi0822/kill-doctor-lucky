@@ -234,17 +234,13 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
       int choice;
       if (m.gePlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
         if (currentSpaceIndex == m.getDoctorLuckyCurrentSpaceIndex()) {
-          choice = rg.nextInt(5) + 1;
+          choice = 5;
         } else {
           choice = rg.nextInt(4) + 1;
         }
         if (items.size() <= 0) {
           while (choice == 2) {
-            if (currentSpaceIndex == m.getDoctorLuckyCurrentSpaceIndex()) {
-              choice = rg.nextInt(5) + 1;
-            } else {
-              choice = rg.nextInt(4) + 1;
-            }
+            choice = rg.nextInt(4) + 1;
           }
         }
 

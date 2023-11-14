@@ -1,0 +1,75 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=50, currentSpaceIndex=0]
+-----Pet Information-----
+Fortune the Cat [currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 10
+* Generate Player
+Please provide the number of players:2
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human
+Please provide the space index: 1
+Please provide the maximum number of items carried: 2
+** Genarating Player 2:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human1
+Please provide the space index: 0
+Please provide the maximum number of items carried: 2
+
+-----Players Information-----
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]
+human1 [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=0, currentSpaceName=Armory]
+
+***********************************
+
+-----human's turn, No.1 turn-----
+* Before:
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]
+* Choose action:
+1. Move to a neighboring space: 0.Armory; 3.Dining Hall; 18.Trophy Room; 
+2. Pick up an item: Billiard Cue:2; 
+3. Look around
+4. Move the pet
+3
+human chose the option 3
+** 0. Armory
+This space is invisible.
+** 3. Dining Hall
+Dining Hall [index=3, neighbors=[1.Billiard Room, 4.Drawing Room, 8.Kitchen, 17.Tennessee Room], items=[], players=[]]
+** 18. Trophy Room
+Trophy Room [index=18, neighbors=[1.Billiard Room, 10.Library], items=[Duck Decoy, Monkey Hand], players=[]]
+* After:
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room, Doctor Lucky's health=50, pet=Fortune the Cat]
+Doctor Lucky's current space is 1.Billiard Room; health is 50
+Fortune the Cat's current space is 1.Billiard Room
+
+-----human1's turn, No.2 turn-----
+* Before:
+human1 [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=0, currentSpaceName=Armory]
+* Choose action:
+1. Move to a neighboring space: 1.Billiard Room; 6.Green House; 7.Hedge Maze; 
+2. Pick up an item: Revolver:3; 
+3. Look around
+4. Move the pet
+q
+Game Quit.

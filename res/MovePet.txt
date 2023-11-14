@@ -1,0 +1,63 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=50, currentSpaceIndex=0]
+-----Pet Information-----
+Fortune the Cat [currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 10
+* Generate Player
+Please provide the number of players:1
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human
+Please provide the space index: 1
+Please provide the maximum number of items carried: 2
+
+-----Players Information-----
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]
+
+***********************************
+
+-----human's turn, No.1 turn-----
+* Before:
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room]
+* Choose action:
+1. Move to a neighboring space: 0.Armory; 3.Dining Hall; 18.Trophy Room; 
+2. Pick up an item: Billiard Cue:2; 
+3. Look around
+4. Move the pet
+4
+human chose the option 4
+** Choose a space index[0-20]:
+4
+The pet has been moved into 4.Drawing Room
+* After:
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room, Doctor Lucky's health=50]
+Doctor Lucky's current space is 1.Billiard Room; health is 50
+Fortune the Cat's current space is 3.Dining Hall
+
+-----human's turn, No.2 turn-----
+* Before:
+human [playerType=human, maxItems=2, carriedItems=[], currentSpaceIndex=1, currentSpaceName=Billiard Room, Doctor Lucky's health=50]
+* Choose action:
+1. Move to a neighboring space: 0.Armory; 3.Dining Hall; 18.Trophy Room; 
+2. Pick up an item: Billiard Cue:2; 
+3. Look around
+4. Move the pet
+5. Make an attempt
+q
+Game Quit.
