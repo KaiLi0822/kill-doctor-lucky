@@ -1,7 +1,6 @@
 package killdoctorlucky.controller.command;
 
 import killdoctorlucky.controller.KillDoctorLuckyCommand;
-import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 
 /**
