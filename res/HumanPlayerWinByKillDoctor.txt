@@ -1,0 +1,53 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=1, currentSpaceIndex=0]
+-----Pet Information-----
+Fortune the Cat [currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 10
+* Generate Player
+Please provide the number of players:1
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human
+Please provide the space index: 0
+Please provide the maximum number of items carried: 1
+
+-----Players Information-----
+human [playerType=human, maxItems=1, carriedItems=[], currentSpaceIndex=0, currentSpaceName=Armory]
+
+***********************************
+
+-----human's turn, No.1 turn-----
+* Before:
+human [playerType=human, maxItems=1, carriedItems=[], currentSpaceIndex=0, currentSpaceName=Armory, Doctor Lucky's health=1, pet=Fortune the Cat]
+* Choose action:
+1. Move to a neighboring space: 1.Billiard Room; 6.Green House; 7.Hedge Maze; 
+2. Pick up an item: Revolver:3; 
+3. Look around
+4. Move the pet
+5. Make an attempt
+5
+human chose the option 5
+Poke doctor's eyes, attack Successfully!
+* After:
+human [playerType=human, maxItems=1, carriedItems=[], currentSpaceIndex=0, currentSpaceName=Armory]
+Doctor Lucky's current space is 1.Billiard Room; health is 0
+Fortune the Cat's current space is 1.Billiard Room
+
+***********************************
+Game Over! Doctor Lucky has been killed, Winner is human

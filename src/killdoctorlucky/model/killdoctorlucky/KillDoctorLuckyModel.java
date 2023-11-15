@@ -7,12 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import killdoctorlucky.model.character.Character;
 import killdoctorlucky.model.character.DoctorLucky;
 import killdoctorlucky.model.character.DoctorLuckyModel;
 import killdoctorlucky.model.character.PetModel;
@@ -228,7 +228,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   @Override
   public String getPlayerInfoByName(String name) {
     StringBuffer sb = new StringBuffer();
-
+    int index = getCurrentSpaceIndexByPlayerName(name);
     for (Player player : players) {
       if (name.equals(player.getName())) {
         sb.append(player.toString());
@@ -248,10 +248,25 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
           sb.append(pet.getName());
           sb.append("]");
         }
-        return sb.toString();
       }
     }
-    return null;
+    List<String> names = new LinkedList<String>();
+    if (sb.length() != 0) {
+      for (Player player : players) {
+        if (index == player.getCurrentSpaceIndex() && !name.equals(player.getName())) {
+          names.add(player.getName());
+        }
+      }
+      if (names.size() != 0) {
+        sb.setLength(sb.length() - 1);
+        sb.append(", players=");
+        sb.append(names.toString());
+        sb.append("]");
+      }
+      return sb.toString();
+    }else {
+      return "";
+    }
   }
 
   @Override
@@ -416,6 +431,11 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   public Boolean makeAttempt(String playerName, String itemName) {
     newTurn();
     int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
+    for (Player player : players) {
+      if (playerSpaceIndex == player.getCurrentSpaceIndex() && !playerName.equals(player.getName())) {
+        return false; 
+      }
+    }
     if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
       for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
         if (space.getPlayers().size() != 0) {
@@ -425,7 +445,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
     }
     if ("".equals(itemName)) {
       doctorLucky.deductHealth(1);
-    }else {
+    } else {
       int damage = getPlayerByName(playerName).removeItemByName(itemName);
       doctorLucky.deductHealth(damage);
     }

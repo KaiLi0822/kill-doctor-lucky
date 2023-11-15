@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import killdoctorlucky.model.character.Character;
 import killdoctorlucky.model.character.DoctorLucky;
 import killdoctorlucky.model.character.DoctorLuckyModel;
 import killdoctorlucky.model.character.PetModel;
@@ -35,6 +34,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   private int turn;
   private PetModel pet;
   private Appendable out;
+  
   /**
    * Constructor of KillDoctorLuckyMockModel.
    * 
@@ -607,7 +607,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     }
     if ("".equals(itemName)) {
       doctorLucky.deductHealth(1);
-    }else {
+    } else {
       int damage = getPlayerByName(playerName).removeItemByName(itemName);
       doctorLucky.deductHealth(damage);
     }

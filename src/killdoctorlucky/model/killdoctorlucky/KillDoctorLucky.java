@@ -2,8 +2,6 @@ package killdoctorlucky.model.killdoctorlucky;
 
 import java.io.IOException;
 import java.util.List;
-
-import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
 import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.space.Space;
@@ -97,7 +95,7 @@ public interface KillDoctorLucky {
   
   /**
    * Moves player.
-   * @param player the player name
+   * @param playerName the player name
    * @param targetSpace the target space
    */
   void movePlayer(String playerName, int targetSpace);
@@ -136,6 +134,7 @@ public interface KillDoctorLucky {
   
   /**
    * Gets the player's space index.
+   * @param playerName playerName
    * @return the player's space index
    */
   int getCurrentSpaceIndexByPlayerName(String playerName);
@@ -229,7 +228,7 @@ public interface KillDoctorLucky {
    * @param playerName player name
    * @return the items
    */
-  List<Item> getItemsByPlayerName(String name);
+  List<Item> getItemsByPlayerName(String playerName);
   
   /**
    * Gets the item name with the most damage.

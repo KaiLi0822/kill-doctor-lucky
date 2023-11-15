@@ -4,20 +4,20 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import killdoctorlucky.model.mansion.Mansion;
 import killdoctorlucky.model.space.Space;
 
 /**
  * Pet class.
  */
-public class PetModel extends CharacterModel implements Pet{
+public class PetModel extends CharacterModel implements Pet {
 
   List<Integer> route;
   Set<Integer> visited;
+  
   /**
-   * @param nameIn
-   * @param currentSpaceIndexIn
+   * The constructor of PetModel.
+   * @param nameIn the name
    */
   public PetModel(String nameIn) {
     super(nameIn, 0);
@@ -48,9 +48,9 @@ public class PetModel extends CharacterModel implements Pet{
     route.add(index);
     visited.add(index);
     for (Space space : mansion.getSpaceByIndex(index).getNeighbors()) {
-        if (!visited.contains(space.getIndex())) {
-            dfs(space.getIndex(), mansion);
-        }
+      if (!visited.contains(space.getIndex())) {
+        dfs(space.getIndex(), mansion);
+      }
     } 
   }
 

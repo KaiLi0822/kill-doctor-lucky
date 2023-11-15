@@ -10,10 +10,7 @@ import killdoctorlucky.controller.command.MaxTurn;
 import killdoctorlucky.controller.command.MovePlayer;
 import killdoctorlucky.controller.command.Parse;
 import killdoctorlucky.controller.command.PickUpItem;
-import killdoctorlucky.model.Nameable;
 import killdoctorlucky.model.RandomGenerator;
-import killdoctorlucky.model.character.DoctorLucky;
-import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
 import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
@@ -219,9 +216,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
       List<Space> neighbors = m.getNeighborsBySpaceIndex(currentSpaceIndex);
       List<Item> items = m.getItemsBySpaceIndex(currentSpaceIndex);
 
-      appendCommand(String.format("1. Move to a neighboring space: %s\n", m.getNeighborsInfoBySpaceIndex(currentSpaceIndex)));
+      appendCommand(String.format("1. Move to a neighboring space: %s\n", 
+          m.getNeighborsInfoBySpaceIndex(currentSpaceIndex)));
       if (items.size() > 0) {
-        appendCommand(String.format("2. Pick up an item: %s\n", m.getItemsInfoBySpaceIndex(currentSpaceIndex)));
+        appendCommand(String.format("2. Pick up an item: %s\n", 
+            m.getItemsInfoBySpaceIndex(currentSpaceIndex)));
       } else {
         appendCommand("2. Pick up an item: no item can be picked.\n");
       }
@@ -339,7 +338,8 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             continue;
           }
           appendCommand(
-              String.format("The pet has been moved into %d.%s\n", spaceChoice, m.getSpaceNameByIndex(spaceChoice)));
+              String.format("The pet has been moved into %d.%s\n", 
+                  spaceChoice, m.getSpaceNameByIndex(spaceChoice)));
           m.movePet(spaceChoice);
           break;
         case 5:
@@ -347,7 +347,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
           String itemNameUse = "";
           if (m.getItemsByPlayerName(playerName).size() == 0) {
             res = m.makeAttempt(playerName, "");
-          }else {   
+          } else {   
             appendCommand("** Choose an item to use, input the index of item:\n");
             int itemIndexInt = 1;
             List<String> itemNameLi = new ArrayList<String>();
@@ -379,7 +379,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
           if (res) {
             if ("".equals(itemNameUse)) {
               appendCommand("Poke doctor's eyes, attack Successfully!\n");
-            }else {
+            } else {
               appendCommand(String.format("Use %s, attack Successfully!\n", itemNameUse));
             }
           } else {
@@ -402,9 +402,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
     }
     appendCommand("\n***********************************\n");
     if (m.getDoctorLuckyHealth() == 0) {
-      appendCommand(String.format("Game Over! Doctor Lucky has been killed, Winner is %s\n", m.getPlayerNameByTurn(m.getTurns())));
-    }else {
-      appendCommand("Game Over! You have reached the maximum number of turns.\n");
+      appendCommand(String.format("Game Over! Doctor Lucky has been killed, Winner is %s\n",
+          m.getPlayerNameByTurn(m.getTurns())));
+    } else {
+      appendCommand("Game Over! You have reached the maximum number of turns,"
+          + " Docotr has escaped.\n");
     }
     
 

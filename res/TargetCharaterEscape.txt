@@ -1,0 +1,100 @@
+***********************************
+Mansion created successfully, the information is as follows:
+-----Mansion Information-----
+Mansion [name=Doctor Lucky's Mansion, height=36, width=30, spacesNum=21, itemsNum=20]
+-----Main Character Information-----
+Doctor Lucky [health=1, currentSpaceIndex=0]
+-----Pet Information-----
+Fortune the Cat [currentSpaceIndex=0]
+***********************************
+Menu(Input 'q'/'Q' to quit):
+1. Create world map.
+2. Start game.
+2
+
+***********************************
+Game Start!
+* Please provide the maximum of turns: 3
+* Generate Player
+Please provide the number of players:2
+** Genarating Player 1:
+Please choose the player type:
+1.human
+2.robot
+2
+Creating a robot player...
+Please provide the name: robot
+Please provide the space index: 4
+Please provide the maximum number of items carried: 4
+** Genarating Player 2:
+Please choose the player type:
+1.human
+2.robot
+1
+Creating a human player...
+Please provide the name: human
+Please provide the space index: 2
+Please provide the maximum number of items carried: 3
+
+-----Players Information-----
+robot [playerType=robot, maxItems=4, carriedItems=[], currentSpaceIndex=4, currentSpaceName=Drawing Room]
+human [playerType=human, maxItems=3, carriedItems=[], currentSpaceIndex=2, currentSpaceName=Carriage House]
+
+***********************************
+
+-----robot's turn, No.1 turn-----
+* Before:
+robot [playerType=robot, maxItems=4, carriedItems=[], currentSpaceIndex=4, currentSpaceName=Drawing Room]
+* Choose action:
+1. Move to a neighboring space: 3.Dining Hall; 5.Foyer; 
+2. Pick up an item: Letter Opener:2; 
+3. Look around
+4. Move the pet
+robot chose the option 1
+** Choose a space to enter, input the index of space:
+3. Dining Hall
+5. Foyer
+robot chose the No.3 space.
+* After:
+robot [playerType=robot, maxItems=4, carriedItems=[], currentSpaceIndex=3, currentSpaceName=Dining Hall]
+Doctor Lucky's current space is 1.Billiard Room; health is 1
+Fortune the Cat's current space is 1.Billiard Room
+
+-----human's turn, No.2 turn-----
+* Before:
+human [playerType=human, maxItems=3, carriedItems=[], currentSpaceIndex=2, currentSpaceName=Carriage House]
+* Choose action:
+1. Move to a neighboring space: 19.Wine Cellar; 20.Winter Garden; 
+2. Pick up an item: Chain Saw:4; Big Red Hammer:4; 
+3. Look around
+4. Move the pet
+3
+human chose the option 3
+** 19. Wine Cellar
+Wine Cellar [index=19, neighbors=[2.Carriage House, 8.Kitchen, 20.Winter Garden], items=[Rat Poison, Piece of Rope], players=[]]
+** 20. Winter Garden
+Winter Garden [index=20, neighbors=[2.Carriage House, 15.Piazza, 19.Wine Cellar], items=[], players=[]]
+* After:
+human [playerType=human, maxItems=3, carriedItems=[], currentSpaceIndex=2, currentSpaceName=Carriage House, Doctor Lucky's health=1]
+Doctor Lucky's current space is 2.Carriage House; health is 1
+Fortune the Cat's current space is 3.Dining Hall
+
+-----robot's turn, No.3 turn-----
+* Before:
+robot [playerType=robot, maxItems=4, carriedItems=[], currentSpaceIndex=3, currentSpaceName=Dining Hall, pet=Fortune the Cat]
+* Choose action:
+1. Move to a neighboring space: 1.Billiard Room; 4.Drawing Room; 8.Kitchen; 17.Tennessee Room; 
+2. Pick up an item: no item can be picked.
+3. Look around
+4. Move the pet
+robot chose the option 4
+** Choose a space index[0-20]:
+robot chose the No.1 space.
+The pet has been moved into 1.Billiard Room
+* After:
+robot [playerType=robot, maxItems=4, carriedItems=[], currentSpaceIndex=3, currentSpaceName=Dining Hall, Doctor Lucky's health=1]
+Doctor Lucky's current space is 3.Dining Hall; health is 1
+Fortune the Cat's current space is 0.Armory
+
+***********************************
+Game Over! You have reached the maximum number of turns, Docotr has escaped.

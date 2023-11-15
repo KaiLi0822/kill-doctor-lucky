@@ -7,16 +7,14 @@ The `<Specification.txt>` should be replaced by your file, then enter your order
  
 - Testing Results List: 
 
-    - AddingComputerPlayer.txt  
-    - AddingHumanPlayer.txt  
-    - CreatingAndSavingMap.txt  
-    - DisplayingInformationAboutASpace.txt  
-    - DisplayingTheDescriptionOfPlayer.txt  
-    - GameEndingAfterReachingtheMaximumNumberOfTurns.txt  
-    - PlayerLookAround.txt  
-    - PlayerMovingAround.txt  
-    - PlayerPickUpAnItem.txt  
-    - TakingTurnsBetweenPlayers.txt  
+    - PetEffectOnVisibility.txt: the target character's pet effect on the visibility of a space from neighboring spaces 
+    - MovePet.txt: the player moving the target character's pet
+    - HumanPlayerMakeAttempt.txt: a human-player making an attempt on the target character's life  
+    - ComputerPlayerMakeAttempt.txt: a computer-controlled player making an attempt on the target character's life  
+    - HumanPlayerWinByKillDoctor.txt: a human-player winning the game by killing the target character  
+    - ComputerPlayerWinByKillDoctor.txt: a computer-controlled player winning the game by killing the target character  
+    - TargetCharaterEscape.txt: the target character escaping with his life and the game ending  
+    - EvidenceOfDfs.txt: if you implement the extra credit be sure that you include evidence of this in your example run.  
 
 
 - Assumptions&Limitations
