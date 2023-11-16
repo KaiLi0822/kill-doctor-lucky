@@ -34,6 +34,14 @@ public class SpaceTest {
     space = sp("abc", itemList, arr, neighbors);
   }
 
+  /**
+   * Creates the model.
+   * @param name the name
+   * @param items the items
+   * @param points the points
+   * @param neighbors the neighbors
+   * @return the model
+   */
   protected SpaceModel sp(String name, List<ItemModel> items, String[] points,
       List<SpaceModel> neighbors) {
     return SpaceModel.getBuilder().name(name)

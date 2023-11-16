@@ -22,6 +22,13 @@ public class ItemTest {
     item = it("abc", 2, 5);
   }
 
+  /**
+   * Creates the ItemModel.
+   * @param nameIn the name
+   * @param positionIn the position
+   * @param damageIn the damage
+   * @return the model
+   */
   protected ItemModel it(String nameIn, int positionIn, int damageIn) {
     return new ItemModel(nameIn, positionIn, damageIn);
   }

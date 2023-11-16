@@ -264,7 +264,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
         sb.append("]");
       }
       return sb.toString();
-    }else {
+    } else {
       return "";
     }
   }
@@ -432,7 +432,8 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
     newTurn();
     int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
     for (Player player : players) {
-      if (playerSpaceIndex == player.getCurrentSpaceIndex() && !playerName.equals(player.getName())) {
+      if (playerSpaceIndex == player.getCurrentSpaceIndex() 
+          && !playerName.equals(player.getName())) {
         return false; 
       }
     }

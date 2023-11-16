@@ -6,7 +6,7 @@ import killdoctorlucky.model.mansion.Mansion;
 /**
  * The Pet interface.
  */
-public interface Pet extends Character{
+public interface Pet extends Character {
   
   /**
    * Creates the route of pet.

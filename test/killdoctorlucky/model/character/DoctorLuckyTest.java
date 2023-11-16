@@ -22,6 +22,12 @@ public class DoctorLuckyTest {
     doc = doc(20, "doc");
   }
   
+  /**
+   * Helper method to create doctorLuckyMode.
+   * @param healthIn the health
+   * @param nameIn the name
+   * @return the mode object
+   */
   protected DoctorLuckyModel doc(int healthIn, String nameIn) {
     return new DoctorLuckyModel(nameIn, healthIn);
   }

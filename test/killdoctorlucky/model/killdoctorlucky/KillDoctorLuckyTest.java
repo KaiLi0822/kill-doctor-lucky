@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
-import killdoctorlucky.model.item.Item;
-import killdoctorlucky.model.space.Space;
 import org.junit.Before;
 import org.junit.Test;
 
