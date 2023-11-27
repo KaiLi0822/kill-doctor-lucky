@@ -35,7 +35,8 @@ public interface Mansion {
    * @param itemsNumIn the number of items
    */
   void setItemsNum(int itemsNumIn);
-
+  
+ 
   /**
    * Adds a space.
    * 

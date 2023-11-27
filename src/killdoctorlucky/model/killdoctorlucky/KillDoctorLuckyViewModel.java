@@ -2,6 +2,8 @@ package killdoctorlucky.model.killdoctorlucky;
 
 import java.io.IOException;
 import java.util.List;
+
+import killdoctorlucky.model.character.Player;
 import killdoctorlucky.model.character.PlayerType;
 import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.space.Space;
@@ -9,7 +11,7 @@ import killdoctorlucky.model.space.Space;
 /**
  * The KillDoctorLucky game interface.
  */
-public interface KillDoctorLucky extends KillDoctorLuckyViewModel{
+public interface KillDoctorLuckyViewModel {
 
   /**
    * Sets the mansion.
@@ -35,7 +37,6 @@ public interface KillDoctorLucky extends KillDoctorLuckyViewModel{
    * @param maxTurnIn the maximum number
    */
   void setMaxTurn(int maxTurnIn);
-  
 
   /**
    * Adds the player.
@@ -266,4 +267,29 @@ public interface KillDoctorLucky extends KillDoctorLuckyViewModel{
    * @return the items info
    */
   String getItemsInfoBySpaceIndex(int spaceIndex);
+  
+  /**
+   * Gets the width.
+   * @return width
+   */
+  int getWidthFromMansion();
+  
+  /**
+   * Gets the height.
+   * @return height
+   */
+  int getHeightFromMansion();
+  
+  /**
+   * Gets the spaces.
+   * @return spaces
+   */
+  List<Space> getSpacesFromMansion();
+  
+  /**
+   * Gets the players.
+   * @return players
+   */
+  List<Player> getPlayers();
+  
 }

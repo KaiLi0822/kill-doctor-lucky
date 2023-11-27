@@ -1,6 +1,7 @@
 package killdoctorlucky.model.mansion;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import killdoctorlucky.model.space.Space;
 import killdoctorlucky.model.space.SpaceModel;
@@ -14,6 +15,7 @@ public class MansionModel implements Mansion {
   private final int width;
   private int spacesNum;
   private int itemsNum;
+  private int playersNum;
   private List<Space> spaces = new ArrayList<Space>();
 
   /**
@@ -46,6 +48,8 @@ public class MansionModel implements Mansion {
     itemsNum = itemsNumIn;
 
   }
+  
+ 
 
   @Override
   public int getItemsNum() {
@@ -60,7 +64,7 @@ public class MansionModel implements Mansion {
 
   @Override
   public List<Space> getSpaces() {
-    return spaces;
+    return Collections.unmodifiableList(spaces);
   }
 
   @Override
@@ -86,5 +90,7 @@ public class MansionModel implements Mansion {
   public Space getSpaceByIndex(int index) {
     return spaces.get(index);
   }
+
+
 
 }

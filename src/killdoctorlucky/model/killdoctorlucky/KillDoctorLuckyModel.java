@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -142,6 +143,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
           // generate spaces
           if (part.length == 1 && mansion.getSpacesNum() == 0) {
             mansion.setSpacesNum(Integer.parseInt(part[0]));
+            continue;
           }
 
           if (part.length == 5) {
@@ -152,6 +154,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
           // generate items
           if (part.length == 1 && mansion.getSpacesNum() != 0) {
             mansion.setItemsNum(Integer.parseInt(part[0]));
+            continue;
           }
 
           if (part.length == 3 && mansion.getItemsNum() != 0) {
@@ -159,6 +162,16 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
                 Integer.parseInt(part[0]), Integer.parseInt(part[1]));
 
           }
+          
+          if (part.length == 4) {
+            
+            if (Integer.parseInt(part[0]) == 1) {              
+              addPlayer(PlayerType.HUMAN, part[3], Integer.parseInt(part[1]), Integer.parseInt(part[2]));
+            }else { 
+              addPlayer(PlayerType.ROBOT, part[3], Integer.parseInt(part[1]), Integer.parseInt(part[2]));
+            }
+          }
+          
         } catch (NumberFormatException e) {
           throw new NumberFormatException("Specification file format is wrong.");
         }
@@ -482,5 +495,28 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
     }
     return sb.toString();
   }
+
+  @Override
+  public int getWidthFromMansion() {
+    
+    return mansion.getWidth();
+  }
+
+  @Override
+  public int getHeightFromMansion() {
+    return mansion.getHeight();
+  }
+
+  @Override
+  public List<Space> getSpacesFromMansion() {
+    return mansion.getSpaces();
+  }
+
+  @Override
+  public List<Player> getPlayers() {
+    // TODO Auto-generated method stub
+    return Collections.unmodifiableList(players);
+  }
+
 
 }
