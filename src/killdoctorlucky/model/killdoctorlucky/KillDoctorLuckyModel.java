@@ -441,18 +441,19 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   }
 
   @Override
-  public Boolean makeAttempt(String playerName, String itemName) {
-    newTurn();
+  public Boolean makeAttempt(String playerName, String itemName) { 
     int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
     for (Player player : players) {
       if (playerSpaceIndex == player.getCurrentSpaceIndex() 
           && !playerName.equals(player.getName())) {
+        newTurn();
         return false; 
       }
     }
     if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
       for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
         if (space.getPlayers().size() != 0) {
+          newTurn();
           return false;   
         }
       }
@@ -463,6 +464,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
       int damage = getPlayerByName(playerName).removeItemByName(itemName);
       doctorLucky.deductHealth(damage);
     }
+    newTurn();
     return true;
   }
 

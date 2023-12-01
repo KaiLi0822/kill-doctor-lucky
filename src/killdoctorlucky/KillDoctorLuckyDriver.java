@@ -6,7 +6,7 @@ import killdoctorlucky.controller.KillDoctorLuckyController;
 import killdoctorlucky.model.RandomGenerator;
 import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
 import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyModel;
-import killdoctorlucky.view.KillDoctorLuckyFrameView;
+import killdoctorlucky.view.KillDoctorLuckyGraphicView;
 import killdoctorlucky.view.KillDoctorLuckyView;
 
 /**
@@ -27,7 +27,7 @@ public class KillDoctorLuckyDriver {
 //    // Create the controller with the model
     KillDoctorLuckyController controller = new KillDoctorLuckyConsoleController(rg, args[0], args[1]);
     // Create the view
-    KillDoctorLuckyView view = new KillDoctorLuckyFrameView("Kill Doctor Lucky");
+    KillDoctorLuckyView view = new KillDoctorLuckyGraphicView("Kill Doctor Lucky");
     // Set the view in the controller
     controller.setModelView(model, view);
   

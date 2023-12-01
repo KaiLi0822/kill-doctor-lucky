@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyView {
+public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuckyView {
   private static final long serialVersionUID = -2179965453492637485L;
   private KillDoctorLuckyViewModel model;
   private KillDoctorLuckyControllerFeature controller;
@@ -45,14 +45,15 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
   private JTextArea messageArea;
   private JPanel mainPanel;
 
-  private List<Item> items;
+  private List<Item> spaceItems;
+  private List<Item> playerItems;
 
   /**
    * Constructor.
    * 
    * @param caption the caption to use
    */
-  public KillDoctorLuckyFrameView(String caption) {
+  public KillDoctorLuckyGraphicView(String caption) {
     super(caption);
     this.setSize(1200, 800);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +61,7 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
 
     // add menu
     JMenuBar menuBar = new JMenuBar();
-    JMenu menu = new JMenu("Mune");
+    JMenu menu = new JMenu("Menu");
     // Start Game option
     startGameItem = new JMenuItem("Start Game");
     // Quit Game option
@@ -130,7 +131,8 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
     showDoctor();
     showPet();
     showPlayers();
-    loadItems();
+    loadSpaceItems();
+    loadPlayerItems();
     pressKeySet = new HashSet<Character>();
     this.addKeyListener(new KeyListener() {
 
@@ -151,36 +153,90 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
           pressKeySet.add(e.getKeyChar());
           StringBuffer sb = new StringBuffer();
           sb.append("<html>Press a number key to choose an item:<br>"); 
-          if (items.size() == 0) {
+          if (spaceItems.size() == 0) {
             sb.append("There is no items to pick.");
-          }else {
+          } else {
             int itemIndex = 1;
-            for (Item item : items) {
+            for (Item item : spaceItems) {
               sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(), item.getDamage()));
             }
           }
           
           sb.append("</html>");
           information.setText(sb.toString());
+        }else if (e.getKeyChar() == 'm') {
+          pressKeySet.add(e.getKeyChar());
+          information.setText("<html>Click a target space to move the pet into.</html>");
+        }else if (e.getKeyChar() == 'a'){
+          pressKeySet.add(e.getKeyChar());
+          if (model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()) == model.getDoctorLuckyCurrentSpaceIndex()) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("<html>Press a number key to choose an item:<br>"); 
+            if (playerItems.size() == 0) {
+              sb.append("1.Poke eyes.");
+            }else {
+              int itemIndex = 1;
+              for (Item item : playerItems) {
+                sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(), item.getDamage()));
+              }
+            }
+            sb.append("</html>");
+            information.setText(sb.toString());
+          }else {
+            information.setText("<html>Invalid choice, the player is not in the same space with doctor.</html>"); 
+          }
+          
         }
+        
         if (pressKeySet.contains('p') && Character.isDigit(e.getKeyChar())) {
           pressKeySet.add(e.getKeyChar());
-          if (items != null) {
+          if (spaceItems != null) {
             int itemNum = Character.getNumericValue(e.getKeyChar());
-            if (itemNum <= items.size()) {
-              String itemName = items.get(itemNum - 1).getName();
+            if (itemNum != 0 && itemNum <= spaceItems.size()) {
+              String itemName = spaceItems.get(itemNum - 1).getName();
               String playerName = getCurrentPlayerName();
-              addLog(String.format("%s picked up %d. %s.\n", playerName, itemNum, itemName)); 
-              controller.pickUpItem(playerName, itemName);
+              Boolean res = controller.pickUpItem(playerName, itemName);
+              if (res) {
+                addLog(String.format("%s has reached the maximum items, pick up failed.\n", playerName));
+              } else {
+                addLog(String.format("%s picked up %d. %s.\n", playerName, itemNum, itemName));
+              }
               String playerInfoStr = model.getPlayerInfoByName(playerName);
+              
               information.setText(convertToHtml(playerInfoStr));
               newTurn();
-               
             }else {
               information.setText("Invalid choice, please choose a valid item number.");
             }
             
           }
+        }
+        if (pressKeySet.contains('a') && Character.isDigit(e.getKeyChar())) {
+          pressKeySet.add(e.getKeyChar());
+          int itemNum = Character.getNumericValue(e.getKeyChar());
+          if (itemNum != 0 && (itemNum <= playerItems.size() || itemNum == 1)) {
+            String itemName = "";
+            if (playerItems != null) {
+              itemName = playerItems.get(itemNum - 1).getName();
+            }
+            String playerName = getCurrentPlayerName();
+             
+            Boolean res = controller.makeAttempt(playerName, itemName);
+            String playerInfoStr = model.getPlayerInfoByName(playerName);
+            String attemptRes = "Attack Failed! You are seen by another player!\nThe health of doctor is ";
+            String log = "Attack Failed!";
+            if (res) {
+              attemptRes = "Attack Successfully!\nThe health of doctor is ";
+              log = "Attack Successfully!";
+            } 
+            addLog(String.format("%s used %d. %s, %s\n", playerName, itemNum, "".equals(itemName)? "Poke eyes": itemName, log));
+            information.setText(convertToHtml(String.format("%s\n%d\n\n%s",attemptRes, model.getDoctorLuckyHealth(), playerInfoStr)));
+            newTurn();
+          }else {
+            information.setText("Invalid choice, please choose a valid item number.");
+          }
+            
+ 
         }
       }
 
@@ -189,12 +245,6 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
         if (pressKeySet.size() == 1) {
           information.setText(convertToHtml(model.getPlayerInfoByName(getCurrentPlayerName())));
           
-        }
-        if (pressKeySet.size() > 1) {
-          if (pressKeySet.contains('p')) {
-            
-            
-          }
         }
         pressKeySet.clear();
       }
@@ -286,30 +336,37 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
         int row = e.getY();
         int col = e.getX();
         int spaceIndex = getSpaceIndex(row, col);
-        if (spaceIndex == -1) {
-          information.setText("Invalid click, please click again.");
-          return;
-        }
-        
         String playerName = getCurrentPlayerName();
-        int[] arr = controller.movePlayer(playerName, spaceIndex);
-        
-        int x = arr[0];
-        int y = arr[1];
-        if (x != -1) {
-          // move player
-          playersLabelMap.get(playerName).setLocation(
-              x * 30 + playersLocationMap.get(playerName)[0],
-              y * 30 + playersLocationMap.get(playerName)[1]);
-          // add information
-          String playerInfoStr = model.getPlayerInfoByName(playerName);
-          information.setText(convertToHtml(playerInfoStr));
-          // add log
-          addLog(String.format("%s move to NO.%d space.\n", playerName, spaceIndex));
+        if (pressKeySet.contains('m')) {
+          controller.movePet(spaceIndex);
+          addLog(String.format("%s has moved pet to NO.%d space.\n", playerName, spaceIndex));
           newTurn();
-        } else {
-          information.setText("Invalid click, please choose a neighboring space.");
+        }else {
+          if (spaceIndex == -1) {
+            information.setText("Invalid click, please click again.");
+            return;
+          }
+          
+          int[] arr = controller.movePlayer(playerName, spaceIndex);
+          
+          int x = arr[0];
+          int y = arr[1];
+          if (x != -1) {
+            // move player
+            playersLabelMap.get(playerName).setLocation(
+                x * 30 + playersLocationMap.get(playerName)[0],
+                y * 30 + playersLocationMap.get(playerName)[1]);
+            // add information
+            String playerInfoStr = model.getPlayerInfoByName(playerName);
+            information.setText(convertToHtml(playerInfoStr));
+            // add log
+            addLog(String.format("%s has moved to NO.%d space.\n", playerName, spaceIndex));
+            newTurn();
+          } else {
+            information.setText("Invalid click, please choose a neighboring space.");
+          }
         }
+        
       }
     });
     layeredPane.add(mainPanel, JLayeredPane.DEFAULT_LAYER);
@@ -322,7 +379,14 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
         .getPoints();
     int x = points[1];
     int y = points[0];
-    doctor.setLocation(x * 30 + 3, y * 30 + 10);
+    doctor.setLocation(x * 30 + 63, y * 30 + 10);
+    doctor.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        information.setText(convertToHtml(model.getDoctorLuckyInfo()));
+        
+      }
+    });
     layeredPane.add(doctor, JLayeredPane.PALETTE_LAYER);
   }
   
@@ -332,7 +396,7 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
     int[] points = model.getSpacesFromMansion().get(model.getPetCurrentSpaceIndex()).getPoints();
     int x = points[1];
     int y = points[0];
-    pet.setLocation(x * 30 + 3, y * 30 + 20);
+    pet.setLocation(x * 30 + 63, y * 30 + 20);
     layeredPane.add(pet, JLayeredPane.PALETTE_LAYER);
   }
   
@@ -347,8 +411,8 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
       int[] points = model.getSpacesFromMansion().get(player.getCurrentSpaceIndex()).getPoints();
       int x = points[1];
       int y = points[0];
-      playerLabel.setLocation(x * 30 + 3, y * 30 + 20 * index + 10);
-      int[] intArr = new int[] { 3, 20 * index + 10 };
+      playerLabel.setLocation(x * 30 + 3, y * 30 + 15 * index + 10);
+      int[] intArr = new int[] { 3, 15 * index + 10 };
       layeredPane.add(playerLabel, JLayeredPane.PALETTE_LAYER);
       playersLabelMap.put(player.getName(), playerLabel);
       playersLocationMap.put(player.getName(), intArr);
@@ -393,7 +457,7 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
         .getPoints();
     int x = points[1];
     int y = points[0];
-    doctor.setLocation(x * 30 + 3, y * 30 + 10);
+    doctor.setLocation(x * 30 + 63, y * 30 + 10);
   }
 
 
@@ -402,7 +466,7 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
     int[] points = model.getSpacesFromMansion().get(model.getPetCurrentSpaceIndex()).getPoints();
     int x = points[1];
     int y = points[0];
-    pet.setLocation(x * 30 + 3, y * 30 + 20);
+    pet.setLocation(x * 30 + 63, y * 30 + 20);
     
   }
 
@@ -433,12 +497,16 @@ public class KillDoctorLuckyFrameView extends JFrame implements KillDoctorLuckyV
     changeTurnInfo();
     changeDoctor();
     changePet();
-    loadItems();
+    loadSpaceItems();
+    loadPlayerItems();
   }
   
-  private void loadItems() {
-    items = model.getItemsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()));
-    
+  private void loadSpaceItems() {
+    spaceItems = model.getItemsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()));
+  }
+  
+  private void loadPlayerItems() {
+    playerItems = model.getItemsByPlayerName(getCurrentPlayerName());
   }
   
   private void changeTurnInfo() {

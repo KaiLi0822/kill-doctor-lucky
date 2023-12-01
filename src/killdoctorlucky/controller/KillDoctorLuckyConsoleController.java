@@ -431,20 +431,38 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
   @Override
   public int[] movePlayer(String playerName, int spaceIndex) {
-    for (Space space : model.getNeighborsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(playerName))) {
+    for (Space space : model
+        .getNeighborsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(playerName))) {
       if (space.getIndex() == spaceIndex) {
         killDoctorLuckyCommand = new MovePlayer(playerName, spaceIndex);
         killDoctorLuckyCommand.execute(model);
-        return new int[] {space.getPoints()[1], space.getPoints()[0]};
-        
-      } 
+        return new int[] { space.getPoints()[1], space.getPoints()[0] };
+
+      }
     }
-    return new int[] {-1, -1};
+    return new int[] { -1, -1 };
   }
 
   @Override
-  public void pickUpItem(String playerName, String itemName) {
-    model.pickUpItem(playerName, itemName); 
+  public Boolean pickUpItem(String playerName, String itemName) {
+    try {
+      killDoctorLuckyCommand = new PickUpItem(playerName, itemName);
+      killDoctorLuckyCommand.execute(model);
+    } catch (IllegalStateException e) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public void movePet(int spaceIndex) {
+    model.movePet(spaceIndex);
+
+  }
+
+  @Override
+  public Boolean makeAttempt(String playerName, String itemName) {
+    return model.makeAttempt(playerName, itemName);
   }
 
 }
