@@ -372,7 +372,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   }
 
   @Override
-  public PlayerType gePlayerTypeByName(String playerName) {
+  public PlayerType getPlayerTypeByName(String playerName) {
     return getPlayerByName(playerName).gePlayerType();
   }
 

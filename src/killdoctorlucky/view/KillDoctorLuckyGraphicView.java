@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import killdoctorlucky.controller.KillDoctorLuckyControllerFeature;
 import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.character.PlayerType;
 import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyViewModel;
 import killdoctorlucky.model.space.Space;
@@ -93,15 +94,15 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
 
     this.setVisible(true);
   }
-  
+
   private String getCurrentPlayerName() {
     return model.getPlayerNameByTurn(model.getTurns());
-    
+
   }
-  
+
   @Override
   public void setFeatures(KillDoctorLuckyControllerFeature controllerIn) {
-    
+
     this.controller = controllerIn;
     // action for menu
     startGameItem.addActionListener(l -> controller.startGame());
@@ -119,7 +120,50 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       }
     });
 
-    
+  }
+
+  private void showPickUpInfo(Boolean res, String playerName, String itemName) {
+    if (res) {
+      addLog(String.format("%s picked up %s.\n", playerName, itemName));
+    } else {
+      addLog(String.format("%s has reached the maximum items, pick up failed.\n", playerName));
+    }
+    String playerInfoStr = model.getPlayerInfoByName(playerName);
+
+    information.setText(convertToHtml(playerInfoStr));
+
+  }
+
+  private void showAroundInfo() {
+    addLog(String.format("%s looks around.\n", getCurrentPlayerName()));
+    String aroundInfoStr = model.getAroundInfo(getCurrentPlayerName());
+    information.setText(convertToHtml(aroundInfoStr));
+  }
+
+  private void showMoveSpaceInfo(String playerName, int spaceIndex, int[] arr) {
+    // add information
+    String playerInfoStr = model.getPlayerInfoByName(playerName);
+    information.setText(convertToHtml(playerInfoStr));
+    // add log
+    addLog(String.format("%s has moved to NO.%d space.\n", playerName, spaceIndex));
+    // move player
+    playersLabelMap.get(playerName).setLocation(arr[0] * 30 + playersLocationMap.get(playerName)[0],
+        arr[1] * 30 + playersLocationMap.get(playerName)[1]);
+  }
+
+  private void showMakeAttemptInfo(Boolean res, String playerName, String itemName) {
+
+    String attemptRes = "Attack Failed! You are seen by another player!\nThe health of doctor is ";
+    String log = "Attack Failed!";
+    if (res) {
+      attemptRes = "Attack Successfully!\nThe health of doctor is ";
+      log = "Attack Successfully!";
+    }
+    addLog(String.format("%s used %s, %s\n", playerName,
+        "".equals(itemName) ? "Poke eyes" : itemName, log));
+    information.setText(
+        convertToHtml(String.format("%s\n%d\n", attemptRes, model.getDoctorLuckyHealth())));
+
   }
 
   @Override
@@ -139,11 +183,9 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       @Override
       public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'l') {
-          addLog(String.format("%s looks around.\n", getCurrentPlayerName()));
-          String aroundInfoStr = model.getAroundInfo(getCurrentPlayerName());
-          information.setText(convertToHtml(aroundInfoStr));
+          showAroundInfo();
+          newTurn();
         }
-        newTurn();
 
       }
 
@@ -152,42 +194,46 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
         if (e.getKeyChar() == 'p') {
           pressKeySet.add(e.getKeyChar());
           StringBuffer sb = new StringBuffer();
-          sb.append("<html>Press a number key to choose an item:<br>"); 
+          sb.append("<html>Press a number key to choose an item:<br>");
           if (spaceItems.size() == 0) {
             sb.append("There is no items to pick.");
           } else {
             int itemIndex = 1;
             for (Item item : spaceItems) {
-              sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(), item.getDamage()));
+              sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(),
+                  item.getDamage()));
             }
           }
-          
+
           sb.append("</html>");
           information.setText(sb.toString());
-        }else if (e.getKeyChar() == 'm') {
+        } else if (e.getKeyChar() == 'm') {
           pressKeySet.add(e.getKeyChar());
           information.setText("<html>Click a target space to move the pet into.</html>");
-        }else if (e.getKeyChar() == 'a'){
+        } else if (e.getKeyChar() == 'a') {
           pressKeySet.add(e.getKeyChar());
-          if (model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()) == model.getDoctorLuckyCurrentSpaceIndex()) {
+          if (model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()) == model
+              .getDoctorLuckyCurrentSpaceIndex()) {
             StringBuffer sb = new StringBuffer();
-            sb.append("<html>Press a number key to choose an item:<br>"); 
+            sb.append("<html>Press a number key to choose an item:<br>");
             if (playerItems.size() == 0) {
               sb.append("1.Poke eyes.");
-            }else {
+            } else {
               int itemIndex = 1;
               for (Item item : playerItems) {
-                sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(), item.getDamage()));
+                sb.append(String.format("%d. %s; damage: %d<br>", itemIndex++, item.getName(),
+                    item.getDamage()));
               }
             }
             sb.append("</html>");
             information.setText(sb.toString());
-          }else {
-            information.setText("<html>Invalid choice, the player is not in the same space with doctor.</html>"); 
+          } else {
+            information.setText(
+                "<html>Invalid choice, the player is not in the same space with doctor.</html>");
           }
-          
+
         }
-        
+
         if (pressKeySet.contains('p') && Character.isDigit(e.getKeyChar())) {
           pressKeySet.add(e.getKeyChar());
           if (spaceItems != null) {
@@ -196,19 +242,12 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
               String itemName = spaceItems.get(itemNum - 1).getName();
               String playerName = getCurrentPlayerName();
               Boolean res = controller.pickUpItem(playerName, itemName);
-              if (res) {
-                addLog(String.format("%s has reached the maximum items, pick up failed.\n", playerName));
-              } else {
-                addLog(String.format("%s picked up %d. %s.\n", playerName, itemNum, itemName));
-              }
-              String playerInfoStr = model.getPlayerInfoByName(playerName);
-              
-              information.setText(convertToHtml(playerInfoStr));
+              showPickUpInfo(res, playerName, itemName);
               newTurn();
-            }else {
+            } else {
               information.setText("Invalid choice, please choose a valid item number.");
             }
-            
+
           }
         }
         if (pressKeySet.contains('a') && Character.isDigit(e.getKeyChar())) {
@@ -216,27 +255,20 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
           int itemNum = Character.getNumericValue(e.getKeyChar());
           if (itemNum != 0 && (itemNum <= playerItems.size() || itemNum == 1)) {
             String itemName = "";
-            if (playerItems != null) {
+            if (playerItems.size() != 0) {
               itemName = playerItems.get(itemNum - 1).getName();
             }
             String playerName = getCurrentPlayerName();
-             
+
             Boolean res = controller.makeAttempt(playerName, itemName);
-            String playerInfoStr = model.getPlayerInfoByName(playerName);
-            String attemptRes = "Attack Failed! You are seen by another player!\nThe health of doctor is ";
-            String log = "Attack Failed!";
-            if (res) {
-              attemptRes = "Attack Successfully!\nThe health of doctor is ";
-              log = "Attack Successfully!";
-            } 
-            addLog(String.format("%s used %d. %s, %s\n", playerName, itemNum, "".equals(itemName)? "Poke eyes": itemName, log));
-            information.setText(convertToHtml(String.format("%s\n%d\n\n%s",attemptRes, model.getDoctorLuckyHealth(), playerInfoStr)));
+
+            showMakeAttemptInfo(res, playerName, itemName);
+
             newTurn();
-          }else {
+          } else {
             information.setText("Invalid choice, please choose a valid item number.");
           }
-            
- 
+
         }
       }
 
@@ -244,13 +276,18 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       public void keyReleased(KeyEvent e) {
         if (pressKeySet.size() == 1) {
           information.setText(convertToHtml(model.getPlayerInfoByName(getCurrentPlayerName())));
-          
+
         }
         pressKeySet.clear();
       }
     });
+    // if the first player is Robot, go to newTurn
+    if (model.getPlayerTypeByName(getCurrentPlayerName()).equals(PlayerType.ROBOT)) {
+      robotTurn();
+    }
+    
   }
-  
+
   private void showTurnInfo() {
     topPanel.setBorder(
         BorderFactory.createTitledBorder(BorderFactory.createTitledBorder("Player Turn")));
@@ -260,7 +297,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
         .append(model.getPlayerInfoByName(playerName)).append("</html>");
     turnLabel.setText(sb.toString());
   }
-  
+
   private void showLeft() {
     JPanel leftPanel = new JPanel(new BorderLayout());
     this.add(leftPanel, BorderLayout.WEST);
@@ -284,7 +321,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     information.setText(convertToHtml(playerInfoStr));
     leftPanelBottom.add(information, BorderLayout.CENTER);
   }
-  
+
   private void showRight() {
     // right
     JPanel rightPanel = new JPanel(new BorderLayout());
@@ -295,7 +332,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     JScrollPane scrollPane = new JScrollPane(messageArea);
     rightPanel.add(scrollPane, BorderLayout.CENTER);
   }
-  
+
   private void showMansion() {
     mainPanel = new JPanel() {
       private static final long serialVersionUID = 1L;
@@ -341,37 +378,28 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
           controller.movePet(spaceIndex);
           addLog(String.format("%s has moved pet to NO.%d space.\n", playerName, spaceIndex));
           newTurn();
-        }else {
+        } else {
           if (spaceIndex == -1) {
             information.setText("Invalid click, please click again.");
             return;
           }
-          
+
           int[] arr = controller.movePlayer(playerName, spaceIndex);
-          
-          int x = arr[0];
-          int y = arr[1];
-          if (x != -1) {
-            // move player
-            playersLabelMap.get(playerName).setLocation(
-                x * 30 + playersLocationMap.get(playerName)[0],
-                y * 30 + playersLocationMap.get(playerName)[1]);
-            // add information
-            String playerInfoStr = model.getPlayerInfoByName(playerName);
-            information.setText(convertToHtml(playerInfoStr));
-            // add log
-            addLog(String.format("%s has moved to NO.%d space.\n", playerName, spaceIndex));
+          if (arr[0] != -1) {
+
+            showMoveSpaceInfo(playerName, spaceIndex, arr);
+
             newTurn();
           } else {
             information.setText("Invalid click, please choose a neighboring space.");
           }
         }
-        
+
       }
     });
     layeredPane.add(mainPanel, JLayeredPane.DEFAULT_LAYER);
   }
-  
+
   private void showDoctor() {
     doctor = new JLabel(model.getDoctorLuckyName());
     doctor.setSize(100, 25);
@@ -384,12 +412,12 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       @Override
       public void mouseClicked(MouseEvent e) {
         information.setText(convertToHtml(model.getDoctorLuckyInfo()));
-        
+
       }
     });
     layeredPane.add(doctor, JLayeredPane.PALETTE_LAYER);
   }
-  
+
   private void showPet() {
     pet = new JLabel(model.getPetName());
     pet.setSize(100, 25);
@@ -399,7 +427,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     pet.setLocation(x * 30 + 63, y * 30 + 20);
     layeredPane.add(pet, JLayeredPane.PALETTE_LAYER);
   }
-  
+
   private void showPlayers() {
     playersLabelMap = new HashMap<String, JLabel>();
     playersLocationMap = new HashMap<String, int[]>();
@@ -419,8 +447,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       index += 1;
     }
   }
-  
-  
+
   private void addLog(String message) {
     messageArea.append(message + "\n");
   }
@@ -429,7 +456,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
   public void setModel(KillDoctorLuckyViewModel m) {
     this.model = m;
   }
-
 
   private String convertToHtml(String in) {
     return String.format("<html>%s</html>",
@@ -451,7 +477,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
 
     }
   }
-  
+
   private void changeDoctor() {
     int[] points = model.getSpacesFromMansion().get(model.getDoctorLuckyCurrentSpaceIndex())
         .getPoints();
@@ -460,14 +486,12 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     doctor.setLocation(x * 30 + 63, y * 30 + 10);
   }
 
-
-  
   private void changePet() {
     int[] points = model.getSpacesFromMansion().get(model.getPetCurrentSpaceIndex()).getPoints();
     int x = points[1];
     int y = points[0];
     pet.setLocation(x * 30 + 63, y * 30 + 20);
-    
+
   }
 
   private int getSpaceIndex(int yIn, int xIn) {
@@ -491,24 +515,68 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     return -1;
 
   }
+  
+  private void robotTurn() {
+    List<String> strs = controller.robotTurn();
+    String option = strs.get(0);
+    switch (option) {
+      case "l":
+        showAroundInfo();
+        break;
+      case "s":
+        int[] arr = new int[] { Integer.parseInt(strs.get(3)), Integer.parseInt(strs.get(4)) };
+        showMoveSpaceInfo(strs.get(1), Integer.parseInt(strs.get(2)), arr);
+        break;
+      case "p":
+        showPickUpInfo(Boolean.valueOf(strs.get(1)), strs.get(2), strs.get(3));
+        break;
+      case "m":
+        addLog(String.format("%s has moved pet to NO.%d space.\n", strs.get(1),
+            Integer.parseInt(strs.get(2))));
+        break;
+      case "a":
+        showMakeAttemptInfo(Boolean.valueOf(strs.get(1)), strs.get(2), strs.get(3));
+        break;
+      default:
+        break;
+    }
+    newTurn();
+  }
 
-  
   private void newTurn() {
-    changeTurnInfo();
-    changeDoctor();
-    changePet();
-    loadSpaceItems();
-    loadPlayerItems();
+    if (controller.isGameOver()) {
+      String winner = controller.getWinner();
+      if ("".equals(winner)) {
+        JOptionPane.showMessageDialog(null,
+            "Game Over! You have reached the maximum number of turns, the docotr has escaped.");
+      } else {
+        JOptionPane.showMessageDialog(null,
+            String.format("Game Over! Doctor Lucky has been killed, winner is %s!", winner));
+      }
+      System.exit(0);
+    } else {
+      changeTurnInfo();
+      changeDoctor();
+      changePet();
+      loadSpaceItems();
+      loadPlayerItems();
+      if (model.getPlayerTypeByName(getCurrentPlayerName()).equals(PlayerType.ROBOT)) {
+        robotTurn();
+      }
+
+    }
+
   }
-  
+
   private void loadSpaceItems() {
-    spaceItems = model.getItemsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()));
+    spaceItems = model
+        .getItemsBySpaceIndex(model.getCurrentSpaceIndexByPlayerName(getCurrentPlayerName()));
   }
-  
+
   private void loadPlayerItems() {
     playerItems = model.getItemsByPlayerName(getCurrentPlayerName());
   }
-  
+
   private void changeTurnInfo() {
     StringBuffer sb = new StringBuffer();
     String playerName = getCurrentPlayerName();
@@ -516,7 +584,5 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
         .append(model.getPlayerInfoByName(playerName)).append("</html>");
     turnLabel.setText(sb.toString());
   }
-
-
 
 }

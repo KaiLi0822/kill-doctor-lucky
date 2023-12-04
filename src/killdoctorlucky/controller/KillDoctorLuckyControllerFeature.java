@@ -3,6 +3,8 @@
  */
 package killdoctorlucky.controller;
 
+import java.util.List;
+
 /**
  * 
  */
@@ -18,4 +20,10 @@ public interface KillDoctorLuckyControllerFeature {
   void movePet(int spaceIndex);  
 
   Boolean makeAttempt(String playerName, String itemName);
+  
+  Boolean isGameOver();
+  
+  String getWinner();
+  
+  List<String> robotTurn();
 }

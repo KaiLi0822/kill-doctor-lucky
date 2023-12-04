@@ -10,6 +10,7 @@ import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
  */
 public class Parse implements KillDoctorLuckyCommand {
   private FileReader fileReader;
+  private int maxTurn;
 
   /**
    * Constructor the Parse.
@@ -17,12 +18,13 @@ public class Parse implements KillDoctorLuckyCommand {
    * @param file the specification file
    * @throws FileNotFoundException if file not found
    */
-  public Parse(String file) throws FileNotFoundException {
+  public Parse(String file, int maxTurnIn) throws FileNotFoundException {
     try {
       fileReader = new FileReader(file);
     } catch (FileNotFoundException e) {
       throw new FileNotFoundException("Specification file not found.");
     }
+    maxTurn = maxTurnIn;
   }
 
   @Override
@@ -36,6 +38,7 @@ public class Parse implements KillDoctorLuckyCommand {
     } catch (NumberFormatException e) {
       throw new IllegalStateException("Specification file parse failed.");
     }
+    m.setMaxTurn(maxTurn);
 
   }
 }

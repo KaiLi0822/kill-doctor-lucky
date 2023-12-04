@@ -1,6 +1,5 @@
 package killdoctorlucky.model.killdoctorlucky;
 
-import java.io.IOException;
 import java.util.List;
 
 import killdoctorlucky.model.character.Player;
@@ -12,57 +11,6 @@ import killdoctorlucky.model.space.Space;
  * The KillDoctorLucky game interface.
  */
 public interface KillDoctorLuckyViewModel {
-
-  /**
-   * Sets the mansion.
-   * 
-   * @param mansionName   the mansionName
-   * @param mansionHeight the mansionHeight
-   * @param mansionWidth  the mansionWidth
-   */
-  void setMansion(String mansionName, int mansionHeight, int mansionWidth);
-
-
-  /**
-   * Sets the setDoctorLucky.
-   * 
-   * @param doctorName   the doctorName
-   * @param doctorHealth the doctorHealth
-   */
-  void setDoctorLucky(String doctorName, int doctorHealth);
-
-  /**
-   * Sets the maximum number of turns.
-   * 
-   * @param maxTurnIn the maximum number
-   */
-  void setMaxTurn(int maxTurnIn);
-
-  /**
-   * Adds the player.
-   * 
-   * @param playerType the playerType
-   * @param playerName the playerName
-   * @param spaceIndex the spaceIndex
-   * @param maxItem    the maxItem
-   */
-  void addPlayer(PlayerType playerType, String playerName, int spaceIndex, int maxItem);
-
-  /**
-   * Gets the players information.
-   * 
-   * @return the players information
-   */
-  String getPlayersInfo();
-
-  /**
-   * Gets the player information by the name.
-   * 
-   * @param name the player name
-   * @return the player information
-   */
-  String getPlayerInfoByName(String name);
-
   /**
    * Gets the maximum number of turns.
    * 
@@ -77,37 +25,16 @@ public interface KillDoctorLuckyViewModel {
    * @return the player name
    */
   String getPlayerNameByTurn(int index);
-
-
-  /**
-   * Initiate the game.
-   * 
-   * @param readable the specification of the game
-   */
-  void initiateGame(Readable readable);
-
-  /**
-   * Draws the map.
-   * 
-   * @return the map file path
-   * @throws IOException if map generating failed throw an IOException
-   */
-  String outputMap() throws IOException;
-
   
+
   /**
-   * Moves player.
-   * @param playerName the player name
-   * @param targetSpace the target space
+   * Gets the player information by the name.
+   * 
+   * @param name the player name
+   * @return the player information
    */
-  void movePlayer(String playerName, int targetSpace);
+  String getPlayerInfoByName(String name);
   
-  /**
-   * Picks up item.
-   * @param player the player
-   * @param item the item
-   */
-  void pickUpItem(String player, String item);
   
   /**
    * Gets around info.
@@ -117,22 +44,10 @@ public interface KillDoctorLuckyViewModel {
   String getAroundInfo(String playerName);
   
   /**
-   * Gets current turn.
-   * @return current turn
+   * Gets the doctor's health.
+   * @return doctor's health
    */
-  int getTurns();
-  
-  /**
-   * Gets the mansion information.
-   * @return the mansion information
-   */
-  String getMansionInfo();
-  
-  /**
-   * Gets the doctor information.
-   * @return the doctor information
-   */
-  String getDoctorLuckyInfo();
+  int getDoctorLuckyHealth();
   
   /**
    * Gets the player's space index.
@@ -141,132 +56,14 @@ public interface KillDoctorLuckyViewModel {
    */
   int getCurrentSpaceIndexByPlayerName(String playerName);
   
-  /**
-   * Gets the neighbors.
-   * @param index space index
-   * @return the neighbors
-   */
-  List<Space> getNeighborsBySpaceIndex(int index);
-  
-  /**
-   * Gets the items.
-   * @param index space index
-   * @return the items
-   */
-  List<Item> getItemsBySpaceIndex(int index);
-  
+
   
   /**
    * Gets the player type.
    * @param playerName player name.
    * @return the player type
    */
-  PlayerType gePlayerTypeByName(String playerName);
-  
-  /**
-   * Gets the doctor's name.
-   * @return doctor's name
-   */
-  String getDoctorLuckyName();
-  
-  /**
-   * Gets the doctor's space index.
-   * @return doctor's space index
-   */
-  int getDoctorLuckyCurrentSpaceIndex();
-  
-  /**
-   * Gets the doctor's health.
-   * @return doctor's health
-   */
-  int getDoctorLuckyHealth();
-  
-  /**
-   * Gets the space name by index.
-   * @param index the index
-   * @return the space name
-   */
-  String getSpaceNameByIndex(int index);
-  
-  /**
-   * Gets space info.
-   * @param index the index
-   * @return space info
-   */
-  String getSpaceInfo(int index);
-  
-  /**
-   * Sets the pet.
-   * @param petName the pet name
-   */
-  void setPet(String petName);
-  
-  /**
-   * Gets the pet's name.
-   * @return pet's name
-   */
-  String getPetName();
-  
-  /**
-   * Gets the pet's space index.
-   * @return pet's space index
-   */
-  int getPetCurrentSpaceIndex();
-  
-  /**
-   * Gets the number of space.
-   * @return space number
-   */
-  int getSpaceNumFromMansion();
-  
-  /**
-   * Moves the pet.
-   * @param index the space index
-   */
-  void movePet(int index);
-  
-  /**
-   * Gets the items.
-   * @param playerName player name
-   * @return the items
-   */
-  List<Item> getItemsByPlayerName(String playerName);
-  
-  /**
-   * Gets the item name with the most damage.
-   * @param playerName the player name
-   * @return the item name
-   */
-  String getMostDamageItemNameByPlayerName(String playerName);
-  
-  /**
-   * Player makes an attempt with item.
-   * @param playerName the player name
-   * @param itemName the item name
-   * @return true if the attempt was done else false
-   */
-  Boolean makeAttempt(String playerName, String itemName);
-  
-  /**
-   * Gets pet info.
-   * @return pet info
-   */
-  String getPetInfo();
-  
-  
-  /**
-   * Gets the limited neighbors info.
-   * @param spaceIndex the space index
-   * @return the neighbors info
-   */
-  String getNeighborsInfoBySpaceIndex(int spaceIndex);
-  
-  /**
-   * Gets the limited items info.
-   * @param spaceIndex the space index
-   * @return the items info
-   */
-  String getItemsInfoBySpaceIndex(int spaceIndex);
+  PlayerType getPlayerTypeByName(String playerName);
   
   /**
    * Gets the width.
@@ -287,9 +84,65 @@ public interface KillDoctorLuckyViewModel {
   List<Space> getSpacesFromMansion();
   
   /**
+   * Gets the doctor information.
+   * @return the doctor information
+   */
+  String getDoctorLuckyInfo();
+  
+  /**
+   * Gets the doctor's name.
+   * @return doctor's name
+   */
+  String getDoctorLuckyName();
+  
+  /**
+   * Gets the doctor's space index.
+   * @return doctor's space index
+   */
+  int getDoctorLuckyCurrentSpaceIndex();
+  
+  /**
+   * Gets the pet's name.
+   * @return pet's name
+   */
+  String getPetName();
+  
+  /**
+   * Gets the pet's space index.
+   * @return pet's space index
+   */
+  int getPetCurrentSpaceIndex();
+  
+  /**
    * Gets the players.
    * @return players
    */
   List<Player> getPlayers();
+  
+  /**
+   * Gets the items.
+   * @param playerName player name
+   * @return the items
+   */
+  List<Item> getItemsByPlayerName(String playerName);
+  
+  /**
+   * Gets current turn.
+   * @return current turn
+   */
+  int getTurns();
+  
+  /**
+   * Gets the items.
+   * @param index space index
+   * @return the items
+   */
+  List<Item> getItemsBySpaceIndex(int index);
+  
+  
+  
+
+  
+ 
   
 }
