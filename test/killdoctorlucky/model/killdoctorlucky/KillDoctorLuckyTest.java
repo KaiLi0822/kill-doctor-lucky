@@ -28,7 +28,7 @@ public class KillDoctorLuckyTest {
     stringBuffer = new StringBuffer();
     FileReader fileReader = null;
     try {
-      fileReader = new FileReader("./res/WorldSpecification.txt");
+      fileReader = new FileReader("./res/WorldSpecification_testForModel.txt");
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -46,19 +46,18 @@ public class KillDoctorLuckyTest {
   public void testAddPlayer() {
     killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 2);
     stringBuffer.append("human [playerType=human, maxItems=2, carriedItems=[],")
-        .append(" currentSpaceIndex=0, currentSpaceName=Armory]");
+        .append(" currentSpaceIndex=0, currentSpaceName=Armory")
+        .append(", Doctor Lucky's health=1, pet=Fortune the Cat]");
     assertEquals(stringBuffer.toString(), killDoctorLucky.getPlayerInfoByName("human"));
   }
 
   @Test
   public void testTwoPlayersAndTurns() {
-    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 2);
-    killDoctorLucky.addPlayer(PlayerType.ROBOT, "robot", 1, 1);
     String humanName = killDoctorLucky.getPlayerNameByTurn(killDoctorLucky.getTurns());
-    assertEquals("human", humanName);
+    assertEquals("robot1", humanName);
     killDoctorLucky.movePlayer(humanName, 1);
     String robotName = killDoctorLucky.getPlayerNameByTurn(killDoctorLucky.getTurns());
-    assertEquals("robot", robotName);
+    assertEquals("human1", robotName);
   }
 
   @Test
@@ -66,30 +65,27 @@ public class KillDoctorLuckyTest {
     killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 2);
     stringBuffer.append("Armory [index=0, neighbors=[1.Billiard Room, 6.Green House")
         .append(", 7.Hedge Maze], items=[Revolver], players=[human]]");
-    assertEquals(stringBuffer.toString(),
-        killDoctorLucky.getSpaceInfo(0).toString());
+    assertEquals(stringBuffer.toString(), killDoctorLucky.getSpaceInfo(0).toString());
   }
 
   @Test
   public void testPlayerMove() {
     killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 2);
-    String playerName = killDoctorLucky.getPlayerNameByTurn(0);
+    String playerName = killDoctorLucky.getPlayerNameByTurn(4);
     killDoctorLucky.movePlayer(playerName, 1);
     stringBuffer.append("Billiard Room [index=1, neighbors=[0.Armory, 3.Dining Hall,")
         .append(" 18.Trophy Room], items=[Billiard Cue], players=[human]]");
     StringBuffer stringBuffer1 = new StringBuffer();
     stringBuffer1.append("Armory [index=0, neighbors=[1.Billiard Room, ")
         .append("6.Green House, 7.Hedge Maze], items=[Revolver], players=[]]");
-    assertEquals(stringBuffer.toString(),
-        killDoctorLucky.getSpaceInfo(1));
-    assertEquals(stringBuffer1.toString(),
-        killDoctorLucky.getSpaceInfo(0));
+    assertEquals(stringBuffer.toString(), killDoctorLucky.getSpaceInfo(1));
+    assertEquals(stringBuffer1.toString(), killDoctorLucky.getSpaceInfo(0));
   }
 
   @Test
   public void testPickUpItem() {
     killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 2);
-    String playerName = killDoctorLucky.getPlayerNameByTurn(0);
+    String playerName = killDoctorLucky.getPlayerNameByTurn(4);
     stringBuffer.append("Armory [index=0, neighbors=[1.Billiard Room, 6.Green House,")
         .append(" 7.Hedge Maze], items=[Revolver], players=[human]]");
     assertEquals(stringBuffer.toString(), killDoctorLucky.getSpaceInfo(0));
@@ -108,9 +104,7 @@ public class KillDoctorLuckyTest {
 
   @Test(expected = IllegalStateException.class)
   public void testReachMaxItem() {
-    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 8, 1);
-    String playerName = killDoctorLucky.getPlayerNameByTurn(0);
-    
+    String playerName = killDoctorLucky.getPlayerNameByTurn(1);
     String itemName = killDoctorLucky.getItemsBySpaceIndex(8).get(0).getName();
     killDoctorLucky.pickUpItem(playerName, itemName);
     String itemName1 = killDoctorLucky.getItemsBySpaceIndex(8).get(0).getName();
@@ -119,32 +113,24 @@ public class KillDoctorLuckyTest {
 
   @Test
   public void testLookAround() {
-    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 8, 1);
     String player = killDoctorLucky.getPlayerNameByTurn(0);
     String info = killDoctorLucky.getAroundInfo(player);
-    stringBuffer.append("* 3. Dining Hall\n")
-        .append("Dining Hall [index=3, neighbors=[1.Billiard Room, 4.Drawing Room, ")
-        .append("8.Kitchen, 17.Tennessee Room], items=[], players=[]]\n").append("* 14. Parlor\n")
-        .append("Parlor [index=14, neighbors=[8.Kitchen, ")
-        .append("16.Servants' Quarters], items=[], players=[]]\n")
-        .append("* 19. Wine Cellar\n")
-        .append("Wine Cellar [index=19, neighbors=[2.Carriage House, 8.Kitchen, 20.Winter Garden]")
-        .append(", items=[Rat Poison, Piece of Rope], players=[]]\n");
+    stringBuffer.append("** 0. Armory\n").append("This space is invisible.\n")
+        .append("** 7. Hedge Maze\n").append("Hedge Maze [index=7, neighbors=[0.Armory, ")
+        .append("6.Green House, 15.Piazza], items=[Loud Noise], players=[]]\n");
     assertEquals(stringBuffer.toString(), info);
   }
 
   @Test
   public void testGetPlayerInfo() {
-    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 8, 1);
-    String player = killDoctorLucky.getPlayerNameByTurn(0);
+    String player = killDoctorLucky.getPlayerNameByTurn(1);
     String item = killDoctorLucky.getItemsBySpaceIndex(8).get(0).getName();
     killDoctorLucky.pickUpItem(player, item);
-    stringBuffer
-        .append("human [playerType=human, maxItems=1,")
+    stringBuffer.append("human1 [playerType=human, maxItems=1,")
         .append(" carriedItems=[Crepe Pan], currentSpaceIndex=8, currentSpaceName=Kitchen]");
     assertEquals(stringBuffer.toString(), killDoctorLucky.getPlayerInfoByName(player));
   }
-  
+
   @Test
   public void testDoctorMove() {
     killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 8, 1);
@@ -153,6 +139,33 @@ public class KillDoctorLuckyTest {
     assertEquals(0, killDoctorLucky.getDoctorLuckyCurrentSpaceIndex());
     killDoctorLucky.pickUpItem(player, item);
     assertEquals(1, killDoctorLucky.getDoctorLuckyCurrentSpaceIndex());
+  }
+
+  @Test
+  public void testMakeAttempt() {
+    String player = killDoctorLucky.getPlayerNameByTurn(0);
+    assertEquals(1, killDoctorLucky.getDoctorLuckyHealth());
+    killDoctorLucky.makeAttempt(player, "");
+    assertEquals(0, killDoctorLucky.getDoctorLuckyHealth());
+  }
+
+  @Test
+  public void testMakeAttemptFailed() {
+    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 1);
+    killDoctorLucky.addPlayer(PlayerType.HUMAN, "humanNew", 0, 1);
+    String player = killDoctorLucky.getPlayerNameByTurn(4);
+    killDoctorLucky.makeAttempt(player, "");
+    assertEquals(1, killDoctorLucky.getDoctorLuckyCurrentSpaceIndex());
+  }
+
+  @Test
+  public void testMovePet() {
+    assertEquals(0, killDoctorLucky.getPetCurrentSpaceIndex());
+    killDoctorLucky.addPlayer(PlayerType.HUMAN, "human", 0, 1);
+    killDoctorLucky.addPlayer(PlayerType.HUMAN, "humanNew", 0, 1);
+    String player = killDoctorLucky.getPlayerNameByTurn(4);
+    killDoctorLucky.makeAttempt(player, "");
+    assertEquals(1, killDoctorLucky.getPetCurrentSpaceIndex());
   }
 
 }

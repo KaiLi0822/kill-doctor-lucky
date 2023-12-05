@@ -3,7 +3,6 @@ package killdoctorlucky.model.killdoctorlucky;
 import java.io.IOException;
 import java.util.List;
 import killdoctorlucky.model.character.PlayerType;
-import killdoctorlucky.model.item.Item;
 import killdoctorlucky.model.space.Space;
 
 /**

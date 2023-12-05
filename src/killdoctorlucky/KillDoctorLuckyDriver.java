@@ -22,11 +22,11 @@ public class KillDoctorLuckyDriver {
 
     // Create random generator
     RandomGenerator rg = new RandomGenerator();
-//    // Create the model
+    // Create the model
     KillDoctorLucky model = new KillDoctorLuckyModel();
 
     if ("gui".equals(args[2])) {
-//    // Create the controller with the model
+      // Create the controller with the model
       KillDoctorLuckyController controller = new KillDoctorLuckyConsoleController(rg, args[0],
           args[1]);
       // Create the view
@@ -42,6 +42,7 @@ public class KillDoctorLuckyDriver {
           input, output, rg, args[0], args[1]);
       killDoctorLuckyController.setModel(model);
       killDoctorLuckyController.playGame();
+
     }
 
   }

@@ -1,15 +1,9 @@
 package killdoctorlucky.view;
 
-import javax.swing.*;
-
-import killdoctorlucky.controller.KillDoctorLuckyControllerFeature;
-import killdoctorlucky.model.character.Player;
-import killdoctorlucky.model.character.PlayerType;
-import killdoctorlucky.model.item.Item;
-import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyViewModel;
-import killdoctorlucky.model.space.Space;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,7 +16,30 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import killdoctorlucky.controller.KillDoctorLuckyControllerFeature;
+import killdoctorlucky.model.character.Player;
+import killdoctorlucky.model.character.PlayerType;
+import killdoctorlucky.model.item.Item;
+import killdoctorlucky.model.killdoctorlucky.KillDoctorLuckyViewModel;
+import killdoctorlucky.model.space.Space;
 
+
+/**
+ * The Graphic view.
+ */
 public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuckyView {
   private static final long serialVersionUID = -2179965453492637485L;
   private KillDoctorLuckyViewModel model;
@@ -61,8 +78,8 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     this.setLayout(new BorderLayout());
 
     // add menu
-    JMenuBar menuBar = new JMenuBar();
-    JMenu menu = new JMenu("Menu");
+ 
+    
     // Start Game option
     startGameItem = new JMenuItem("Start Game");
     // Quit Game option
@@ -70,10 +87,12 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     // New Map option
     newMapItem = new JMenuItem("New Map");
     // Add menu items to the File menu
+    JMenu menu = new JMenu("Menu");
     menu.add(startGameItem);
     menu.add(quitGameItem);
     menu.add(newMapItem);
     // Add the File menu to the menu bar
+    JMenuBar menuBar = new JMenuBar();
     menuBar.add(menu);
     // Set the menu bar for the frame
     setJMenuBar(menuBar);
@@ -89,8 +108,8 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     // center
     layeredPane = new JLayeredPane();
     layeredPane.setPreferredSize(new Dimension(1200, 1100));
-    JScrollPane jScrollPane = new JScrollPane(layeredPane);
-    add(jScrollPane, BorderLayout.CENTER);
+    JScrollPane jscrollPane = new JScrollPane(layeredPane);
+    add(jscrollPane, BorderLayout.CENTER);
 
     this.setVisible(true);
   }
@@ -312,8 +331,11 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     leftPanelBottom.setPreferredSize(new Dimension(330, 400));
     leftPanel.add(leftPanelBottom, BorderLayout.SOUTH);
 
-    JLabel left = new JLabel(
-        "<html>Choose Your Action:<br><br>* Press 'l' to look around<br>* Click a room to enter<br>* Press and hold 'p' to pick up an item<br>* Press and hold 'm' to move pet<br>* Press and hold 'a' to make an attempt<br><br><br>You can click the player to get information.</html>");
+    JLabel left = new JLabel(String.format("%s%s%s%s",
+        "<html>Choose Your Action:<br><br>* Press 'l' to look around<br>* ",
+        "Click a room to enter<br>* Press and hold 'p' to pick up an item<br>* ",
+        "Press and hold 'm' to move pet<br>* Press and hold 'a' to make an attempt",
+        "<br><br><br>You can click the player to get information.</html>"));
     leftPanelCenter.add(left, BorderLayout.CENTER);
 
     String playerInfoStr = model.getPlayerInfoByName(getCurrentPlayerName());
@@ -465,8 +487,8 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
   private class PlayerClickListener extends MouseAdapter {
     private Player player;
 
-    public PlayerClickListener(Player player) {
-      this.player = player;
+    public PlayerClickListener(Player playerIn) {
+      this.player = playerIn;
     }
 
     @Override
@@ -494,7 +516,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
 
   }
 
-  private int getSpaceIndex(int yIn, int xIn) {
+  private int getSpaceIndex(int yaxisIn, int xaxisIn) {
     List<Space> spaces = model.getSpacesFromMansion();
     for (Space space : spaces) {
 
@@ -508,7 +530,7 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
       int maxX = roomMaxCol * 30 + 33;
       int maxY = roomMaxRow * 30 + 33;
 
-      if (minX <= xIn && maxX >= xIn && minY <= yIn && maxY >= yIn) {
+      if (minX <= xaxisIn && maxX >= xaxisIn && minY <= yaxisIn && maxY >= yaxisIn) {
         return space.getIndex();
       }
     }

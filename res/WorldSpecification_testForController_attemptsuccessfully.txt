@@ -1,5 +1,5 @@
 36 30 Doctor Lucky's Mansion
-50 Doctor Lucky
+2 Doctor Lucky
 Fortune the Cat
 21
 22 21 23 28 Armory
@@ -44,6 +44,5 @@ Fortune the Cat
 19 2 Piece of Rope
 9 3 Silken Cord
 7 2 Loud Noise
-1 7 1 human1
-0 3 2 robot1
-1 2 3 human2
+1 2 1 human1
+1 0 1 human2

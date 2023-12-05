@@ -54,17 +54,22 @@ public class DoctorLuckyTest {
     assertEquals(doc.getCurrentSpaceIndex() + 1, doc.move(doc.getCurrentSpaceIndex() + 1));
   }
   
-  
 
   @Test
   public void testEqualsAndHashcode() {
     assertTrue(doc.equals(doc));
     assertTrue(doc.hashCode() == doc.hashCode());
     DoctorLuckyModel doc1 = doc(1, "doc");
-   
     assertTrue(doc1.equals(doc));
     assertTrue(doc1.hashCode() == doc.hashCode());
 
   }
+  
+  @Test
+  public void testDeductHealth() {
+    doc.deductHealth(2);
+    assertEquals(18, doc.getHealth());
+  }
+  
 
 }

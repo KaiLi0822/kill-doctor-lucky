@@ -139,7 +139,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
             setPet(part[0]);
             continue;
           }
-          
+
           // generate spaces
           if (part.length == 1 && mansion.getSpacesNum() == 0) {
             mansion.setSpacesNum(Integer.parseInt(part[0]));
@@ -162,16 +162,18 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
                 Integer.parseInt(part[0]), Integer.parseInt(part[1]));
 
           }
-          
+
           if (part.length == 4) {
-            
-            if (Integer.parseInt(part[0]) == 1) {              
-              addPlayer(PlayerType.HUMAN, part[3], Integer.parseInt(part[1]), Integer.parseInt(part[2]));
-            }else { 
-              addPlayer(PlayerType.ROBOT, part[3], Integer.parseInt(part[1]), Integer.parseInt(part[2]));
+
+            if (Integer.parseInt(part[0]) == 1) {
+              addPlayer(PlayerType.HUMAN, part[3], Integer.parseInt(part[1]),
+                  Integer.parseInt(part[2]));
+            } else {
+              addPlayer(PlayerType.ROBOT, part[3], Integer.parseInt(part[1]),
+                  Integer.parseInt(part[2]));
             }
           }
-          
+
         } catch (NumberFormatException e) {
           throw new NumberFormatException("Specification file format is wrong.");
         }
@@ -427,7 +429,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
     pet.move(index);
     pet.createRoute(index, mansion);
     newTurn();
-    
+
   }
 
   @Override
@@ -441,20 +443,20 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   }
 
   @Override
-  public Boolean makeAttempt(String playerName, String itemName) { 
+  public Boolean makeAttempt(String playerName, String itemName) {
     int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
     for (Player player : players) {
-      if (playerSpaceIndex == player.getCurrentSpaceIndex() 
+      if (playerSpaceIndex == player.getCurrentSpaceIndex()
           && !playerName.equals(player.getName())) {
         newTurn();
-        return false; 
+        return false;
       }
     }
     if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
       for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
         if (space.getPlayers().size() != 0) {
           newTurn();
-          return false;   
+          return false;
         }
       }
     }
@@ -472,7 +474,6 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
   public String getPetInfo() {
     return pet.toString();
   }
-
 
   @Override
   public String getNeighborsInfoBySpaceIndex(int spaceIndex) {
@@ -500,7 +501,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public int getWidthFromMansion() {
-    
+
     return mansion.getWidth();
   }
 
@@ -516,9 +517,7 @@ public class KillDoctorLuckyModel implements KillDoctorLucky {
 
   @Override
   public List<Player> getPlayers() {
-    // TODO Auto-generated method stub
     return Collections.unmodifiableList(players);
   }
-
 
 }

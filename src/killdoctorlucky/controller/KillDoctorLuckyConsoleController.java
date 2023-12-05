@@ -31,7 +31,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
   private KillDoctorLuckyCommand killDoctorLuckyCommand;
   private KillDoctorLucky model;
   private KillDoctorLuckyView view;
-  
+
   private RobotAttributions robotAttributions;
 
   /**
@@ -115,7 +115,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
   @Override
   public void playGame() {
-    
+
     try {
       killDoctorLuckyCommand = new Parse(filePath, maxTurn);
     } catch (FileNotFoundException e) {
@@ -231,7 +231,6 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             appendCommand("Invalid choice, choose again.\n");
             continue;
           }
-          
 
           break;
         case 2:
@@ -261,16 +260,16 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
           }
           Boolean pickRes = pickUpItem(playerName, itemName);
           if (!pickRes) {
-            appendCommand("Can not pick up more items.");
-          }  
-          
+            appendCommand("Can not pick up more items.\n");
+          }
+
           break;
         case 3:
           appendCommand(model.getAroundInfo(playerName));
           break;
         case 4:
-          appendCommand(
-              String.format("** Choose a space index[0-%d]:\n", model.getSpaceNumFromMansion() - 1));
+          appendCommand(String.format("** Choose a space index[0-%d]:\n",
+              model.getSpaceNumFromMansion() - 1));
           int spaceChoice;
           if (model.getPlayerTypeByName(playerName).equals(PlayerType.ROBOT)) {
             spaceChoice = robotAttributions.getMovePetSpaceIndex();
@@ -282,7 +281,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
             }
             spaceChoice = Integer.parseInt(spaceIndexStr);
           }
-          
+
           if (spaceChoice < 0 || spaceChoice > 20) {
             appendCommand("Invalid choice, choose again.\n");
             continue;
@@ -323,8 +322,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
                 continue;
               }
             }
-            
-            
+
             res = makeAttempt(playerName, itemNameUse);
           }
           if (res) {
@@ -347,9 +345,11 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
       appendCommand(String.format("%s\n", model.getPlayerInfoByName(playerName)));
       appendCommand(String.format("%s's current space is %d.%s; health is %d\n",
           model.getDoctorLuckyName(), model.getDoctorLuckyCurrentSpaceIndex(),
-          model.getSpaceNameByIndex(model.getDoctorLuckyCurrentSpaceIndex()), model.getDoctorLuckyHealth()));
+          model.getSpaceNameByIndex(model.getDoctorLuckyCurrentSpaceIndex()),
+          model.getDoctorLuckyHealth()));
       appendCommand(String.format("%s's current space is %d.%s\n", model.getPetName(),
-          model.getPetCurrentSpaceIndex(), model.getSpaceNameByIndex(model.getPetCurrentSpaceIndex())));
+          model.getPetCurrentSpaceIndex(),
+          model.getSpaceNameByIndex(model.getPetCurrentSpaceIndex())));
     }
     appendCommand("\n***********************************\n");
     if (model.getDoctorLuckyHealth() == 0) {
@@ -389,17 +389,17 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
       }
       return choice;
     }
-    
+
     int getMoveSpaceIndex() {
       int option = rg.nextInt(neighbors.size());
       return neighbors.get(option).getIndex();
     }
-    
+
     String getItemName() {
       int option = rg.nextInt(spaceItems.size());
       return spaceItems.get(option).getName();
     }
-    
+
     int getMovePetSpaceIndex() {
       int option = rg.nextInt(model.getSpaceNumFromMansion());
       return option;
@@ -492,7 +492,7 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
 
   @Override
   public List<String> robotTurn() {
-    RobotAttributions robotAttributions = new RobotAttributions();
+    robotAttributions = new RobotAttributions();
     List<String> strs = new LinkedList<String>();
     int choice = robotAttributions.getFirstChoice();
     String playerName = robotAttributions.playerName;
@@ -503,14 +503,14 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
         // Each time call the function, get a new random value
         String moveSpaceIndex = String.valueOf(robotAttributions.getMoveSpaceIndex());
         strs.add(moveSpaceIndex);
-        int[] arr = movePlayer(playerName, Integer.parseInt(moveSpaceIndex)); 
+        int[] arr = movePlayer(playerName, Integer.parseInt(moveSpaceIndex));
         strs.add(String.valueOf(arr[0]));
         strs.add(String.valueOf(arr[1]));
         break;
       case 2:
-        strs.add("p"); 
+        strs.add("p");
         String itemName = robotAttributions.getItemName();
-        Boolean res = pickUpItem(playerName, itemName); 
+        Boolean res = pickUpItem(playerName, itemName);
         strs.add(String.valueOf(res));
         strs.add(playerName);
         strs.add(itemName);
@@ -519,33 +519,31 @@ public class KillDoctorLuckyConsoleController implements KillDoctorLuckyControll
         strs.add("l");
         break;
       case 4:
-        strs.add("m"); 
+        strs.add("m");
         int spaceIndex = robotAttributions.getMovePetSpaceIndex();
         movePet(spaceIndex);
         strs.add(playerName);
         strs.add(String.valueOf(spaceIndex));
         break;
       case 5:
-        strs.add("a"); 
+        strs.add("a");
         String itemNameUse = robotAttributions.getMostDamageItemName();
         Boolean resAttempt = makeAttempt(playerName, itemNameUse);
         strs.add(String.valueOf(resAttempt));
         strs.add(playerName);
         strs.add(itemNameUse);
-        break;  
-        
-        
+        break;
+
       default:
         break;
     }
     return strs;
   }
 
-
   @Override
   public void setModel(KillDoctorLucky m) {
     model = m;
-    
+
   }
 
 }

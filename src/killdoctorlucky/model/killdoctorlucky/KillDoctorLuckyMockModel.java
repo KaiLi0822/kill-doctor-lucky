@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,7 +36,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   private int turn;
   private PetModel pet;
   private Appendable out;
-  
+
   /**
    * Constructor of KillDoctorLuckyMockModel.
    * 
@@ -44,7 +45,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
   public KillDoctorLuckyMockModel(Appendable outIn) {
     this.out = outIn;
   }
-  
+
   @Override
   public void setMansion(String mansionName, int mansionHeight, int mansionWidth) {
     try {
@@ -192,7 +193,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
             setPet(part[0]);
             continue;
           }
-          
+
           // generate spaces
           if (part.length == 1 && mansion.getSpacesNum() == 0) {
             mansion.setSpacesNum(Integer.parseInt(part[0]));
@@ -206,12 +207,23 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
           // generate items
           if (part.length == 1 && mansion.getSpacesNum() != 0) {
             mansion.setItemsNum(Integer.parseInt(part[0]));
+            continue;
           }
 
           if (part.length == 3 && mansion.getItemsNum() != 0) {
             mansion.getSpaceByIndex(Integer.parseInt(part[0])).addItem(part[2],
                 Integer.parseInt(part[0]), Integer.parseInt(part[1]));
 
+          }
+          if (part.length == 4) {
+
+            if (Integer.parseInt(part[0]) == 1) {
+              addPlayer(PlayerType.HUMAN, part[3], Integer.parseInt(part[1]),
+                  Integer.parseInt(part[2]));
+            } else {
+              addPlayer(PlayerType.ROBOT, part[3], Integer.parseInt(part[1]),
+                  Integer.parseInt(part[2]));
+            }
           }
         } catch (NumberFormatException e) {
           throw new NumberFormatException("Specification file format is wrong.");
@@ -582,7 +594,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     pet.move(index);
     pet.createRoute(index, mansion);
     newTurn();
-    
+
   }
 
   @Override
@@ -612,18 +624,20 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    newTurn();
+
     int playerSpaceIndex = getPlayerByName(playerName).getCurrentSpaceIndex();
     for (Player player : players) {
-      if (playerSpaceIndex == player.getCurrentSpaceIndex() 
+      if (playerSpaceIndex == player.getCurrentSpaceIndex()
           && !playerName.equals(player.getName())) {
-        return false; 
+        newTurn();
+        return false;
       }
     }
     if (playerSpaceIndex != pet.getCurrentSpaceIndex()) {
       for (Space space : getNeighborsBySpaceIndex(playerSpaceIndex)) {
         if (space.getPlayers().size() != 0) {
-          return false;   
+          newTurn();
+          return false;
         }
       }
     }
@@ -633,6 +647,7 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
       int damage = getPlayerByName(playerName).removeItemByName(itemName);
       doctorLucky.deductHealth(damage);
     }
+    newTurn();
     return true;
   }
 
@@ -645,7 +660,6 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
     }
     return pet.toString();
   }
-
 
   @Override
   public String getNeighborsInfoBySpaceIndex(int spaceIndex) {
@@ -683,27 +697,42 @@ public class KillDoctorLuckyMockModel implements KillDoctorLucky {
 
   @Override
   public int getWidthFromMansion() {
-    // TODO Auto-generated method stub
-    return 0;
+    try {
+      out.append("!!Enter getWidthFromMansion.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getWidth();
   }
 
   @Override
   public int getHeightFromMansion() {
-    // TODO Auto-generated method stub
-    return 0;
+    try {
+      out.append("!!Enter getHeightFromMansion.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getHeight();
   }
 
   @Override
   public List<Space> getSpacesFromMansion() {
-    // TODO Auto-generated method stub
-    return null;
+    try {
+      out.append("!!Enter getSpacesFromMansion.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return mansion.getSpaces();
   }
 
   @Override
   public List<Player> getPlayers() {
-    // TODO Auto-generated method stub
-    return null;
+    try {
+      out.append("!!Enter getPlayers.\n");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Collections.unmodifiableList(players);
   }
-
 
 }

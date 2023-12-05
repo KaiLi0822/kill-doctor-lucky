@@ -7,14 +7,15 @@ import killdoctorlucky.model.killdoctorlucky.KillDoctorLucky;
  * The PickUpItem helper class.
  */
 public class PickUpItem implements KillDoctorLuckyCommand {
-  
+
   private String playerName;
   private String itemName;
 
   /**
    * Constructor of PickUpItem.
-   * @param playerNameIn the player 
-   * @param itemNameIn the item
+   * 
+   * @param playerNameIn the player
+   * @param itemNameIn   the item
    */
   public PickUpItem(String playerNameIn, String itemNameIn) {
     super();
@@ -25,7 +26,7 @@ public class PickUpItem implements KillDoctorLuckyCommand {
   @Override
   public void execute(KillDoctorLucky m) {
     m.pickUpItem(playerName, itemName);
-    
+
   }
 
 }

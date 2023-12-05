@@ -15,7 +15,6 @@ public class MansionModel implements Mansion {
   private final int width;
   private int spacesNum;
   private int itemsNum;
-  private int playersNum;
   private List<Space> spaces = new ArrayList<Space>();
 
   /**

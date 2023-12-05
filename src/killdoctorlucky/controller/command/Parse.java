@@ -15,7 +15,8 @@ public class Parse implements KillDoctorLuckyCommand {
   /**
    * Constructor the Parse.
    * 
-   * @param file the specification file
+   * @param file      the specification file
+   * @param maxTurnIn the max turn
    * @throws FileNotFoundException if file not found
    */
   public Parse(String file, int maxTurnIn) throws FileNotFoundException {
@@ -32,7 +33,7 @@ public class Parse implements KillDoctorLuckyCommand {
     if (m == null) {
       throw new IllegalArgumentException("model cannot be null.");
     }
-    
+
     try {
       m.initiateGame(fileReader);
     } catch (NumberFormatException e) {
