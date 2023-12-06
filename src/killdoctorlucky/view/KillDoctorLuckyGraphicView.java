@@ -54,7 +54,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
   private JPanel topPanel;
 
   private JLabel doctor;
-  private JLabel pet;
   private Map<String, JLabel> playersLabelMap;
   private Map<String, int[]> playersLocationMap;
   private Set<Character> pressKeySet;
@@ -192,7 +191,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     showRight();
     showMansion();
     showDoctor();
-    showPet();
     showPlayers();
     loadSpaceItems();
     loadPlayerItems();
@@ -440,16 +438,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     layeredPane.add(doctor, JLayeredPane.PALETTE_LAYER);
   }
 
-  private void showPet() {
-    pet = new JLabel(model.getPetName());
-    pet.setSize(100, 25);
-    int[] points = model.getSpacesFromMansion().get(model.getPetCurrentSpaceIndex()).getPoints();
-    int x = points[1];
-    int y = points[0];
-    pet.setLocation(x * 30 + 63, y * 30 + 20);
-    layeredPane.add(pet, JLayeredPane.PALETTE_LAYER);
-  }
-
   private void showPlayers() {
     playersLabelMap = new HashMap<String, JLabel>();
     playersLocationMap = new HashMap<String, int[]>();
@@ -508,13 +496,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     doctor.setLocation(x * 30 + 63, y * 30 + 10);
   }
 
-  private void changePet() {
-    int[] points = model.getSpacesFromMansion().get(model.getPetCurrentSpaceIndex()).getPoints();
-    int x = points[1];
-    int y = points[0];
-    pet.setLocation(x * 30 + 63, y * 30 + 20);
-
-  }
 
   private int getSpaceIndex(int yaxisIn, int xaxisIn) {
     List<Space> spaces = model.getSpacesFromMansion();
@@ -579,7 +560,6 @@ public class KillDoctorLuckyGraphicView extends JFrame implements KillDoctorLuck
     } else {
       changeTurnInfo();
       changeDoctor();
-      changePet();
       loadSpaceItems();
       loadPlayerItems();
       if (model.getPlayerTypeByName(getCurrentPlayerName()).equals(PlayerType.ROBOT)) {
